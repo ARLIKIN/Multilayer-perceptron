@@ -760,7 +760,7 @@ var Poverhnost = function()
     {
         Holst.innerHTML += LinePunkt(0,100+k,500,k,'gray','1px');
         Holst.innerHTML += Text1(h/10,5,100+k-7);
-        Holst.innerHTML += LinePunkt(500,k,1000,100+k,'gray','1px');
+        Holst.innerHTML += LinePunkt(500,k,1000,100+k,'gray','1px');//**
     }
     var y = 4.76;
     var x = 23.8;
@@ -872,17 +872,33 @@ var Poverhnost = function()
     var wo = [];
     var w1 = 2;
     var w2 = 2;
+    var y2 =-4.76*21
     var circl = 0;
-    for(var i =0; i <21; i++ , w1-=0.2, y1-=0.1)//0.1
+    for(var i =0; i <21; i++ , w1-=0.2, y1+=0.15)//0.1
     {
         
-        for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=0.1)//0.1
+        for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=0.5)//0.1
         {
             wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
-            Holst.innerHTML += Circle(3,xY,(600 - y - y1)-SW1[i][circl]*400,'green');
-            
+            if(i == 0)
+            {
+                Holst.innerHTML += Circle(3,xY,(730 - Math.pow(y,2)/105)-SW1[i][circl]*630,'green');
+                continue;
+            }
+            if(i>j)
+                {
+                     y2 +=0.5
+                    Holst.innerHTML += Circle(3,xY,(730 - Math.pow(y2,2.04)/105 + Math.pow(i,0.1))-SW1[i][circl]*630,'green');//правая часть графика
+                    continue;
+                }
+            else
+                {
+                    Holst.innerHTML += Circle(3,xY,(730 - Math.pow(y1,2.01)/105 - Math.pow(i,2.15))-SW1[i][circl]*630,'green');//левая часть графика
+                continue;
+                }
+
         }
         w2 = 2;
         y = 4.76*21;
@@ -897,14 +913,28 @@ var Poverhnost = function()
     var circl = 0;
     for(var i =0; i <21; i++ , w1-=0.2, y1-=-4.76)
     {
-        
+       /* 
         for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)
         {
             wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
-            Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');
-        }
+            if(i == 0)
+                {
+                    Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');
+                    continue;
+                }
+            if(i>j)
+                {
+                    Holst.innerHTML += Circle(3,xY,(200 + y+y1)-SW0[i][circl]*400,'blue');//правая часть графика
+                    continue;
+                }
+            else
+                {
+                Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');//левая часть графика
+                continue;
+                }
+        }*/
         w2 = 2;
         y = 4.76*21;
     }
