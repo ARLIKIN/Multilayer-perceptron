@@ -192,7 +192,8 @@ InputSloi = function() // Выходной слой
         for(var j =0 ; j < Y[countSloi].length; j++)
         {
             error.unshift(W[j][hob] + error[j])                //NevError += W[j][hob] + error//[?]
-        } 
+        }
+        return error[error.length]; 
     } 
 
     var KorrektVhodSloi = function()
