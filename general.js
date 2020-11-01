@@ -159,15 +159,15 @@ InputSloi = function() // Выходной слой
         for(var i = err.length-1; i >= 2; i--)
         {
                 hob++
-                itoger[0] = KorrektError(error,i,hob,countSloi);
+                itoger[i] = KorrektError(error,i,hob,countSloi);
                 for(var p = W[err[i]].length-1; p >= 0; p--)
                     {
                         if (p == 0)
                         {
-                            W[err[i]][p] += Multiplier(Y[o+1][0],error,0); 
+                            W[err[i]][p] += Multiplier(Y[o+1][0],itoger,i); 
                         }else
                         {
-                            W[err[i]][p] += Multiplier(Y[o+1][mob-1],error,0) * learningRate * Y[o][p-1]; // здесь ошибка
+                            W[err[i]][p] += Multiplier(Y[o+1][mob-1],itoger,i) * learningRate * Y[o][p-1]; // здесь ошибка
                         }
                         //preSloi--
                     }
