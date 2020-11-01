@@ -16,7 +16,7 @@ var err = [];
 var hob =0
 var counterKorrekt = 0;
 var errors = '';
-
+var Windex = [];
 function getRandomArbitrary(min, max)
   {
   return Math.random() * (max - min) + min;
@@ -154,20 +154,27 @@ InputSloi = function() // Выходной слой
       var mob;
       var countSloi = KolSLOI + 1;
       var itoger= []
-
+      var kolNSloi = 0;
+      var errLeng = error.length;
       mob = Y[o+1].length;
-        for(var i = err.length-1; i >= 2; i--)
+      KolYHidensloi.unshift(KolYInput);
+        for(var i = err.length-1; i >= 0; i--)
         {
+                
+                error[i] = KorrektError(error,i,hob,countSloi,kolNSloi,errLeng);
                 hob++
-                itoger[i] = KorrektError(error,i,hob,countSloi);
                 for(var p = W[err[i]].length-1; p >= 0; p--)
                     {
-                        if (p == 0)
+                        if(i <=KolYInput-1)
                         {
-                            W[err[i]][p] += Multiplier(Y[o+1][0],itoger,i); 
+                            if (p == 0){W[err[i]][p] += Multiplier(Y[o+1][0],error,i);}
+                            W[i][j] += Multiplier(Y[0][i],error,0) * learningRate * X[j-1];
+                        }else if (p == 0)
+                        {
+                            W[err[i]][p] += Multiplier(Y[o+1][0],error,i); 
                         }else
                         {
-                            W[err[i]][p] += Multiplier(Y[o+1][mob-1],itoger,i) * learningRate * Y[o][p-1]; // здесь ошибка
+                            W[err[i]][p] += Multiplier(Y[o+1][mob-1],error,i) * learningRate * Y[o][p-1]; // здесь ошибка
                         }
                         //preSloi--
                     }
@@ -175,11 +182,14 @@ InputSloi = function() // Выходной слой
                     if(hob == KolYHidensloi[o])
                         {
                             
-                            error[0] = error[1] * KolYHidensloi[o];  
+                            //error[0] = error[1] * KolYHidensloi[o];  
+                            errLeng = error.length;
                             o--
+                            kolNSloi += Y[countSloi].length
                             countSloi--
                             hob = 0;
                             mob = Y[o+1].length;
+                            
 
                             //preSloi = Y[o].length;
                         }
@@ -187,16 +197,37 @@ InputSloi = function() // Выходной слой
         }      
     }
 
-    var KorrektError = function(error,i,hob,countSloi)
+    var KorrektError = function(error,i,hob,countSloi,kolNSloi,errLeng)//условно правильно MultiLare не используется
     {
-        for(var j =0 ; j < Y[countSloi].length; j++)
-        {
-            error.unshift(W[j][hob] + error[j])                //NevError += W[j][hob] + error//[?]
-        }
-        return error[error.length]; 
+        var l = errLeng;
+        var sum=0;
+        var Index =[];
+        var ERORW=[];
+        var h=0//Y[countSloi].length-1;
+        var b =0
+        for(var j = Wlength-1-kolNSloi; j >= 0 ; j--,b++ )
+            {
+                if(b< Y[countSloi].length)
+                {
+                    Index[j] = j;  
+                }
+            }
+
+
+        for(var j = Index.length-1; j >=Index.length-Y[countSloi].length; j--, h++)
+            {
+                ERORW.unshift(W[Index[j]][6-hob] + error[l-1 - h]);
+            }   
+
+            for(var j = 0; j < ERORW.length; j++)
+            {
+                sum += ERORW[j]
+            }
+
+        return sum; 
     } 
 
-    var KorrektVhodSloi = function()
+   /* var KorrektVhodSloi = function()
     {
         var mob = Y[0].length;
         for(var i = KolYInput-1; i >=0; i--)
@@ -214,6 +245,7 @@ InputSloi = function() // Выходной слой
             mob--
         }
     }
+    */
 
 
 
@@ -266,7 +298,6 @@ InputSloi = function() // Выходной слой
             console.log(err[i] + '\n');
         }
         //Коррекция весов скрытых слоев
-          var Windex = [];
           
             for(var j = Wlength-1-KolYOutput; j >= 0 ; j-- )
             {
@@ -277,7 +308,7 @@ InputSloi = function() // Выходной слой
 
         KorrektHiddenSloi(Windex);
 
-        KorrektVhodSloi();
+        
 
         //console.log('\n'+'Корректировка весов прошла'+'\n');
 
