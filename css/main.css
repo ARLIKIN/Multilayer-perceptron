@@ -10,3 +10,8 @@ body
 {
     text-align: center;
 }
+
+#result
+{
+    margin-top: 20px;
+}

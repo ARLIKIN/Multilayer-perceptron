@@ -168,7 +168,7 @@ InputSloi = function() // Выходной слой
                         if(i <=KolYInput-1)
                         {
                             if (p == 0){W[err[i]][p] += Multiplier(Y[o+1][0],error,i);}
-                            W[i][j] += Multiplier(Y[0][i],error,0) * learningRate * X[j-1];
+                            W[i][p] += Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
                             W[err[i]][p] += Multiplier(Y[o+1][0],error,i); 
@@ -422,6 +422,7 @@ InputSloi = function() // Выходной слой
             str +=Y[Object.keys(Y).length - 1][i].toFixed(4) + '\n';
         }
         console.log(str)
+        //document.getElementById('result').innerHTML(str);вывод на экран
     }
 
     var tic =0;
