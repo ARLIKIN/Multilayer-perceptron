@@ -2,8 +2,9 @@ body
 {
     padding: 0;
     margin: 0;
-    size: 14px;
-    background-color: sienna;
+    size: 16px;
+    background-color:wheat;
+    color: black;
 }
 
 .GeneralTEXT
@@ -15,3 +16,9 @@ body
 {
     margin-top: 20px;
 }
+
+.r1
+{
+    text-align: center;
+}
+

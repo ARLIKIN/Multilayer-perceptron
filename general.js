@@ -1,4 +1,8 @@
 // Начальные параметры
+var Byid = function(id)
+{
+    return document.getElementById(id);
+}
 var a;
 var OutputSloi;
 var X = [];
@@ -350,7 +354,7 @@ InputSloi = function() // Выходной слой
 
  //Start
 //Входные данные <
-    learningRate = 0.0001//parseFloat(prompt('Укажите скорость обучения(используйте точку)',0.0001));
+    learningRate = 0.003//parseFloat(prompt('Укажите скорость обучения(используйте точку)',0.0001));
     var KolX = 4//parseInt(prompt('Укажите количество входов', 6));
  
  /*for(var i =0; i<KolX; i++)
@@ -384,6 +388,9 @@ InputSloi = function() // Выходной слой
             d[i] = getRandomArbitrary(-1,1);
         }
 
+        d[0] = 0.1
+        d[1] = 0.2
+
 
         
         
@@ -392,49 +399,83 @@ InputSloi = function() // Выходной слой
 
      //Результат
 
-    var Rezultat= function()
+    var Rezultat= function(tic)
     {
         var str = ''
+        var itog = ''
+        var y = 'Y = </br>';
+        var w = 'Финальные веса: </br> W = </br>';
+        
         console.log('Y = ' )
         for(var i = 0; i < Object.keys(Y).length; i++)
         {
             console.log(Y[i] + '\n');
+            y += Y[i] + '</br>';
         }
+        document.getElementById('Y').innerHTML = y;
 
         console.log('\n'+'W = ')
         for(var i =0; i< Object.keys(W).length; i++)
         {
             console.log(W[i] + '\n');
+            w += W[i] + '</br>'
         }
+        document.getElementById('W').innerHTML = w;
 
         console.log('\n'+'X = ' + X + '\n');
+        Byid('X').innerHTML = 'Входные данные: </br> X = ' + '</br>' + X;
         console.log('\n'+'a = ' + a +'\n');
+        Byid('a').innerHTML = 'a: ' + '</br>' + a;
         console.log('\n'+'d = '+ d + '\n');
-        console.log('\n' + 'error входного слоя = ' + errors + '\n');
+        Byid('d').innerHTML ='d: ' + '</br>' + d;
+        Byid('learningRate').innerHTML = 'Скорость обучения: '+learningRate;
+        Byid('iter').innerHTML = 'Количество итераций = ' + tic;
+        
 
         str += 'Ожидаемые значения:' + '\n';
+        itog += 'Ожидаемые значения:' + '</br>';
         for(var i =0; i < d.length; i++)
         {
             str += d[i].toFixed(4) + '\n'
+            itog += d[i].toFixed(4) + '</br>'
         }
 
         str +='\n'+ 'Фактические значения:' + '\n';
+        itog += 'Фактические значения:' + '</br>';
         for(var i =0; i<d.length; i++)
         {
             str +=Y[Object.keys(Y).length - 1][i].toFixed(4) + '\n';
+            itog += Y[Object.keys(Y).length - 1][i].toFixed(4) + '</br>'
         }
         console.log(str)
+        Byid('itog').innerHTML = itog;
         //document.getElementById('result').innerHTML(str);вывод на экран
     }
+    var y = 'Первые выходы Y:  </br>'
+    for(var i = 0; i < Object.keys(Y).length; i++)
+        {
+            
+            y += Y[i] + '</br>';
+        }
+        document.getElementById('oldY').innerHTML = y;
 
+    var w = 'Первые веса W:  </br>'
+    for(var i =0; i< Object.keys(W).length; i++)
+        {
+                
+            w += W[i] + '</br>';
+        }
+        document.getElementById('oldW').innerHTML = w;    
+
+        // обучение
     var tic =0;
-        while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) & tic < 1000)
+        while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) && tic < 30000 )
             {
                 Korrekt(false,X);
                 tic++
             }
 
-            Rezultat();
+            Rezultat(tic);
             
  //>
 
