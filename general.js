@@ -149,15 +149,15 @@ InputSloi = function() // Выходной слой
 
     var KorrektHiddenSloi= function(err) // Корректировка скрытых слоев и входного слоя
     {
-        mob = Y[KolYHidensloi.length-1].length;
+        var mob;
         KolYHidensloi.unshift(KolYInput);
         var o = KolYHidensloi.length-1;
         var hob =0;
-        var mob;
         var countSloi = KolSLOI + 1;
         var itoger= []
         var kolNSloi = 0;
         var errLeng = error.length;
+        mob = Y[o].length;
         for(var i = err.length-1; i >= 0; i--)
         {
                 
@@ -171,10 +171,10 @@ InputSloi = function() // Выходной слой
                             W[i][p] += Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
-                            W[err[i]][p] += Multiplier(Y[o+1][0],error,i); 
+                            W[err[i]][p] += Multiplier(Y[o][0],error,i); 
                         }else
                         {
-                            W[err[i]][p] += Multiplier(Y[o+1][mob-1],error,i) * learningRate * Y[o][p-1]; // здесь ошибка
+                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[o-1][p-1]; // здесь ошибка
                         }
                         //preSloi--
                     }
