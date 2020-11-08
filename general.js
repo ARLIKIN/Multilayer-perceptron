@@ -150,8 +150,9 @@ InputSloi = function() // Выходной слой
     var KorrektHiddenSloi= function(err) // Корректировка скрытых слоев и входного слоя
     {
         var mob;
-        KolYHidensloi.unshift(KolYInput);
-        var o = KolYHidensloi.length-1;
+        var KOlYhidesl = KolYHidensloi;
+        KOlYhidesl.unshift(KolYInput);
+        var o = KOlYhidesl.length-1;
         var hob =0;
         var countSloi = KolSLOI + 1;
         var itoger= []
@@ -167,7 +168,7 @@ InputSloi = function() // Выходной слой
                     {
                         if(i <=KolYInput-1)
                         {
-                            if (p == 0){W[err[i]][p] += Multiplier(Y[o+1][0],error,i);}
+                            if (p == 0){W[err[i]][p] += Multiplier(Y[o][0],error,i); continue}
                             W[i][p] += Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
@@ -179,11 +180,11 @@ InputSloi = function() // Выходной слой
                         //preSloi--
                     }
                     mob--
-                    if(hob == KolYHidensloi[o])
+                    if(hob == KOlYhidesl[o])
                         {
                             
                             //error[0] = error[1] * KolYHidensloi[o];  
-                            errLeng = error.length;
+                            errLeng -= Y[o+1].length;
                             o--
                             kolNSloi += Y[countSloi].length
                             countSloi--
@@ -195,6 +196,7 @@ InputSloi = function() // Выходной слой
                         }
                     
         }      
+        KolYHidensloi.shift();
     }
 
     var KorrektError = function(error,i,hob,countSloi,kolNSloi,errLeng)//условно правильно MultiLare не используется
@@ -216,7 +218,7 @@ InputSloi = function() // Выходной слой
 
         for(var j = Index.length-1; j >=Index.length-Y[countSloi].length; j--, h++)
             {
-                ERORW.unshift(W[Index[j]][6-hob] + error[l-1 - h]);
+                ERORW.unshift(W[Index[j]][W[Index[j]].length-1 - hob] + error[l-1 - h]);
             }   
 
             for(var j = 0; j < ERORW.length; j++)
@@ -278,9 +280,9 @@ InputSloi = function() // Выходной слой
             err[i] = Minus(Y[Ylength-1],i);
             err[i] = Multiplier(Y[Ylength-1][i],err,i);
             
-            error[i] = err[i];
+            error[Wlength-1-i] = err[i];
             
-            for(var j =0; j <= KolYHidensloi[KolYHidensloi.length-1]; j++ )
+            for(var j =0; j <= KolYHidensloi[KolYHidensloi.length-1]; j++ )//мб здесь ошибка
             {
                 if (j == 0)
                 {
@@ -426,7 +428,7 @@ InputSloi = function() // Выходной слой
     }
 
     var tic =0;
-        while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) & tic < 20)
+        while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) & tic < 1000)
             {
                 Korrekt(false,X);
                 tic++
