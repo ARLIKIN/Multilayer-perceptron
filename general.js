@@ -149,6 +149,7 @@ InputSloi = function() // Выходной слой
 
     var KorrektHiddenSloi= function(err) // Корректировка скрытых слоев и входного слоя
     {
+        mob = Y[KolYHidensloi.length-1].length;
         KolYHidensloi.unshift(KolYInput);
         var o = KolYHidensloi.length-1;
         var hob =0;
@@ -157,7 +158,6 @@ InputSloi = function() // Выходной слой
         var itoger= []
         var kolNSloi = 0;
         var errLeng = error.length;
-        mob = Y[o].length;
         for(var i = err.length-1; i >= 0; i--)
         {
                 
