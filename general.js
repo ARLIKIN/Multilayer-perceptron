@@ -388,8 +388,8 @@ InputSloi = function() // Выходной слой
             d[i] = getRandomArbitrary(-1,1);
         }
 
-        d[0] = 0.1
-        d[1] = 0.2
+        d[0] = 1
+        d[1] = 1
 
 
         
@@ -403,6 +403,7 @@ InputSloi = function() // Выходной слой
     {
         var str = ''
         var itog = ''
+        var c =0;
         var y = 'Y = </br>';
         var w = 'Финальные веса: </br> W = </br>';
         
@@ -419,6 +420,7 @@ InputSloi = function() // Выходной слой
         {
             console.log(W[i] + '\n');
             w += W[i] + '</br>'
+            c++
         }
         document.getElementById('W').innerHTML = w;
 
@@ -449,7 +451,14 @@ InputSloi = function() // Выходной слой
         }
         console.log(str)
         Byid('itog').innerHTML = itog;
-        //document.getElementById('result').innerHTML(str);вывод на экран
+        
+        Byid('struktura').innerHTML = 
+        'Структура нейросети:' + "</br>"+
+        'Входной слой:' + KolYInput + '</br>'+
+        'Скрытый слой:' + KolYHidensloi + '</br>'+
+        'Выходной слой:' + KolYOutput + '</br>' + 
+        'Количество нейронов в сети:' + c + '</br>';
+                                    
     }
     var y = 'Первые выходы Y:  </br>'
     for(var i = 0; i < Object.keys(Y).length; i++)
