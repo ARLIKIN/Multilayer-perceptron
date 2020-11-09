@@ -4,6 +4,7 @@ var Byid = function(id)
     return document.getElementById(id);
 }
 var a;
+var it;
 var OutputSloi;
 var X = [];
 var Y = new Object();
@@ -25,8 +26,13 @@ function getRandomArbitrary(min, max)
   {
   return Math.random() * (max - min) + min;
   }
-  
-  a = getRandomArbitrary(0.1,0.9);
+
+
+  Byid('button').onclick = function()
+  {
+    a = document.getElementById(id="aInput").value;
+    it = Byid('iterInput').value;
+    learningRate = Byid('learningRateInput').value;
 
 
 
@@ -92,7 +98,7 @@ function getRandomArbitrary(min, max)
 OutputSloi = function(X)
     {
     Y[0] = [];
-     KolYInput = 2//parseInt(prompt('Укажите сколько нейронов будет во входном слое',2));
+     KolYInput = parseInt(prompt('Укажите сколько нейронов будет во входном слое',2));
     if (KolYInput <=0) KolYInput = 1;
     // Случайная генерация весов
     
@@ -113,7 +119,7 @@ HidenSloi = function(nm) // Скрытый слой
 
         Y[Ylength] = []; 
 
-            KolYHidensloi[nm-1] = 6//parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
+            KolYHidensloi[nm-1] = parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
         if (KolYHidensloi <=0) KolYHidensloi[nm-1] = 1;
             KolV = KolYHidensloi[nm-1];
         // Случайная генерация весов
@@ -133,7 +139,7 @@ InputSloi = function() // Выходной слой
         Wlength = Object.keys(W).length; // 
         Y[Ylength] = [];
     
-        KolYOutput = 2//parseInt(prompt('Укажите сколько нейронов будет в выходном слое',2));
+        KolYOutput = parseInt(prompt('Укажите сколько нейронов будет в выходном слое',2));
         if (KolYOutput <=0) KolYOutput = 1;
         // Случайная генерация весов
         
@@ -232,28 +238,6 @@ InputSloi = function() // Выходной слой
 
         return sum; 
     } 
-
-   /* var KorrektVhodSloi = function()
-    {
-        var mob = Y[0].length;
-        for(var i = KolYInput-1; i >=0; i--)
-        {
-            for(var j = W[i].length-1; j >= 0; j--)
-            {
-                if (j == 0)
-                    {
-                        W[i][j] += Multiplier(Y[1][0],error,0);
-                    }else
-                        {
-                            W[i][j] += Multiplier(Y[0][i],error,0) * learningRate * X[j-1]; 
-                        }
-            }
-            mob--
-        }
-    }
-    */
-
-
 
 
     var Minus = function(input,nm)
@@ -354,8 +338,8 @@ InputSloi = function() // Выходной слой
 
  //Start
 //Входные данные <
-    learningRate = 0.003//parseFloat(prompt('Укажите скорость обучения(используйте точку)',0.0001));
-    var KolX = 4//parseInt(prompt('Укажите количество входов', 6));
+    //learningRate = 0.003//parseFloat(prompt('Укажите скорость обучения(используйте точку)',0.0001));
+    var KolX = parseInt(prompt('Укажите количество входов', 6));
  
  /*for(var i =0; i<KolX; i++)
  {
@@ -373,7 +357,7 @@ InputSloi = function() // Выходной слой
     OutputSloi(X);
 
     //формирование скрытых слоёв
-    var KolSLOI = 2//parseInt(prompt('Укажите количество скрытых слоёв',0));
+    var KolSLOI = parseInt(prompt('Укажите количество скрытых слоёв',0));
     for(var i = 0; i < KolSLOI; i++)
     {
         HidenSloi(i+1);
@@ -385,11 +369,12 @@ InputSloi = function() // Выходной слой
  //генерация ожидаемых значений
         for(var i = 0; i < KolYOutput; i++)
         {
-            d[i] = getRandomArbitrary(-1,1);
+            d[i] =  parseInt(prompt('Укажите ожидаемый результат для ' + i+1  +'нейрона выходного слоя' ,0));
         }
 
-        d[0] = 1
-        d[1] = 1
+        d = d.reverse();
+
+
 
 
         
@@ -478,7 +463,7 @@ InputSloi = function() // Выходной слой
 
         // обучение
     var tic =0;
-        while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) && tic < 30000 )
+        while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) && tic < it )
             {
                 Korrekt(false,X);
                 tic++
@@ -487,4 +472,6 @@ InputSloi = function() // Выходной слой
             Rezultat(tic);
             
  //>
+
+}
 
