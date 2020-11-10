@@ -32,7 +32,7 @@ function getRandomArbitrary(min, max)
   {
       */
     a = 0.8//document.getElementById(id="aInput").value;
-    it = 1000 // Byid('iterInput').value;
+    it = 10000 // Byid('iterInput').value;
     learningRate = 0.003 // = Byid('learningRateInput').value;
 
 
@@ -191,7 +191,7 @@ InputSloi = function() // Выходной слой
                         //preSloi--
                     }
                     mob--
-                    if(hob == KOlYhidesl[o])
+                    if(hob == KOlYhidesl[o] && i !=0)
                         {
                             
                             //error[0] = error[1] * KolYHidensloi[o];  
@@ -200,7 +200,7 @@ InputSloi = function() // Выходной слой
                             kolNSloi += Y[countSloi].length
                             countSloi--
                             hob = 0;
-                            mob = Y[o+1].length;
+                            mob = Y[o].length;
                             
 
                             //preSloi = Y[o].length;
@@ -375,9 +375,9 @@ InputSloi = function() // Выходной слой
         */
 
 
-        d[0] = 1;
+        d[0] = 0;
         d[1] = 0;
-        d[2] = 0; 
+        d[2] = 1; 
 
 
 
