@@ -28,11 +28,12 @@ function getRandomArbitrary(min, max)
   }
 
 
-  Byid('button').onclick = function()
+ /* Byid('button').onclick = function()
   {
-    a = document.getElementById(id="aInput").value;
-    it = Byid('iterInput').value;
-    learningRate = Byid('learningRateInput').value;
+      */
+    a = 0.8//document.getElementById(id="aInput").value;
+    it = 1000 // Byid('iterInput').value;
+    learningRate = 0.003 // = Byid('learningRateInput').value;
 
 
 
@@ -98,7 +99,7 @@ function getRandomArbitrary(min, max)
 OutputSloi = function(X)
     {
     Y[0] = [];
-     KolYInput = parseInt(prompt('Укажите сколько нейронов будет во входном слое',2));
+     KolYInput = 2//parseInt(prompt('Укажите сколько нейронов будет во входном слое',2));
     if (KolYInput <=0) KolYInput = 1;
     // Случайная генерация весов
     
@@ -119,7 +120,7 @@ HidenSloi = function(nm) // Скрытый слой
 
         Y[Ylength] = []; 
 
-            KolYHidensloi[nm-1] = parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
+            KolYHidensloi[nm-1] = nm+3; // parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
         if (KolYHidensloi <=0) KolYHidensloi[nm-1] = 1;
             KolV = KolYHidensloi[nm-1];
         // Случайная генерация весов
@@ -139,7 +140,7 @@ InputSloi = function() // Выходной слой
         Wlength = Object.keys(W).length; // 
         Y[Ylength] = [];
     
-        KolYOutput = parseInt(prompt('Укажите сколько нейронов будет в выходном слое',2));
+        KolYOutput = 3//parseInt(prompt('Укажите сколько нейронов будет в выходном слое',2));
         if (KolYOutput <=0) KolYOutput = 1;
         // Случайная генерация весов
         
@@ -339,7 +340,7 @@ InputSloi = function() // Выходной слой
  //Start
 //Входные данные <
     //learningRate = 0.003//parseFloat(prompt('Укажите скорость обучения(используйте точку)',0.0001));
-    var KolX = parseInt(prompt('Укажите количество входов', 6));
+    var KolX = 5//parseInt(prompt('Укажите количество входов', 6));
  
  /*for(var i =0; i<KolX; i++)
  {
@@ -357,7 +358,7 @@ InputSloi = function() // Выходной слой
     OutputSloi(X);
 
     //формирование скрытых слоёв
-    var KolSLOI = parseInt(prompt('Укажите количество скрытых слоёв',0));
+    var KolSLOI = 3;//parseInt(prompt('Укажите количество скрытых слоёв',0));
     for(var i = 0; i < KolSLOI; i++)
     {
         HidenSloi(i+1);
@@ -367,12 +368,16 @@ InputSloi = function() // Выходной слой
     InputSloi();
     //d = parseInt(prompt('Укажите ожидаемый результат', 0.55));
  //генерация ожидаемых значений
-        for(var i = 0; i < KolYOutput; i++)
+        /*for(var i = 0; i < KolYOutput; i++)
         {
-            d[i] =  parseInt(prompt('Укажите ожидаемый результат для ' + i+1  +'нейрона выходного слоя' ,0));
+            d[i] = 1// parseInt(prompt('Укажите ожидаемый результат для ' + i+1  +'нейрона выходного слоя' ,0));
         }
+        */
 
-        d = d.reverse();
+
+        d[0] = 1;
+        d[1] = 0;
+        d[2] = 0; 
 
 
 
@@ -398,7 +403,7 @@ InputSloi = function() // Выходной слой
             console.log(Y[i] + '\n');
             y += Y[i] + '</br>';
         }
-        document.getElementById('Y').innerHTML = y;
+        //document.getElementById('Y').innerHTML = y;
 
         console.log('\n'+'W = ')
         for(var i =0; i< Object.keys(W).length; i++)
@@ -407,16 +412,16 @@ InputSloi = function() // Выходной слой
             w += W[i] + '</br>'
             c++
         }
-        document.getElementById('W').innerHTML = w;
+        //document.getElementById('W').innerHTML = w;
 
         console.log('\n'+'X = ' + X + '\n');
-        Byid('X').innerHTML = 'Входные данные: </br> X = ' + '</br>' + X;
+        //Byid('X').innerHTML = 'Входные данные: </br> X = ' + '</br>' + X;
         console.log('\n'+'a = ' + a +'\n');
-        Byid('a').innerHTML = 'a: ' + '</br>' + a;
+        //Byid('a').innerHTML = 'a: ' + '</br>' + a;
         console.log('\n'+'d = '+ d + '\n');
-        Byid('d').innerHTML ='d: ' + '</br>' + d;
-        Byid('learningRate').innerHTML = 'Скорость обучения: '+learningRate;
-        Byid('iter').innerHTML = 'Количество итераций = ' + tic;
+        //Byid('d').innerHTML ='d: ' + '</br>' + d;
+        //Byid('learningRate').innerHTML = 'Скорость обучения: '+learningRate;
+        //Byid('iter').innerHTML = 'Количество итераций = ' + tic;
         
 
         str += 'Ожидаемые значения:' + '\n';
@@ -435,9 +440,9 @@ InputSloi = function() // Выходной слой
             itog += Y[Object.keys(Y).length - 1][i].toFixed(4) + '</br>'
         }
         console.log(str)
-        Byid('itog').innerHTML = itog;
+        //Byid('itog').innerHTML = itog;
         
-        Byid('struktura').innerHTML = 
+        //Byid('struktura').innerHTML = 
         'Структура нейросети:' + "</br>"+
         'Входной слой:' + KolYInput + '</br>'+
         'Скрытый слой:' + KolYHidensloi + '</br>'+
@@ -451,7 +456,7 @@ InputSloi = function() // Выходной слой
             
             y += Y[i] + '</br>';
         }
-        document.getElementById('oldY').innerHTML = y;
+        //document.getElementById('oldY').innerHTML = y;
 
     var w = 'Первые веса W:  </br>'
     for(var i =0; i< Object.keys(W).length; i++)
@@ -459,7 +464,7 @@ InputSloi = function() // Выходной слой
                 
             w += W[i] + '</br>';
         }
-        document.getElementById('oldW').innerHTML = w;    
+        //document.getElementById('oldW').innerHTML = w;    
 
         // обучение
     var tic =0;
@@ -472,6 +477,6 @@ InputSloi = function() // Выходной слой
             Rezultat(tic);
             
  //>
-
+/*
 }
-
+*/
