@@ -120,7 +120,7 @@ HidenSloi = function(nm) // Скрытый слой
 
         Y[Ylength] = []; 
 
-            KolYHidensloi[nm-1] = nm+3; // parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
+            KolYHidensloi[nm-1] =  parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
         if (KolYHidensloi <=0) KolYHidensloi[nm-1] = 1;
             KolV = KolYHidensloi[nm-1];
         // Случайная генерация весов
