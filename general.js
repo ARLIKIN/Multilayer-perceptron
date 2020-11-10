@@ -120,7 +120,7 @@ HidenSloi = function(nm) // Скрытый слой
 
         Y[Ylength] = []; 
 
-            KolYHidensloi[nm-1] =  parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
+            KolYHidensloi[nm-1] = nm+3; // parseInt(prompt('Укажите сколько нейронов будет в скрытом слое №'+nm ,1));
         if (KolYHidensloi <=0) KolYHidensloi[nm-1] = 1;
             KolV = KolYHidensloi[nm-1];
         // Случайная генерация весов
@@ -379,6 +379,8 @@ InputSloi = function() // Выходной слой
         d[1] = 0;
         d[2] = 1; 
 
+        d.reverse();
+
 
 
 
@@ -426,6 +428,7 @@ InputSloi = function() // Выходной слой
 
         str += 'Ожидаемые значения:' + '\n';
         itog += 'Ожидаемые значения:' + '</br>';
+        d.reverse();
         for(var i =0; i < d.length; i++)
         {
             str += d[i].toFixed(4) + '\n'
