@@ -6,11 +6,19 @@ body
     background-color:wheat;
     color: black;
 }
-
+/*Начальные данные*/
 .GeneralTEXT
 {
     text-align: center;
 }
+
+#XInput
+{
+    width: 125px;
+    height: 17px;
+}
+
+/*Результат*/
 
 #result
 {
@@ -20,5 +28,10 @@ body
 .r1
 {
     text-align: center;
+}
+
+#dowland
+{
+    color: green;
 }
 

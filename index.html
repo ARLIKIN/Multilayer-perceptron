@@ -21,6 +21,21 @@
         <p>Скорость обучения:
             <input id="learningRateInput" type="text" size="10" value="0.003">
         </p>
+        <p>Входные данные:
+            <input type="text" id="XInput" size="30" value="0,1,1,1,0">
+        </p>
+        <p>Входной слой:
+            <input type="text" id="OneSloi" size="30" value="4">
+        </p>
+        <p>Скрытые слои:
+            <input type="text" id="HidenSloi" size="30" value="6,6">
+        </p>
+        <p>Выходной слой:
+            <input type="text" id="LastSloi" size="30" value="2">
+        </p>
+        <p>Ожидаемые значения:
+            <input type="text" id="dInput" size="30" value="1,0">
+        </p>
 
         <div id="btn">
             <button id="button">Расчитать</button>
@@ -28,17 +43,18 @@
     </div>
     <div class="rez">
         <H1 class="GeneralTEXT">Результаты</H1>
-        <h3 id="itog" class="r1"></h3>
-        <p id="d"class="r1"></p>
-        <p id="a"class="r1"></p>
-        <p id ="learningRate" class="r1"></p>
-        <p id="iter" class="r1"></p>
-        <p id="X"></p>
-        <p id="Y"></p>
-        <p id = "oldY"></p>
-        <p id="W"></p>
-        <p id="oldW"></p>
-        <p id="struktura"></p>
+        <p id="dowland" class="r1" hidden>Подождите пока нейросеть обучится</p>
+        <h3 id="itog" class="r1" class="rezultat"></h3>
+        <p id="d"class="r1"class="rezultat"></p>
+        <p id="a"class="r1"class="rezultat"></p>
+        <p id ="learningRate" class="r1"class="rezultat"></p>
+        <p id="iter" class="r1"class="rezultat"></p>
+        <p id="struktura"class="rezultat"></p>
+        <p id="X"class="rezultat"></p>
+        <p id="Y"class="rezultat"></p>
+        <p id = "oldY"class="rezultat"></p>
+        <p id="W"class="rezultat"></p>
+        <p id="oldW"class="rezultat"></p>
     </div>
 <script src="general.js"></script>
 </body>
