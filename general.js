@@ -75,16 +75,14 @@
         KolYHidensloi[i] = +KolYHidensloi[i];
     }
 
-    KolYOutput = +Byid('LastSloi').value;
-
     d = Byid('dInput').value.split(',');
-
+    KolYOutput = d.length;
     for(var i = 0; i < d.length; i++)
     {
         d[i] = +d[i];
     }
     
-    d.reverse;
+    d.reverse();
 
 
 
