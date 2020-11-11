@@ -22,6 +22,7 @@
     var counterKorrekt = 0;
     var errors = '';
     var Windex = [];
+    var AllError = new Object();
 
     
 
@@ -495,6 +496,30 @@ InputSloi = function() // Выходной слой
  //>
 
 }
+a = 2
+//График
 
-//Распознавание
 
+
+
+var canvas = Byid('canvas');
+var ctx = canvas.getContext("2d");
+ctx.lineWidth = 0,5;
+ctx.fillStyle = 'black';
+ctx.fillRect(15, 10, 1, 135);
+ctx.fillRect(15,145,250,1);
+
+ctx.font = '6px Verdana'
+ctx.strokeText('100 _',0,10)
+
+
+	// четкая линия
+ctx.moveTo( 15, 145 );
+ctx.lineTo( 100, 80 );
+ctx.lineTo(135,40);
+ctx.lineTo(145,110);
+ctx.lineTo(160,130);
+ctx.lineTo(180,80);
+ctx.lineTo(200,145)
+
+ctx.stroke();
