@@ -23,6 +23,7 @@
     var errors = '';
     var Windex = [];
     var AllError = new Object();
+    var tic =0;
 
     
 
@@ -249,9 +250,10 @@ InputSloi = function() // Выходной слой
                             hob = 0;
                             mob = Y[o].length;
                         }
-                    
+            
         }      
         KolYHidensloi.shift();
+        AllError[tic] = error;
     }
 
     var KorrektError = function(error,i,hob,countSloi,kolNSloi,errLeng)
@@ -484,7 +486,7 @@ InputSloi = function() // Выходной слой
         document.getElementById('oldW').innerHTML = w;    
 
         // обучение
-    var tic =0;
+    
         while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) && +d[d.length-1].toFixed(4) != +Y[Ylength-1][Y[Ylength-1].length-1] &&tic < it )
             {
                 Korrekt(false,X);
@@ -504,17 +506,70 @@ a = 2
 
 var canvas = Byid('canvas');
 var ctx = canvas.getContext("2d");
+canvas.width = 1000;
+canvas.height = 1000;
 ctx.lineWidth = 0,5;
 ctx.fillStyle = 'black';
-ctx.fillRect(15, 10, 1, 135);
-ctx.fillRect(15,145,250,1);
 
-ctx.font = '6px Verdana'
-ctx.strokeText('100 _',0,10)
+
+ctx.fillRect(500,0, 1, 1000);//вертикальная ось
+ctx.fillRect(0,500,1000,1);// горизонтальная ось
+
+//Вертикальные линии
+ctx.font = '10px Verdana';
+ctx.strokeText('_90',500,50)
+ctx.strokeText('_80',500,100);
+ctx.strokeText('_70',500,150)
+ctx.strokeText('_60',500,200)
+ctx.strokeText('_50',500,250)
+ctx.strokeText('_40',500,300)
+ctx.strokeText('_30',500,350)
+ctx.strokeText('_20',500,400)
+ctx.strokeText('_10',500,450)
+
+ctx.strokeText('_-10',500,550)
+ctx.strokeText('_-20',500,600)
+ctx.strokeText('_-30',500,650)
+ctx.strokeText('_-40',500,700)
+ctx.strokeText('_-50',500,750)
+ctx.strokeText('_-60',500,800)
+ctx.strokeText('_-70',500,850)
+ctx.strokeText('_-80',500,900)
+ctx.strokeText('_-90',500,950)
+
+
+//Горизонтальные линии
+var m = 90
+var p = 10;
+for(var i = 50; i <= 1000; i+=50, m-=10, p+=10)
+{
+    if(i == 500){continue;}
+    ctx.strokeText('|',i,504);
+    if(m >0)
+    {
+        ctx.strokeText('-'+m,i-8,495)
+    }
+    if(i>500 && p !=200)
+    {
+        ctx.strokeText(p-100,i-8,495)
+    }
+}
+
+//Отрисовка графика 
+
+ctx.moveTo(500,500);
+for(var i =0; i < Object.keys(AllError).length; i++)
+{
+    
+    ctx.lineTo()
+}
+
+
+
 
 
 	// четкая линия
-ctx.moveTo( 15, 145 );
+/*ctx.moveTo( 15, 145 );
 ctx.lineTo( 100, 80 );
 ctx.lineTo(135,40);
 ctx.lineTo(145,110);
@@ -523,3 +578,4 @@ ctx.lineTo(180,80);
 ctx.lineTo(200,145)
 
 ctx.stroke();
+*/
