@@ -467,6 +467,8 @@ InputSloi = function() // Выходной слой
         'Выходной слой:' + KolYOutput + '</br>' + 
         'Количество нейронов в сети:' + c + '</br>'+
         'Функция активации: Сигмоидальная унополярная';
+
+        Grafik();
                                     
     }
     var y = 'Первые выходы Y:  </br>'
@@ -512,58 +514,62 @@ ctx.lineWidth = 0,5;
 ctx.fillStyle = 'black';
 
 
-ctx.fillRect(500,0, 1, 1000);//вертикальная ось
+ctx.fillRect(0,0, 1, 1000);//вертикальная ось
 ctx.fillRect(0,500,1000,1);// горизонтальная ось
 
 //Вертикальные линии
 ctx.font = '10px Verdana';
-ctx.strokeText('_90',500,50)
-ctx.strokeText('_80',500,100);
-ctx.strokeText('_70',500,150)
-ctx.strokeText('_60',500,200)
-ctx.strokeText('_50',500,250)
-ctx.strokeText('_40',500,300)
-ctx.strokeText('_30',500,350)
-ctx.strokeText('_20',500,400)
-ctx.strokeText('_10',500,450)
+ctx.strokeText('_90',0,50)
+ctx.strokeText('_80',0,100);
+ctx.strokeText('_70',0,150)
+ctx.strokeText('_60',0,200)
+ctx.strokeText('_50',0,250)
+ctx.strokeText('_40',0,300)
+ctx.strokeText('_30',0,350)
+ctx.strokeText('_20',0,400)
+ctx.strokeText('_10',0,450)
 
-ctx.strokeText('_-10',500,550)
-ctx.strokeText('_-20',500,600)
-ctx.strokeText('_-30',500,650)
-ctx.strokeText('_-40',500,700)
-ctx.strokeText('_-50',500,750)
-ctx.strokeText('_-60',500,800)
-ctx.strokeText('_-70',500,850)
-ctx.strokeText('_-80',500,900)
-ctx.strokeText('_-90',500,950)
+ctx.strokeText('_-10',0,550)
+ctx.strokeText('_-20',0,600)
+ctx.strokeText('_-30',0,650)
+ctx.strokeText('_-40',0,700)
+ctx.strokeText('_-50',0,750)
+ctx.strokeText('_-60',0,800)
+ctx.strokeText('_-70',0,850)
+ctx.strokeText('_-80',0,900)
+ctx.strokeText('_-90',0,950)
 
 
 //Горизонтальные линии
-var m = 90
 var p = 10;
-for(var i = 50; i <= 1000; i+=50, m-=10, p+=10)
+for(var i = 50; i <= 1000; i+=50,p+=10)
 {
-    if(i == 500){continue;}
     ctx.strokeText('|',i,504);
-    if(m >0)
+    if(p !=200)
     {
-        ctx.strokeText('-'+m,i-8,495)
-    }
-    if(i>500 && p !=200)
-    {
-        ctx.strokeText(p-100,i-8,495)
+        ctx.strokeText(p,i-8,495)
     }
 }
 
 //Отрисовка графика 
 
-ctx.moveTo(500,500);
-for(var i =0; i < Object.keys(AllError).length; i++)
-{
-    
-    ctx.lineTo()
-}
 
+var Grafik = function()
+    {
+        var a = 0;
+        ctx.strokeStyle = 'red';
+        ctx.moveTo(0,500);
+        for(var i =0; i < Object.keys(AllError).length; i++)
+        {
+            if(a == i)
+            {
+                ctx.lineTo(i,AllError[i][0]+500);
+                a+=10
+            }
+            
+        }
+        ctx.stroke();
+    }
 
 
 
