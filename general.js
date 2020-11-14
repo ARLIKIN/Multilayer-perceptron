@@ -32,10 +32,8 @@
   Byid('button').onclick = function()
   {
       tic = 0;
-    Byid('dowland').hidden = false;
+    Byid('dowland').textContent = 'Подождите пока нейросеть обучится';
 
-    if(tic !=0)
-    {
         var colekt = document.getElementsByClassName('canvas');
         if(colekt)
         {
@@ -45,7 +43,7 @@
                 colekt[i].remove();
             }
         }
-    }
+    
 
     a;
     it;
@@ -421,8 +419,9 @@ InputSloi = function() // Выходной слой
         var c =0;
         var y = 'Финальные выходы: </br> Y = </br>';
         var w = 'Финальные веса: </br> W = </br>';
-        Byid('dowland').hidden = true;
+        //Byid('dowland').hidden = true;
         document.getElementsByClassName('resultat').hidden = true;
+        Byid('RezultatH1').hidden = false;
         
         console.log('Y = ' )
         for(var i = 0; i < Object.keys(Y).length; i++)
@@ -479,15 +478,47 @@ InputSloi = function() // Выходной слой
         'Количество нейронов в сети:' + c + '</br>'+
         'Функция активации: Сигмоидальная унополярная';
 
+
+        
         if(Byid('checkGrafik').checked)
         { 
-            GrafALL();
+            Byid('mashtab').hidden = false;
+            var b = tic;
+            if(b>=10000)
+            {
+                b = parseInt(tic*0.001)
+            }
+            for(var i =1; i <=10; i++)
+            {
+                if(b == i * 1000)
+                {
+                    b = parseInt(tic*0.001)
+                }
+            }
+            if(b > 100000)
+            {
+                b = parseInt(tic*0.001)
+            }
+
+            GrafALL(b);
         }
         console.log('\n'+ 'Первые ошибки' + '\n')
+        var errstr = 'Ошибки на 1 итерации :' + '</br>'
         for(var i = 0; i < AllError[0].length; i++)
         {
             console.log(AllError[0][i] + '\n');
+            errstr += AllError[0][i]+'</br>'
         }
+        errstr += '</br>'+'</br>'+ 'Ошибки на последней итерации' + '</br>';
+        for(var i = 0; i < AllError[Object.keys(AllError).length-1].length; i++)
+        {
+            errstr += AllError[Object.keys(AllError).length-1][i]+'</br>'
+        }
+
+        Byid('error').innerHTML = errstr;
+        Byid('dowland').textContent = 'Нейросеть прошла обучение';
+
+
     }
 
 
@@ -524,7 +555,7 @@ InputSloi = function() // Выходной слой
 a = 2
 //График
 
-var GrafALL= function()
+var GrafALL= function(b)
 {
     for(var i = 0; i < AllError[0].length; i++)
     {
@@ -537,52 +568,52 @@ var GrafALL= function()
         if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <100)
         {
             Osi(i,canvas,1,0)
-            Grafik(i,canvas,0.1)
+            Grafik(i,canvas,0.1,b)
         }
         if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <10)
         {
             Osi(i,canvas,0.1,0)
-            Grafik(i,canvas,1)
+            Grafik(i,canvas,1,b)
         }
         if(Math.abs(AllError[0][i]) < 1 && Math.abs(AllError[0][i]) >=0.1)
         {
             Osi(i,canvas,0.01,1)
-            Grafik(i,canvas,10)
+            Grafik(i,canvas,10,b)
         }
         if(Math.abs(AllError[0][i])<0.1 && Math.abs(AllError[0][i]) > 0.01)
         {
             Osi(i,canvas,0.001,2)
-            Grafik(i,canvas,100)
+            Grafik(i,canvas,100,b)
         }
         if(Math.abs(AllError[0][i]) < 0.01 && Math.abs(AllError[0][i]) >=0.001)
         {
             Osi(i,canvas,0.0001,3)
-            Grafik(i,canvas,1000)
+            Grafik(i,canvas,1000,b)
         }
         if(Math.abs(AllError[0][i])<0.001 && Math.abs(AllError[0][i]) >= 0.0001)
         {
             Osi(i,canvas,0.00001,4)
-            Grafik(i,canvas,10000)
+            Grafik(i,canvas,10000,b)
         }
         if(Math.abs(AllError[0][i])<0.0001 && Math.abs(AllError[0][i]) >=0.00001)
         {
             Osi(i,canvas,0.000001,5)
-            Grafik(i,canvas,100000)
+            Grafik(i,canvas,100000,b)
         }
-        if(Math.abs(AllError[0][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.00001)
+        if(Math.abs(AllError[0][i]) <0.00001 && Math.abs(AllError[0][i]) >=0.000001)
         {
             Osi(i,canvas,0.0000001,6)
-            Grafik(i,canvas,1000000)
+            Grafik(i,canvas,1000000,b)
         }
-        if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.000001)
+        if(Math.abs(AllError[0][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.0000001)
         {
             Osi(i,canvas,0.00000001,7)
-            Grafik(i,canvas,10000000)
+            Grafik(i,canvas,10000000,b)
         }
-        if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.000001)
+        if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.00000001)
         {
             Osi(i,canvas,0.00000001,8)
-            Grafik(i,canvas,10000000)
+            Grafik(i,canvas,10000000,b)
         }
 
 
@@ -594,20 +625,24 @@ var GrafALL= function()
 //Отрисовка графика 
 
 
-var Grafik = function(i,canvas,mn)
+var Grafik = function(i,canvas,mn,b)
     {
-        var a = 0;
+        var a = b;
         var mashtab = 50;
         var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'red';
-        for(var j =0; j < Object.keys(AllError).length; j++)
+        for(var j =0; j < Object.keys(AllError).length-1; j++)
         {
             if(j == 0)
-            ctx.moveTo(a,500-(AllError[j][i]*mn*mashtab));
-            if(a == j)
+            {
+                ctx.moveTo(j,500-(AllError[j][i]*mn*mashtab));
+                continue;
+            }
+
+                if(a == j)
             {
                 ctx.lineTo(a,500-(AllError[j][i]*mn*mashtab));
-                a+=10
+                a+=b
             }
             
         }

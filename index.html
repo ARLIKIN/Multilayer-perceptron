@@ -31,7 +31,7 @@
             <input type="text" id="HidenSloi" size="30" value="6,6">
         </p>
         <p>Ожидаемые значения:
-            <input type="text" id="dInput" size="30" value="1,0">
+            <input type="text" id="dInput" size="30" value="0,0">
         </p>
         <p>Графики ошибок:
             <input type='checkbox' id='checkGrafik'>
@@ -41,8 +41,8 @@
         </div>
     </div>
     <div class="rez">
-        <H1 class="GeneralTEXT">Результаты</H1>
-        <p id="dowland" class="r1" hidden>Подождите пока нейросеть обучится</p>
+        <H1 class="GeneralTEXT" id="RezultatH1" hidden>Результаты</H1>
+        <p id="dowland" class="r1" ></p>
         <h3 id="itog" class="r1" class="rezultat"></h3>
         <p id="d"class="r1"class="rezultat"></p>
         <p id="a"class="r1"class="rezultat"></p>
@@ -56,9 +56,10 @@
         <p id="oldW"class="rezultat"></p>
     </div>
     <div id="canvasALL">
-        <p class="r1">1 еденица = 5px</p>
-        <p>сделать синюю линию от конца графика к оси Y</p>
-        
+        <p class="r1" id="mashtab" hidden>1 еденица = 5px</p>
+    </div>
+    <div>
+        <p id="error"></p>
     </div>    
     
 <script src="general.js"></script>
