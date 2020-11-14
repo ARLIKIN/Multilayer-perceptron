@@ -345,11 +345,6 @@ InputSloi = function() // Выходной слой
             }
 
         }
-        
-        for(var i = 0; i < err.length; i++)
-        {
-            console.log(err[i] + '\n');
-        }
         //Коррекция весов скрытых слоев
           
             for(var j = Wlength-1-KolYOutput; j >= 0 ; j-- )
@@ -487,8 +482,16 @@ InputSloi = function() // Выходной слой
         if(Byid('checkGrafik').checked)
         { 
             GrafALL();
-        }                            
+        }
+        console.log('\n'+ 'Первые ошибки' + '\n')
+        for(var i = 0; i < AllError[0].length; i++)
+        {
+            console.log(AllError[0][i] + '\n');
+        }
     }
+
+
+
     var y = 'Первые выходы Y:  </br>'
     for(var i = 0; i < Object.keys(Y).length; i++)
         {
@@ -531,31 +534,57 @@ var GrafALL= function()
     for(var i = 0; i < AllError[0].length; i++)
     {
         canvas = Byid('canva'+i);
-        if(AllError[0][i] < 1 && AllError[0][i] >=0.1)
+        if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <100)
         {
-            Osi(i,canvas,0.01)
-            Grafik(i,canvas,10)
+            Osi(i,canvas,1,0)
+            Grafik(i,canvas,0.1)
         }
-        if(AllError[0][i] >1)
+        if(Math.abs(AllError[0][i]) >1 && AllError[0][i] <10)
         {
-            Osi(i,canvas,1)
+            Osi(i,canvas,0.1,0)
             Grafik(i,canvas,1)
         }
-        if(AllError[0][i] < 0.01 && AllError[0][i] >=0.001)
+        if(Math.abs(AllError[0][i]) < 1 && Math.abs(AllError[0][i]) >=0.1)
         {
-            Osi(i,canvas,0.0001)
+            Osi(i,canvas,0.01,2)
+            Grafik(i,canvas,10)
+        }
+        if(Math.abs(AllError[0][i])<0.1 && Math.abs(AllError[0][i]) > 0.01)
+        {
+            Osi(i,canvas,0.001,3)
+            Grafik(i,canvas,100)
+        }
+        if(Math.abs(AllError[0][i]) < 0.01 && Math.abs(AllError[0][i]) >=0.001)
+        {
+            Osi(i,canvas,0.0001,4)
             Grafik(i,canvas,1000)
         }
-        if(AllError[0][i]<0.001 && AllError[0][i] >= 0.0001)
+        if(Math.abs(AllError[0][i])<0.001 && Math.abs(AllError[0][i]) >= 0.0001)
         {
-            Osi(i,canvas,0.00001)
+            Osi(i,canvas,0.00001,5)
             Grafik(i,canvas,10000)
         }
-        if(AllError[0][i]<0.0001 && AllError[0][i] >=0.00001)
+        if(Math.abs(AllError[0][i])<0.0001 && Math.abs(AllError[0][i]) >=0.00001)
         {
-            Osi(i,canvas,0.000001)
+            Osi(i,canvas,0.000001,6)
             Grafik(i,canvas,100000)
         }
+        if(Math.abs(AllError[0][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.00001)
+        {
+            Osi(i,canvas,0.0000001,7)
+            Grafik(i,canvas,1000000)
+        }
+        if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.000001)
+        {
+            Osi(i,canvas,0.00000001,8)
+            Grafik(i,canvas,10000000)
+        }
+        if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.000001)
+        {
+            Osi(i,canvas,0.00000001,9)
+            Grafik(i,canvas,10000000)
+        }
+
 
         
 
@@ -568,14 +597,16 @@ var GrafALL= function()
 var Grafik = function(i,canvas,mn)
     {
         var a = 0;
+        var mashtab = 50;
         var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'red';
-        ctx.moveTo(0,500);
         for(var j =0; j < Object.keys(AllError).length; j++)
         {
+            if(j == 0)
+            ctx.moveTo(a,500-(AllError[j][i]*mn*mashtab));
             if(a == j)
             {
-                ctx.lineTo(j,AllError[j][i]*mn+500);
+                ctx.lineTo(a,500-(AllError[j][i]*mn*mashtab));
                 a+=10
             }
             
@@ -583,7 +614,7 @@ var Grafik = function(i,canvas,mn)
         ctx.stroke();
     }
 
-var Osi = function(i,canvas,mn)
+var Osi = function(i,canvas,mn,fix)
 {
         ctx = canvas.getContext("2d");
         canvas.width = 1000;
@@ -593,25 +624,25 @@ var Osi = function(i,canvas,mn)
         ctx.fillRect(0,0, 1, 1000);//вертикальная ось
         ctx.fillRect(0,500,1000,1);// горизонтальная ось
         ctx.font = '10px Verdana';
-        ctx.strokeText('_'+90*mn,0,50)
-        ctx.strokeText('_'+80*mn,0,100);
-        ctx.strokeText('_'+70*mn,0,150)
-        ctx.strokeText('_'+60*mn,0,200)
-        ctx.strokeText('_'+50*mn,0,250)
-        ctx.strokeText('_'+40*mn,0,300)
-        ctx.strokeText('_'+30*mn,0,350)
-        ctx.strokeText('_'+20*mn,0,400)
-        ctx.strokeText('_'+10*mn,0,450)
+        ctx.strokeText('_'+(90*mn).toFixed(fix),0,50)
+        ctx.strokeText('_'+(80*mn).toFixed(fix),0,100);
+        ctx.strokeText('_'+(70*mn).toFixed(fix),0,150)
+        ctx.strokeText('_'+(60*mn).toFixed(fix),0,200)
+        ctx.strokeText('_'+(50*mn).toFixed(fix),0,250)
+        ctx.strokeText('_'+(40*mn).toFixed(fix),0,300)
+        ctx.strokeText('_'+(30*mn).toFixed(fix),0,350)
+        ctx.strokeText('_'+(20*mn).toFixed(fix),0,400)
+        ctx.strokeText('_'+(10*mn).toFixed(fix),0,450)
 
-        ctx.strokeText('_'+-10*mn,0,550)
-        ctx.strokeText('_'+-20*mn,0,600)
-        ctx.strokeText('_'+-30*mn,0,650)
-        ctx.strokeText('_'+-40*mn,0,700)
-        ctx.strokeText('_'+-50*mn,0,750)
-        ctx.strokeText('_'+-60*mn,0,800)
-        ctx.strokeText('_'+-70*mn,0,850)
-        ctx.strokeText('_'+-80*mn,0,900)
-        ctx.strokeText('_'+-90*mn,0,950)
+        ctx.strokeText('_'+(-10*mn).toFixed(fix),0,550)
+        ctx.strokeText('_'+(-20*mn).toFixed(fix),0,600)
+        ctx.strokeText('_'+(-30*mn).toFixed(fix),0,650)
+        ctx.strokeText('_'+(-40*mn).toFixed(fix),0,700)
+        ctx.strokeText('_'+(-50*mn).toFixed(fix),0,750)
+        ctx.strokeText('_'+(-60*mn).toFixed(fix),0,800)
+        ctx.strokeText('_'+(-70*mn).toFixed(fix),0,850)
+        ctx.strokeText('_'+(-80*mn).toFixed(fix),0,900)
+        ctx.strokeText('_'+(-90*mn).toFixed(fix),0,950)
 
 
         //Горизонтальные линии
@@ -619,9 +650,9 @@ var Osi = function(i,canvas,mn)
         for(var j = 50; j <= 1000; j+=50,p+=10*mn)
         {
             ctx.strokeText('|',j,504);
-            if(p !=200*mn)
+            if(parseFloat(p.toFixed(fix)) !=200*mn)
             {
-                ctx.strokeText(p,j-8,495)
+                ctx.strokeText(p.toFixed(fix),j-8,495)
             }
         }
         //Номер нейрона
