@@ -22,7 +22,7 @@
     var counterKorrekt = 0;
     var errors = '';
     var Windex = [];
-    var AllError = new Object();
+    var AllError;
     var tic =0;
 
     
@@ -32,6 +32,19 @@
   Byid('button').onclick = function()
   {
     Byid('dowland').hidden = false;
+
+    if(tic !=0)
+    {
+        var colekt = document.getElementsByClassName('canvas');
+        if(colekt)
+        {
+            var colektLength = colekt.length-1;
+            for(var i = colektLength; i >= 0; i--)
+            {
+                colekt[i].remove();
+            }
+        }
+    }
 
     a;
     it;
@@ -52,6 +65,8 @@
     counterKorrekt = 0;
     errors = '';
     Windex = [];
+    AllError = new Object();
+    
     function getRandomArbitrary(min, max)
         {
         return Math.random() * (max - min) + min;
@@ -468,8 +483,11 @@ InputSloi = function() // Выходной слой
         'Количество нейронов в сети:' + c + '</br>'+
         'Функция активации: Сигмоидальная унополярная';
 
-        GrafALL();
-                                    
+        if(Byid('checkGrafik').checked)
+        { 
+            GrafALL();
+        }
+        tic = 0;                            
     }
     var y = 'Первые выходы Y:  </br>'
     for(var i = 0; i < Object.keys(Y).length; i++)
@@ -553,23 +571,29 @@ var GrafALL= function()
             }
         }
         //Номер нейрона
-        
+        ctx.font = '20px Times New Roman';
+        var nomer = i+1
+        ctx.strokeText('Нейрон №'+nomer,900,14);
+
+        Grafik(i,canvas)
+
 
     }
 }
 //Отрисовка графика 
 
 
-var Grafik = function()
+var Grafik = function(i,canvas)
     {
         var a = 0;
+        var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'red';
         ctx.moveTo(0,500);
-        for(var i =0; i < Object.keys(AllError).length; i++)
+        for(var j =0; j < Object.keys(AllError).length; j++)
         {
-            if(a == i)
+            if(a == j)
             {
-                ctx.lineTo(i,AllError[i][0]+500);
+                ctx.lineTo(j,AllError[j][i]+500);
                 a+=10
             }
             
@@ -580,14 +604,4 @@ var Grafik = function()
 
 
 
-	// четкая линия
-/*ctx.moveTo( 15, 145 );
-ctx.lineTo( 100, 80 );
-ctx.lineTo(135,40);
-ctx.lineTo(145,110);
-ctx.lineTo(160,130);
-ctx.lineTo(180,80);
-ctx.lineTo(200,145)
 
-ctx.stroke();
-*/

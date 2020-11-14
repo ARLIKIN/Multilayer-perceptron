@@ -36,6 +36,11 @@ body
 }
 
 /*График*/
+/*#checkGrafik
+{
+    
+}*/
+
 #canvasALL
 {
     display: grid;

@@ -67,3 +67,19 @@ Byid('button2').onclick = function()
 
     }
 }
+
+Byid('delete').onclick = function()
+{
+    var colekt = Byclass('canvasALL');
+    if(colekt)
+    {
+        var colektLength = colekt.length-1;
+        for(var i = colektLength; i >= 0; i--)
+        {
+            colekt[i].remove();
+        }
+    }
+    idCanva=0;
+}
+
+
