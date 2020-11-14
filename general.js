@@ -539,49 +539,49 @@ var GrafALL= function()
             Osi(i,canvas,1,0)
             Grafik(i,canvas,0.1)
         }
-        if(Math.abs(AllError[0][i]) >1 && AllError[0][i] <10)
+        if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <10)
         {
             Osi(i,canvas,0.1,0)
             Grafik(i,canvas,1)
         }
         if(Math.abs(AllError[0][i]) < 1 && Math.abs(AllError[0][i]) >=0.1)
         {
-            Osi(i,canvas,0.01,2)
+            Osi(i,canvas,0.01,1)
             Grafik(i,canvas,10)
         }
         if(Math.abs(AllError[0][i])<0.1 && Math.abs(AllError[0][i]) > 0.01)
         {
-            Osi(i,canvas,0.001,3)
+            Osi(i,canvas,0.001,2)
             Grafik(i,canvas,100)
         }
         if(Math.abs(AllError[0][i]) < 0.01 && Math.abs(AllError[0][i]) >=0.001)
         {
-            Osi(i,canvas,0.0001,4)
+            Osi(i,canvas,0.0001,3)
             Grafik(i,canvas,1000)
         }
         if(Math.abs(AllError[0][i])<0.001 && Math.abs(AllError[0][i]) >= 0.0001)
         {
-            Osi(i,canvas,0.00001,5)
+            Osi(i,canvas,0.00001,4)
             Grafik(i,canvas,10000)
         }
         if(Math.abs(AllError[0][i])<0.0001 && Math.abs(AllError[0][i]) >=0.00001)
         {
-            Osi(i,canvas,0.000001,6)
+            Osi(i,canvas,0.000001,5)
             Grafik(i,canvas,100000)
         }
         if(Math.abs(AllError[0][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.00001)
         {
-            Osi(i,canvas,0.0000001,7)
+            Osi(i,canvas,0.0000001,6)
             Grafik(i,canvas,1000000)
         }
         if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.000001)
         {
-            Osi(i,canvas,0.00000001,8)
+            Osi(i,canvas,0.00000001,7)
             Grafik(i,canvas,10000000)
         }
         if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.000001)
         {
-            Osi(i,canvas,0.00000001,9)
+            Osi(i,canvas,0.00000001,8)
             Grafik(i,canvas,10000000)
         }
 
