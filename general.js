@@ -31,6 +31,7 @@
 
   Byid('button').onclick = function()
   {
+      tic = 0;
     Byid('dowland').hidden = false;
 
     if(tic !=0)
@@ -486,8 +487,7 @@ InputSloi = function() // Выходной слой
         if(Byid('checkGrafik').checked)
         { 
             GrafALL();
-        }
-        tic = 0;                            
+        }                            
     }
     var y = 'Первые выходы Y:  </br>'
     for(var i = 0; i < Object.keys(Y).length; i++)
