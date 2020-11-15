@@ -561,10 +561,15 @@ var GrafALL= function(b)
     {
         Byid('canvasALL').innerHTML +='<canvas class="canvas" id="canva' + i +'">нейрон №</canvas>'; 
     }
-
+    var ALLErrorLength = Object.keys(AllError).length-1;
     for(var i = 0; i < AllError[0].length; i++)
     {
         canvas = Byid('canva'+i);
+        if(Math.abs(AllError[0][i]) >100)
+        {
+            Osi(i,canvas,10,0)
+            Grafik(i,canvas,0.01,b)
+        }
         if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <100)
         {
             Osi(i,canvas,1,0)
@@ -629,9 +634,10 @@ var Grafik = function(i,canvas,mn,b)
     {
         var a = b;
         var mashtab = 50;
+        var h =1;
         var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'red';
-        for(var j =0; j < Object.keys(AllError).length-1; j++)
+        for(var j =0; j < Object.keys(AllError).length; j++)
         {
             if(j == 0)
             {
@@ -641,12 +647,19 @@ var Grafik = function(i,canvas,mn,b)
 
                 if(a == j)
             {
-                ctx.lineTo(a,500-(AllError[j][i]*mn*mashtab));
+                ctx.lineTo(h,500-(AllError[j][i]*mn*mashtab));
+                h++
                 a+=b
             }
             
         }
         ctx.stroke();
+        /* Линия из конца в начало координатной оси
+        ctx.strokeStyle = 'blue';
+        ctx.moveTo(h,500-(AllError[Object.keys(AllError).length-1][i]*mn*mashtab))
+        ctx.lineTo(0,500-(AllError[Object.keys(AllError).length-1][i]*mn*mashtab));
+        ctx.stroke();
+        */
     }
 
 var Osi = function(i,canvas,mn,fix)
@@ -681,13 +694,13 @@ var Osi = function(i,canvas,mn,fix)
 
 
         //Горизонтальные линии
-        var p = 10*mn;
-        for(var j = 50; j <= 1000; j+=50,p+=10*mn)
+        //var p = 50;
+        for(var j = 50; j <= 1000; j+=50/*,p+=10*mn*/)
         {
             ctx.strokeText('|',j,504);
-            if(parseFloat(p.toFixed(fix)) !=200*mn)
+            if(j !=1000)
             {
-                ctx.strokeText(p.toFixed(fix),j-8,495)
+                ctx.strokeText(j,j-8,495)
             }
         }
         //Номер нейрона
@@ -700,6 +713,9 @@ var Osi = function(i,canvas,mn,fix)
         }
         var nomer = i+1
         ctx.strokeText('Нейрон №'+nomer,900,14);
+
+        ctx.strokeText('Ошибка',10,14);
+        ctx.strokeText('Итерация',900,480)
 }    
 
 
