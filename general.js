@@ -558,7 +558,7 @@ a = 2
 var GrafALL= function(b)
 {
 
-    var CanvaSTR
+    var CanvaSTR=''
     for(var i = 0; i < AllError[0].length; i++)
     {
         CanvaSTR +='<canvas class="canvas" id="canva' + i +'">нейрон №</canvas>'; 
@@ -634,25 +634,21 @@ var GrafALL= function(b)
 
 var Grafik = function(i,canvas,mn,b)
     {
-        var a = b;
-        var mashtab = 50;
         var h =1;
         var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'red';
-        for(var j =0; j < Object.keys(AllError).length; j+=1)
+        for(var j =0; j < Object.keys(AllError).length; j+=b*2)
         {
             if(j == 0)
             {
-                ctx.moveTo(j,500-(AllError[j][i]*mn*mashtab));
+                ctx.moveTo(j,500-(AllError[j][i]*mn*50));
                 continue;
             }
 
-                if(a == j)
-            {
-                ctx.lineTo(h,500-(AllError[j][i]*mn*mashtab));
-                h+=1;
-                a+=b
-            }
+                ctx.lineTo(h,500-(AllError[j-b][i]*mn*50));
+                ctx.lineTo(h+1,500-(AllError[j][i]*mn*50));
+
+                h+=2;
             
         }
         ctx.stroke();
