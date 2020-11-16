@@ -30,6 +30,28 @@
 
 
 
+
+
+//Нейрон <
+function Neuron(X,m)
+{
+    
+    var u = 0;
+    var y = 0;
+    u = W[m][0];
+   //Суматор(X1*W1 + X2*W2...Xn*Wn)
+    for(var i = 0 ; i < X.length; i++)
+       {
+           u += X[i] + W[m][i+1];
+       }
+   //функция активации(Сигмоидальная унополярная)
+    y =1/(1+Math.exp(-a*u));
+    return y;     
+}
+
+// >
+
+
   Byid('button').onclick = function()
   {
       tic = 0;
@@ -109,35 +131,7 @@
 
 
   
-//Нейрон <
- function Neuron(X,m)
- {
-     
-        var u = 0;
-        var y = 0;
-        u = W[m][0];
-    //Суматор(X1*W1 + X2*W2...Xn*Wn)
-     for(var i = 0 ; i < X.length; i++)
-        {
-            u += X[i] + W[m][i+1];
-        }
 
-        // функция Хевисайда
-        /*if (u <= 0)
-        {
-            y = 0
-        }else
-        {
-            y = 1;
-        }
-        */
-    //функция активации(Сигмоидальная унополярная)
-     y =1/(1+Math.exp(-a*u));
-     return y;     
-
- }
-
-// >
 
     //Генерация весов
     var GeneratWight = function(KolY, t)
@@ -520,6 +514,7 @@ InputSloi = function() // Выходной слой
         Byid('error').innerHTML = errstr;
         Byid('dowland').textContent = 'Нейросеть прошла обучение';
         console.log(Object.keys(AllError).length)
+        Byid('Raspoznovanie_div').hidden = false;
 
 
     }
@@ -732,7 +727,48 @@ var Osi = function(i,canvas,mn,fix)
         ctx.strokeText('Итерация',900,480)
 }    
 
+//Распознование
 
+
+Byid('button2').onclick= function()
+{
+    var count = 0;
+    var str = 'Результат распознования: </br>';
+    var Ylength = Object.keys(Y).length
+    X = Byid('XRaspoznovanie').value.split(',');
+    for(var i =0; i < X.length; i++)
+    {
+        X[i] = +X[i];
+    }
+    //Входной слой
+    for(var i = 0; i < Y[0].length; i++)
+    {
+        Y[0][i] = Neuron(X,i);
+        count +=1;
+    }
+    //Скрытые слои
+    for(var i = 1; i <= KolYHidensloi; i++)
+    {
+        for(var j =0; j< Y[i].length;j++)
+        {
+            Y[i][j] = Neuron(Y[i-1],count);
+            count +=1;
+        }
+    }
+    //Выходной слой
+    for(var i = 0;i < Y[Ylength-1].length; i++)
+    {
+        Y[Ylength-1][i] = Neuron(Y[Ylength-2],count);
+        count +=1;
+        str += (Y[Ylength-1][i]) + '</br>';
+    }
+
+    Byid('Raspoznovanie_Rezultat').innerHTML = str;
+    console.log(str);
+
+
+
+}
 
 
 

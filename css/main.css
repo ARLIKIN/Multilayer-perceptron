@@ -7,6 +7,24 @@ body
     color: black;
 }
 /*Начальные данные*/
+.header
+{
+    display: flex;
+}
+
+#Raspoznovanie
+{
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+#button2
+{
+    width: 100%;
+}
+
+
 .GeneralTEXT
 {
     text-align: center;
