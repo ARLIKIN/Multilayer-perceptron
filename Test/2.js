@@ -88,3 +88,8 @@ Byid('button3').onclick = function()
 }
 
 
+var a = 3.1232344;
+
+alert(a-0)
+
+

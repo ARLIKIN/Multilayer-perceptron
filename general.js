@@ -7,8 +7,8 @@
     var it;
     var OutputSloi;
     var X = [];
-    var Y = new Object();
-    var W = new Object();
+    var Y = {};
+    var W = {};
     var d = [];
     var learningRate;
     var erro = 0;
@@ -49,8 +49,8 @@
     it;
     OutputSloi;
     X = [];
-    Y = new Object();
-    W = new Object();
+    Y = {};
+    W = {};
     d = [];
     learningRate;
     erro = 0;
@@ -64,7 +64,7 @@
     counterKorrekt = 0;
     errors = '';
     Windex = [];
-    AllError = new Object();
+    AllError = {};
     
     function getRandomArbitrary(min, max)
         {
@@ -557,12 +557,14 @@ a = 2
 
 var GrafALL= function(b)
 {
+
+    var CanvaSTR
     for(var i = 0; i < AllError[0].length; i++)
     {
-        Byid('canvasALL').innerHTML +='<canvas class="canvas" id="canva' + i +'">нейрон №</canvas>'; 
+        CanvaSTR +='<canvas class="canvas" id="canva' + i +'">нейрон №</canvas>'; 
     }
-    var ALLErrorLength = Object.keys(AllError).length-1;
-    for(var i = 0; i < AllError[0].length; i++)
+    Byid('canvasALL').innerHTML = CanvaSTR; 
+    for(var i = 0; i < AllError[0].length; i+=1)
     {
         canvas = Byid('canva'+i);
         if(Math.abs(AllError[0][i]) >100)
@@ -637,7 +639,7 @@ var Grafik = function(i,canvas,mn,b)
         var h =1;
         var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'red';
-        for(var j =0; j < Object.keys(AllError).length; j++)
+        for(var j =0; j < Object.keys(AllError).length; j+=1)
         {
             if(j == 0)
             {
@@ -648,7 +650,7 @@ var Grafik = function(i,canvas,mn,b)
                 if(a == j)
             {
                 ctx.lineTo(h,500-(AllError[j][i]*mn*mashtab));
-                h++
+                h+=1;
                 a+=b
             }
             
