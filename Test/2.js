@@ -84,7 +84,18 @@ Byid('delete').onclick = function()
 
 Byid('button3').onclick = function()
 {
-    alert(Byid('select').value)
+    var Bool = true;
+    var i =0;
+    while(Bool)
+    {
+        i += 1;
+        if(i == 10)
+        {
+            Bool = false;
+        }
+        console.log(i);
+    }
+    alert(Bool);
 }
 
 

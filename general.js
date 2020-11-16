@@ -24,6 +24,7 @@
     var Windex = [];
     var AllError;
     var tic =0;
+    var Bool = true;
 
     
 
@@ -65,6 +66,8 @@
     errors = '';
     Windex = [];
     AllError = {};
+    Bool = true;
+
     
     function getRandomArbitrary(min, max)
         {
@@ -541,10 +544,22 @@ InputSloi = function() // Выходной слой
 
         // обучение
     
-        while(+d[0].toFixed(4) != +Y[Ylength-1][0].toFixed(4) && +d[d.length-1].toFixed(4) != +Y[Ylength-1][Y[Ylength-1].length-1] &&tic < it )
+        while(Bool)
             {
-                Korrekt(false,X);
-                tic++
+                if(tic < it){Bool = false}
+                for(var i = 0; i < d.length; i++)
+                {
+                    if(+Y[Ylength-1][i].toFixed(4) != +d[i].toFixed(4))
+                    {
+                        break;
+                    }
+                }
+
+                if(i != d.length-1)
+                {
+                    Korrekt(false,X);
+                    tic++
+                }else{Bool = false}
             }
 
             Rezultat(tic);
