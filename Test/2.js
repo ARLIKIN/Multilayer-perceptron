@@ -82,4 +82,9 @@ Byid('delete').onclick = function()
     idCanva=0;
 }
 
+Byid('button3').onclick = function()
+{
+    alert(Byid('select').value)
+}
+
 
