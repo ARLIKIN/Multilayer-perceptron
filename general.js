@@ -75,7 +75,7 @@
         }
       
     a = document.getElementById(id="aInput").value;
-    it =  Byid('iterInput').value;
+    it =  parseInt(Byid('iterInput').value);
     learningRate  = Byid('learningRateInput').value;
     document.getElementsByClassName('resultat').hidden = true;
     
@@ -485,7 +485,6 @@ InputSloi = function() // Выходной слой
         
         if(Byid('checkGrafik').checked)
         { 
-            Byid('mashtab').hidden = false;
             var b = tic;
             if(b>=10000)
             {
@@ -520,6 +519,7 @@ InputSloi = function() // Выходной слой
 
         Byid('error').innerHTML = errstr;
         Byid('dowland').textContent = 'Нейросеть прошла обучение';
+        console.log(Object.keys(AllError).length)
 
 
     }
@@ -546,10 +546,10 @@ InputSloi = function() // Выходной слой
     
         while(Bool)
             {
-                if(tic > it){Bool = false}
+                if(tic >= it){break}
                 for(var i = 0; i < d.length; i++)
                 {
-                    if(+Y[Ylength-1][i].toFixed(4) != +d[i].toFixed(4))
+                    if(+Y[Ylength-1][i].toFixed(1) != +d[i].toFixed(1))
                     {
                         break;
                     }
@@ -557,10 +557,10 @@ InputSloi = function() // Выходной слой
 
                 if(i != d.length-1)
                 {
-                    tic++
-                    Korrekt(false,X);
                     
-                }else{Bool = false}
+                    Korrekt(false,X);
+                    tic++
+                }else{break}
             }
 
             Rezultat(tic);
