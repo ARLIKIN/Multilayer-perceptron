@@ -546,7 +546,7 @@ InputSloi = function() // Выходной слой
     
         while(Bool)
             {
-                if(tic < it){Bool = false}
+                if(tic > it){Bool = false}
                 for(var i = 0; i < d.length; i++)
                 {
                     if(+Y[Ylength-1][i].toFixed(4) != +d[i].toFixed(4))
@@ -557,8 +557,9 @@ InputSloi = function() // Выходной слой
 
                 if(i != d.length-1)
                 {
-                    Korrekt(false,X);
                     tic++
+                    Korrekt(false,X);
+                    
                 }else{Bool = false}
             }
 
