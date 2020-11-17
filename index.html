@@ -17,7 +17,7 @@
             </p>
 
             <p>Количество итераций:
-                <input id="iterInput" type="text" size="10" value="10000">
+                <input id="iterInput" type="text" size="10" value="20000">
             </p>
 
             <p>Скорость обучения:
@@ -37,6 +37,9 @@
             </p>
             <p>Графики ошибок:
                 <input type='checkbox' id='checkGrafik'>
+            </p>
+            <p>Графики выходногослоя:
+                <input type='checkbox' id='checkGrafikNeuron'>
             </p>
             <div id="btn">
                 <button id="button">Обучить</button>
@@ -69,10 +72,14 @@
         <p id="oldW"class="rezultat"></p>
     </div>
     <div id="canvasALL">
-        <p class="r1" id="mashtab" hidden>1 еденица = 5px</p>
+        <p class="r1" id="mashtab" hidden>1 еденица = 5px </p>
     </div>
     <div>
         <p id="error"></p>
+    </div>
+    <div id="canvasNeuron">
+        <p class="r1" id="GrafikNeuron">Графики выходного слоя:</p>
+
     </div>    
     
 <script src="general.js"></script>

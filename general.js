@@ -498,6 +498,30 @@ InputSloi = function() // Выходной слой
 
             GrafALL(b);
         }
+
+        if(Byid('checkGrafikNeuron').checked)
+        { 
+            var b = tic;
+            if(b>=10000)
+            {
+                b = parseInt(tic*0.001)
+            }
+            for(var i =1; i <=10; i++)
+            {
+                if(b == i * 1000)
+                {
+                    b = parseInt(tic*0.001)
+                }
+            }
+            if(b > 100000)
+            {
+                b = parseInt(tic*0.001)
+            }
+
+            GrafALL(b);
+        }
+
+
         console.log('\n'+ 'Первые ошибки' + '\n')
         var errstr = 'Ошибки на 1 итерации :' + '</br>'
         for(var i = 0; i < AllError[0].length; i++)
@@ -747,7 +771,7 @@ Byid('button2').onclick= function()
         count +=1;
     }
     //Скрытые слои
-    for(var i = 1; i <= KolYHidensloi; i++)
+    for(var i = 1; i <= KolYHidensloi.length-1; i++)
     {
         for(var j =0; j< Y[i].length;j++)
         {
