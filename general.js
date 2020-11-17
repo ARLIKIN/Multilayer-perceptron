@@ -25,6 +25,7 @@
     var AllError;
     var tic =0;
     var Bool = true;
+    var AllYLastsloi;
 
     
 
@@ -66,6 +67,16 @@ function Neuron(X,m)
                 colekt[i].remove();
             }
         }
+
+        var colekt = document.getElementsByClassName('canvas');
+        if(colekt)
+        {
+            var colektLength = colekt.length-1;
+            for(var i = colektLength; i >= 0; i--)
+            {
+                colekt[i].remove();
+            }
+        }
     
 
     a;
@@ -89,6 +100,7 @@ function Neuron(X,m)
     Windex = [];
     AllError = {};
     Bool = true;
+    AllYLastsloi = {};
 
     
     function getRandomArbitrary(min, max)
@@ -123,7 +135,10 @@ function Neuron(X,m)
         d[i] = +d[i];
     }
     
-    d.reverse();
+    d.reverse(); 
+
+    Byid('mashtab').innerHTML = ''; 
+    Byid('GrafikNeuron').innerHTML = '';
 
 
 
@@ -313,12 +328,12 @@ InputSloi = function() // Выходной слой
 
     var Korrekt = function(flag,X)
     {
+        
         if (flag){return}
 
         Ylength = Object.keys(Y).length;
-        Wlength = Object.keys(W).length;
+        Wlength = Object.keys(W).length; 
         var abc = 0;
-        var cba = 0;
         error = [0];
         //Коррекция весов выходного слоя
         for(var i = 0; i < d.length; i++ )
@@ -359,7 +374,7 @@ InputSloi = function() // Выходной слой
         // Корректировка Y
             
                 
-                
+                                 
                     for(var j = 0; j < KolYInput;j++)
                     {
                         Y[0][j] = Neuron(X,j);
@@ -480,6 +495,7 @@ InputSloi = function() // Выходной слой
         if(Byid('checkGrafik').checked)
         { 
             var b = tic;
+            Byid('mashtab').innerHTML = 'Графики ошибок' + '</br>'+ 'маштаб 1ед. = 5px'; 
             if(b>=10000)
             {
                 b = parseInt(tic*0.001)
@@ -500,7 +516,8 @@ InputSloi = function() // Выходной слой
         }
 
         if(Byid('checkGrafikNeuron').checked)
-        { 
+        {
+            Byid('GrafikNeuron').innerHTML = 'Графики нейронов выходного слоя'; 
             var b = tic;
             if(b>=10000)
             {
@@ -518,7 +535,7 @@ InputSloi = function() // Выходной слой
                 b = parseInt(tic*0.001)
             }
 
-            GrafALL(b);
+            GrafLastSloi(b);
         }
 
 
@@ -574,12 +591,12 @@ InputSloi = function() // Выходной слой
                     }
                 }
 
-                if(i != d.length-1)
-                {
-                    
+               /* if(i != d.length-1)
+                {*/
+                    AllYLastsloi[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
                     Korrekt(false,X);
-                    tic++
-                }else{break}
+                    tic+=1;
+                /*}else{break}*/
             }
 
             Rezultat(tic);
@@ -672,7 +689,7 @@ var Grafik = function(i,canvas,mn,b)
         var h =1;
         var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'red';
-        for(var j =0; j < Object.keys(AllError).length; j+=b*2)
+        for(var j =0; j < b*1000; j+=b*2)
         {
             if(j == 0)
             {
@@ -794,5 +811,102 @@ Byid('button2').onclick= function()
 
 }
 
+//Графики выходного слоя 
+
+var GrafLastSloi = function(b)
+{
+    var Ylength = Object.keys(Y).length;
+    var CanvaLastSloiSTR=''
+    for(var i = 0; i < Y[Ylength-1].length; i++)
+    {
+        CanvaLastSloiSTR +='<canvas class="canvas" id="canvaLastSloi' + i +'">нейрон №</canvas>'; 
+    }
+    Byid('canvasNeuron').innerHTML = CanvaLastSloiSTR;
+    
+    for(var i =0; i < Y[Ylength-1].length; i++)
+    {
+        canvas = Byid('canvaLastSloi'+i);
+        OsiNeuron(i,canvas)
+        GrafikNeuron(i,canvas,b)
+    }
+}
+
+
+var OsiNeuron = function(i,canvas)
+{
+        ctx = canvas.getContext("2d");
+        canvas.width = 1000;
+        canvas.height = 1000;
+        ctx.lineWidth = 0,5;
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0,0, 1, 1000);//вертикальная ось
+        ctx.fillRect(0,999,1000,1);// горизонтальная ось
+        ctx.font = '10px Verdana';
+        ctx.strokeText('_'+(0.95).toFixed(2),0,50)
+        ctx.strokeText('_'+(0.9).toFixed(1),0,100)
+        ctx.strokeText('_'+(0.85).toFixed(2),0,150)
+        ctx.strokeText('_'+(0.8).toFixed(1),0,200)
+        ctx.strokeText('_'+(0.75).toFixed(2),0,250)
+        ctx.strokeText('_'+(0.7).toFixed(1),0,300)
+        ctx.strokeText('_'+(0.65).toFixed(2),0,350)
+        ctx.strokeText('_'+(0.6).toFixed(1),0,400)
+        ctx.strokeText('_'+(0.55).toFixed(2),0,450)
+        ctx.strokeText('_'+(0.5).toFixed(1),0,500)
+        ctx.strokeText('_'+(0.45).toFixed(2),0,550)
+        ctx.strokeText('_'+(0.4).toFixed(1),0,600)
+        ctx.strokeText('_'+(0.35).toFixed(2),0,650)
+        ctx.strokeText('_'+(0.3).toFixed(1),0,700)
+        ctx.strokeText('_'+(0.25).toFixed(2),0,750)
+        ctx.strokeText('_'+(0.2).toFixed(1),0,800)
+        ctx.strokeText('_'+(0.15).toFixed(2),0,850)
+        ctx.strokeText('_'+(0.1).toFixed(1),0,900)
+        ctx.strokeText('_'+(0.05).toFixed(2),0,950)
+
+
+        //Горизонтальные линии
+        //var p = 50;
+        for(var j = 50; j <= 1000; j+=50/*,p+=10*mn*/)
+        {
+            ctx.strokeText('|',j,998);
+            if(j !=1000)
+            {
+                ctx.strokeText(j,j-8,990)
+            }
+        }
+        //Номер нейрона
+        if(AllError[i].length<9)
+        {
+            ctx.font = '20px Times New Roman';
+        }else
+        {
+            ctx.font = '15px Times New Roman';
+        }
+        var nomer = i+1
+        ctx.strokeText('Нейрон №'+nomer,900,14);
+
+        ctx.strokeText('Выход',10,14);
+        ctx.strokeText('Итерация',900,978)
+}
+var GrafikNeuron = function(i,canvas,b)
+    {
+        var h =1;
+        var ctx = canvas.getContext("2d");
+        ctx.strokeStyle = 'blue';
+        for(var j =0; j < b*1000; j+=b*2)
+        {
+            if(j == 0)
+            {
+                ctx.moveTo(j,1000-(AllYLastsloi[j][i]*1000));
+                continue;
+            }
+
+                ctx.lineTo(h,1000-(AllYLastsloi[j-b][i]*1000));
+                ctx.lineTo(h+1,1000-(AllYLastsloi[j][i]*1000));
+
+                h+=2;
+            
+        }
+        ctx.stroke();
+    }  
 
 

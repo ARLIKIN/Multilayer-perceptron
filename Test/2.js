@@ -84,23 +84,13 @@ Byid('delete').onclick = function()
 
 Byid('button3').onclick = function()
 {
-    var Bool = true;
-    var i =0;
-    while(Bool)
-    {
-        i += 1;
-        if(i == 10)
-        {
-            Bool = false;
-        }
-        console.log(i);
-    }
-    alert(Bool);
+    var tic = 5273;
+    var b;
+    b = parseInt(tic*0.001)
+    alert(b)
 }
 
 
-var a = 3.1232344;
 
-alert(a-0)
 
 
