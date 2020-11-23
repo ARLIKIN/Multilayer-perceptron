@@ -92,7 +92,7 @@ Byid('button3').onclick = function()
 }
 
 
-var VhodnoiSLOI = 4;
+var VhodnoiSLOI =2;
 var HidenSLOI = [6,6];
 var VihodnoiSLOI = 2;
 
@@ -122,9 +122,40 @@ for(var i = 0; i < SLOI.length; i++)
 {
     for(var j = 0; j < SLOI[i]; j++)
     {
-        ctx.fillRect(i*100+10,j*80+10,80,50);
+        ctx.fillRect(i*(800/SLOI.length-1)+10,j*(500/SLOI[i])+((500/SLOI[i])/3),80,50);
     }
 }
+
+
+for(var i = 0; i < SLOI.length; i++)
+{
+    for(var j = 0; j < SLOI[i]; j++)
+    {
+        for(var h = 1; h <= SLOI[i+1]; h++)
+        {
+            ctx.moveTo(85+(i*(800/SLOI.length-1)),30+j*(500/SLOI[i])+((500/SLOI[i])/3));
+            ctx.lineTo
+                (
+                (i+1)*(800/SLOI.length-1)+10,//x
+                25+h*(500/SLOI[i+1])+((500/SLOI[i+1])/3)-(500/SLOI[i+1])//y
+                );
+            ctx.stroke();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

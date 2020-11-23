@@ -490,6 +490,13 @@ InputSloi = function() // Выходной слой
         'Количество нейронов в сети:' + c + '</br>'+
         'Функция активации: Сигмоидальная унополярная';
 
+        Struktra(KolYInput,KolYHidensloi,KolYOutput);
+        var Struktura_hiden =  Byid('Struktura_hiden');
+        if(Struktura_hiden.hidden)
+        {
+            Struktura_hiden.hidden = false
+        }
+
 
         
         if(Byid('checkGrafik').checked)
@@ -911,22 +918,101 @@ var GrafikNeuron = function(i,canvas,b)
 
 
     //Структура сети
-    var canvaStuktura = Byid('Struktura_canva');
-    var ctx = canvaStuktura.getContext('2d');
-
-    canvaStuktura.width = 800;
-    canvaStuktura.height = 500;
-
-
-
     Byid('Struktura_hiden').onclick = function()
     {
-        if(canvaStuktura.hidden)
+        var Struktura_hiden = Byid('Struktura_canva');
+        if(Struktura_canva.hidden)
         {
-            canvaStuktura.hidden = false
+            Struktura_canva.hidden = false
         }else
         {
-            canvaStuktura.hidden = true;
+            Struktura_canva.hidden = true;
         }
     }
+    
+    
+    
+    
+    
+    var Struktra = function(Vhod,Hide,Vihod)
+    {
+        var canvaStuktura = Byid('Struktura_canva');
+        var ctx = canvaStuktura.getContext('2d');
+
+        canvaStuktura.width = 800;
+        canvaStuktura.height = 500;
+
+        var VhodnoiSLOI =Vhod;
+        var HidenSLOI = Hide;
+        var VihodnoiSLOI = Vihod;
+
+  
+        var SLOI = [VhodnoiSLOI];
+
+        for(var i = 0; i < HidenSLOI.length; i++)
+        {
+            SLOI[i+1] = HidenSLOI[i];
+        }
+        SLOI.push(VihodnoiSLOI);
+
+
+        ctx.fillStyle = 'black'
+
+
+        for(var i = 0; i < SLOI.length; i++)
+        {
+            ctx.fillStyle = '#49b838'
+            if(i == 0)
+            {
+                ctx.fillStyle = '#3874b8'
+            }
+            if(i == SLOI.length-1)
+            {
+                ctx.fillStyle = '#bf0505'
+            }
+            for(var j = 0; j < SLOI[i]; j++)
+            {
+                ctx.fillRect(i*(800/SLOI.length-1)+10,j*(500/SLOI[i])+((500/SLOI[i])/3),80,50);
+            }
+        }
+
+
+
+        ctx.strokeStyle = '#131313';
+        for(var i = 0; i < SLOI.length; i++)
+        {
+            for(var j = 0; j < SLOI[i]; j++)
+            {
+                for(var h = 1; h <= SLOI[i+1]; h++)
+                {
+                    ctx.moveTo(90+(i*(800/SLOI.length-1)),30+j*(500/SLOI[i])+((500/SLOI[i])/3));
+                    ctx.lineTo
+                        (
+                        (i+1)*(800/SLOI.length-1)+10,//x
+                        25+h*(500/SLOI[i+1])+((500/SLOI[i+1])/3)-(500/SLOI[i+1])//y
+                        );
+                    ctx.stroke();
+                }
+            }
+        }
+
+        ctx.font = '20px Times New Roman';
+        ctx.strokeStyle = 'black';
+        var c = 1
+        for(var i = 0; i < SLOI.length; i++)
+        {
+            for(var j = 0; j < SLOI[i]; j++,c++)
+            {
+                ctx.strokeText(c,i*(800/SLOI.length-1)+45,35+j*(500/SLOI[i])+((500/SLOI[i])/3),80,50);
+            }
+        }
+
+
+
+
+    }
+
+
+    
+
 
