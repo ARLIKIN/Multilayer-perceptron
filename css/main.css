@@ -77,3 +77,22 @@ body
     margin-bottom: 5px;
 }
 
+
+#Div_srtuktura
+{
+    display: grid;
+}
+
+#Struktura_hiden
+{
+    text-decoration: none;
+    color: black;
+}
+
+.Struktura_canvas
+{
+    border: 1px solid black;
+    background-color: white;
+    margin-bottom: 5px;
+}
+

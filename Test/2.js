@@ -82,13 +82,55 @@ Byid('delete').onclick = function()
     idCanva=0;
 }
 
+
+
+
+
 Byid('button3').onclick = function()
 {
-    var tic = 5273;
-    var b;
-    b = parseInt(tic*0.001)
-    alert(b)
+
 }
+
+
+var VhodnoiSLOI = 4;
+var HidenSLOI = [6,6];
+var VihodnoiSLOI = 2;
+
+var canvas  = Byid('StrukturaCanvas');
+var ctx = canvas.getContext('2d');
+canvas.width = 800;
+canvas.height = 500;
+
+
+var SLOI = [VhodnoiSLOI];
+
+for(var i = 0; i < HidenSLOI.length; i++)
+{
+    SLOI[i+1] = HidenSLOI[i];
+}
+SLOI.push(VihodnoiSLOI);
+
+
+ctx.fillStyle = 'black'
+
+
+
+
+
+
+for(var i = 0; i < SLOI.length; i++)
+{
+    for(var j = 0; j < SLOI[i]; j++)
+    {
+        ctx.fillRect(i*100+10,j*80+10,80,50);
+    }
+}
+
+
+
+
+
+
 
 
 

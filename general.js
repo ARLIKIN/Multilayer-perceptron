@@ -910,3 +910,23 @@ var GrafikNeuron = function(i,canvas,b)
     }  
 
 
+    //Структура сети
+    var canvaStuktura = Byid('Struktura_canva');
+    var ctx = canvaStuktura.getContext('2d');
+
+    canvaStuktura.width = 800;
+    canvaStuktura.height = 500;
+
+
+
+    Byid('Struktura_hiden').onclick = function()
+    {
+        if(canvaStuktura.hidden)
+        {
+            canvaStuktura.hidden = false
+        }else
+        {
+            canvaStuktura.hidden = true;
+        }
+    }
+
