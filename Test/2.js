@@ -147,6 +147,98 @@ for(var i = 0; i < SLOI.length; i++)
 
 
 
+//Структура SVG
+
+
+
+var Rect = function(x,y,W,H)
+{
+    return '<rect x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'"/>'
+}
+
+var Line = function(x1,y1,x2,y2,color)
+{
+    return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" />';
+}
+
+var Circle= function(x,y,r,color)
+{
+    return '<circle fill = "'+color+'" cx="'+x+'" cy="'+y+'" r="'+r+'"/>'
+}
+
+
+
+var VhodnoiSLOI =3;
+var HidenSLOI = [11,10];
+var VihodnoiSLOI = 4;
+
+var SLOI = [VhodnoiSLOI];
+
+for(var i = 0; i < HidenSLOI.length; i++)
+{
+    SLOI[i+1] = HidenSLOI[i];
+}
+SLOI.push(VihodnoiSLOI);
+
+
+Byid('DIV_StrukturaSVG').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "800" height = "500" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg"></svg>';
+
+var Holst = Byid('StrukturaSVG');
+
+var color;
+for(var i = 0; i < SLOI.length; i++)
+{
+    color = 'green'
+    if(i == 0)
+    {
+        color = 'blue'
+    }
+    if(i == SLOI.length-1)
+    {
+        color = 'red'
+    }
+    for(var j = 0; j < SLOI[i]; j++)
+    {
+        Holst.innerHTML +=Circle(i*(800/SLOI.length-1)+30,j*(500/SLOI[i])+((500/SLOI[i])/3)+20,25,color)
+        //Holst.innerHTML +=Rect(i*(800/SLOI.length-1)+10,j*(500/SLOI[i])+((500/SLOI[i])/3),80,50);
+    }
+}
+
+for(var i = 0; i < SLOI.length; i++)
+{
+    for(var j = 0; j < SLOI[i]; j++)
+    {
+        for(var h = 1; h <= SLOI[i+1]; h++)
+        {
+            Holst.innerHTML += Line(55+(i*(800/SLOI.length-1)),j*(500/SLOI[i])+((500/SLOI[i])/3)+20,(i+1)*(800/SLOI.length-1)+5,h*(500/SLOI[i+1])+((500/SLOI[i+1])/3)-(500/SLOI[i+1])+20,'black')
+        }
+    }
+}
+
+
+
+
+
+var colekt = Byclass('li');
+
+
+for(var i = 0; i < colekt.length-1; i++)
+{
+    colekt[i].onclick = function()
+    {
+        colekt[i].innerHTML = 'a'
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

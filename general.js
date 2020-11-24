@@ -26,6 +26,7 @@
     var tic =0;
     var Bool = true;
     var AllYLastsloi;
+    var AllYLastIter;
 
     
 
@@ -101,6 +102,7 @@ function Neuron(X,m)
     AllError = {};
     Bool = true;
     AllYLastsloi = {};
+    AllYLastIter = [];
 
     
     function getRandomArbitrary(min, max)
@@ -425,6 +427,15 @@ InputSloi = function() // Выходной слой
 
     var Rezultat= function(tic)
     {
+        var cc = 0;
+        for(var i = 0; i < Object.keys(Y).length;i++)
+        {
+            for(var j =0; j < Y[i].length; j++,cc++)
+            {
+                AllYLastIter[cc] = Y[i][j]
+            }
+        }
+
         //Результат
         var str = ''
         var itog = ''
@@ -496,6 +507,8 @@ InputSloi = function() // Выходной слой
         {
             Struktura_hiden.hidden = false
         }
+
+
 
 
         
@@ -920,13 +933,13 @@ var GrafikNeuron = function(i,canvas,b)
     //Структура сети
     Byid('Struktura_hiden').onclick = function()
     {
-        var Struktura_hiden = Byid('Struktura_canva');
-        if(Struktura_canva.hidden)
+        var Struktura_SVG = Byid('DIV_StrukturaSVG');
+        if(Struktura_SVG.hidden)
         {
-            Struktura_canva.hidden = false
+            Struktura_SVG.hidden = false
         }else
         {
-            Struktura_canva.hidden = true;
+            Struktura_SVG.hidden = true;
         }
     }
     
@@ -936,11 +949,31 @@ var GrafikNeuron = function(i,canvas,b)
     
     var Struktra = function(Vhod,Hide,Vihod)
     {
-        var canvaStuktura = Byid('Struktura_canva');
-        var ctx = canvaStuktura.getContext('2d');
 
-        canvaStuktura.width = 800;
-        canvaStuktura.height = 500;
+
+
+        var Line = function(x1,y1,x2,y2,color)
+            {
+                return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" />';
+            }
+
+        var Circle= function(x,y,r,color,id)
+            {
+                id = id+'';
+                return '<circle onclick="CircleOnclik(\''+id+'\')" class = "Circle" id = "C'+id+'" fill = "'+color+'" cx="'+x+'" cy="'+y+'" r="'+r+'"/>'
+            }
+        var Text = function(text,x,y,clas)
+            {
+                return '<text x="'+x+'" y="'+y+'" class="'+clas+'">'+text+'</text>'
+            }    
+
+
+
+
+        var width = 800;
+        var height = 500;
+        Byid('DIV_StrukturaSVG').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "'+width+'" height = "'+height+'" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg"></svg>';
+        var Holst = Byid('StrukturaSVG');
 
         var VhodnoiSLOI =Vhod;
         var HidenSLOI = Hide;
@@ -956,60 +989,80 @@ var GrafikNeuron = function(i,canvas,b)
         SLOI.push(VihodnoiSLOI);
 
 
-        ctx.fillStyle = 'black'
-
-
+        var color;
+        var c = 0
         for(var i = 0; i < SLOI.length; i++)
         {
-            ctx.fillStyle = '#49b838'
+            color = '#3ea14a'
             if(i == 0)
             {
-                ctx.fillStyle = '#3874b8'
+                color = '#4377b2'
             }
             if(i == SLOI.length-1)
             {
-                ctx.fillStyle = '#bf0505'
+                color = '#a33131'
             }
-            for(var j = 0; j < SLOI[i]; j++)
+            for(var j = 0; j < SLOI[i]; j++,c++)
             {
-                ctx.fillRect(i*(800/SLOI.length-1)+10,j*(500/SLOI[i])+((500/SLOI[i])/3),80,50);
+                Holst.innerHTML +=Circle(i*(800/SLOI.length-1)+30,j*(500/SLOI[i])+((500/SLOI[i])/3)+20,25,color,c)
+                //Holst.innerHTML +=Rect(i*(800/SLOI.length-1)+10,j*(500/SLOI[i])+((500/SLOI[i])/3),80,50);
             }
         }
 
-
-
-        ctx.strokeStyle = '#131313';
         for(var i = 0; i < SLOI.length; i++)
         {
             for(var j = 0; j < SLOI[i]; j++)
             {
                 for(var h = 1; h <= SLOI[i+1]; h++)
                 {
-                    ctx.moveTo(90+(i*(800/SLOI.length-1)),30+j*(500/SLOI[i])+((500/SLOI[i])/3));
-                    ctx.lineTo
-                        (
-                        (i+1)*(800/SLOI.length-1)+10,//x
-                        25+h*(500/SLOI[i+1])+((500/SLOI[i+1])/3)-(500/SLOI[i+1])//y
-                        );
-                    ctx.stroke();
+                    Holst.innerHTML += Line(55+(i*(800/SLOI.length-1)),j*(500/SLOI[i])+((500/SLOI[i])/3)+20,(i+1)*(800/SLOI.length-1)+5,h*(500/SLOI[i+1])+((500/SLOI[i+1])/3)-(500/SLOI[i+1])+20,'black')
                 }
             }
         }
 
-        ctx.font = '20px Times New Roman';
-        ctx.strokeStyle = 'black';
-        var c = 1
+
+
+
+
+
+        
+        
+        c = 1
         for(var i = 0; i < SLOI.length; i++)
         {
             for(var j = 0; j < SLOI[i]; j++,c++)
             {
-                ctx.strokeText(c,i*(800/SLOI.length-1)+45,35+j*(500/SLOI[i])+((500/SLOI[i])/3),80,50);
+                Holst.innerHTML +=Text(c,i*(800/SLOI.length-1)+22,j*(500/SLOI[i])+((500/SLOI[i])/3)+25,'heavy');
             }
         }
 
 
 
 
+    }
+
+    var CircleOnclik = function(id)
+    {
+        var str = '';
+        var c = Y[0].length-1;
+        if(id<=Y[0].length-1)
+        {
+            str += 'Вход:'+ '\n'+ X + '\n';
+        }
+        for(var i = 1; i < Object.keys(Y).length; i++)
+        {
+            for(var j = 0; j < Y[i].length; j++)
+            {
+                c+=1;
+                if(id == c)
+                {
+                    str += 'Вход:'+ '\n'+ Y[i-1] + '\n';
+                }
+            }
+        }
+        str += 'Выход:'+'\n'+AllYLastIter[id]+'\n';
+        str += 'Веса:' + '\n' + W[id];
+        alert(str);
     }
 
 
