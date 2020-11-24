@@ -972,7 +972,7 @@ var GrafikNeuron = function(i,canvas,b)
 
         var width = 800;
         var height = 500;
-        Byid('DIV_StrukturaSVG').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "'+width+'" height = "'+height+'" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg"></svg>';
+        Byid('DIV_StrukturaSVG').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "'+width+'" height = "'+height+'" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg"></svg>';
         var Holst = Byid('StrukturaSVG');
 
         var VhodnoiSLOI =Vhod;
