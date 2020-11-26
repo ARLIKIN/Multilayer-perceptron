@@ -1068,10 +1068,8 @@ var GrafikNeuron = function(i,canvas,b)
 
     var RectOnclik =function(id)
     {
-        var Rid = 1=id;
-
         alert(
-            'Вход №'+ Rid + '\n'+
+            'Вход №'+ id + '\n'+
             X[id]
             );
     }
