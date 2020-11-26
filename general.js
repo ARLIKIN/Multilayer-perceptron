@@ -966,9 +966,9 @@ var GrafikNeuron = function(i,canvas,b)
             {
                 return '<text x="'+x+'" y="'+y+'" class="'+clas+'">'+text+'</text>'
             }
-        var Rect = function(x,y,W,H,color)
+        var Rect = function(x,y,W,H,color,id)
             {
-                return '<rect fill = "'+color+'" x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'"/>'
+                return '<rect onclick="RectOnclik(\''+id+'\')" id ="R'+id+'" fill = "'+color+'" x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'"/>'
             }        
 
 
@@ -983,7 +983,7 @@ var GrafikNeuron = function(i,canvas,b)
         var HidenSLOI = Hide;
         var VihodnoiSLOI = Vihod;
 
-        var SLOI = [X.length-1];    
+        var SLOI = [X.length];    
              SLOI[1] = VhodnoiSLOI;
 
         for(var i = 0; i < HidenSLOI.length; i++)
@@ -995,6 +995,8 @@ var GrafikNeuron = function(i,canvas,b)
 
         var color;
         var c = 0
+        var n = 1;
+        var v = 0;
         for(var i = 0; i < SLOI.length; i++)
         {
             color = '#3ea14a'
@@ -1008,16 +1010,18 @@ var GrafikNeuron = function(i,canvas,b)
                 for(var j = 0; j < SLOI[i]; j++,c++)
                 {
                 Holst.innerHTML +=Circle(i*(800/SLOI.length-1)+30,j*(500/SLOI[i])+((500/SLOI[i])/3)+20,25,color,c)
-                Holst.innerHTML +=Line(i*(800/SLOI.length-1)+30,j*(500/SLOI[i])+((500/SLOI[i])/3)+20,(i*(800/SLOI.length-1)+30)+100,j*(500/SLOI[i])+((500/SLOI[i])/3)+20,color)
+                Holst.innerHTML +=Line(i*(800/SLOI.length-1)+30,j*(500/SLOI[i])+((500/SLOI[i])/3)+20,(i*(800/SLOI.length-1)+30)+100,j*(500/SLOI[i])+((500/SLOI[i])/3)+20,color);
+                n = j+1
+                Holst.innerHTML += Text('Y'+n,(i*(800/SLOI.length-1)+30)+100,j*(500/SLOI[i])+((500/SLOI[i])/3)+25,'heavy')
                 }
                 continue;
             }
             if(i == 0)
             {
                 color = 'black'
-                for(var j = 0; j < SLOI[i]; j++)
+                for(var j = 0; j < SLOI[i]; j++,v++)
                 {
-                    Holst.innerHTML +=Rect(i*(800/SLOI.length-1)+35,j*(500/SLOI[i])+((500/SLOI[i])/3)+10,20,20,color)
+                    Holst.innerHTML +=Rect(i*(800/SLOI.length-1)+35,j*(500/SLOI[i])+((500/SLOI[i])/3)+10,20,20,color,v)
                 }
                 continue;
             }
@@ -1058,6 +1062,18 @@ var GrafikNeuron = function(i,canvas,b)
 
 
 
+    }
+
+
+
+    var RectOnclik =function(id)
+    {
+        var Rid = 1=id;
+
+        alert(
+            'Вход №'+ Rid + '\n'+
+            X[id]
+            );
     }
 
     var CircleOnclik = function(id)
