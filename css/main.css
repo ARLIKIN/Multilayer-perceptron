@@ -96,3 +96,34 @@ body
     margin-bottom: 5px;
 }
 
+.mal
+{
+    font-size: 20px;
+}
+
+.TextNeuron
+{
+    font-size: 16px;
+}
+
+.TextX
+{
+    font-size: 15px;
+    fill: #ffffff
+}
+
+.Circle:hover
+{
+    fill: #e7d212;
+    
+}
+
+.RectText
+{
+    fill: white;
+}
+
+.RectText:hover
+{
+    fill: rgb(255, 81, 0);
+}
