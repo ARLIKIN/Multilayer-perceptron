@@ -10,6 +10,7 @@
     var Y = {};
     var W = {};
     var d = [];
+    var XD = [];
     var learningRate;
     var erro = 0;
     var KolYInput;
@@ -27,9 +28,70 @@
     var Bool = true;
     var AllYLastsloi;
     var AllYLastIter;
+    var Xflag = false;
+    var SystemClass;
+    var CSK = 0;
+    var MX = [];
+    var MD = [];
+    var CSK = 0;
+    var LMX = [];
 
     
+function showFile(input) 
+{
+    let file = input.files[0];
+    let reader = new FileReader();
+    reader.readAsText(file);
+    
+    
+    reader.onload = function()
+        {
+            alert('Началось чтение файла' + '\n'+ 'пожалуйста подождите');
+            Byid('XInput').disabled = true;
+            Byid('dInput').disabled = true;
+            Xflag = true;
 
+            XD = reader.result.split('&'); // получаем входные данные из файла и формируем из них массив
+            XD.pop();
+
+            for(var i = 0; i < XD.length; i++)//отдедяем ожидания от образцов
+            {
+                if((i + 1) % 2 != 0)
+                    {
+                        MD.push(XD[i]);  
+                    }else
+                    {
+                        MX.push(XD[i]);
+                    }
+            }
+
+            d = MD[CSK].split(',');
+            LMX = MX[CSK].split(';');
+            LMX.pop();
+
+            X = LMX[0].split(',');
+
+            for(var i = 0; i < d.length; i++)
+            {
+                d[i] = +d[i]//ожидания
+            }
+
+            for(var i = 0; i < X.length; i++)
+            {
+                X[i] = +X[i]//вход
+            }
+
+            KolYOutput = d.length;
+            KolX = X.length
+            alert('Файл прочитан')
+        }
+
+    
+    reader.onerror = function() 
+        {
+            console.log(reader.error);
+        };
+}
 
 
 
@@ -52,10 +114,80 @@ function Neuron(X,m)
 }
 
 // >
-
-
   Byid('button').onclick = function()
   {
+    a;
+    it;
+    OutputSloi;
+    //X = [];
+    Y = {};
+    W = {};
+    //d = [];
+    learningRate;
+    erro = 0;
+    KolYInput;
+    KolYHidensloi=[];
+    KolYOutput;
+    counter = 0;
+    error = 0;
+    err = [];
+    hob =0
+    counterKorrekt = 0;
+    errors = '';
+    Windex = [];
+    AllError = {};
+    Bool = true;
+    AllYLastsloi = {};
+    AllYLastIter = [];
+
+    var XC =0;
+
+    SystemClass = function()
+    {
+        if(XC != LMX.length-1)
+        {
+            XC +=1; 
+            X = LMX[XC].split(',');
+
+            for(var i = 0; i < X.length; i++)
+            {
+                X[i] = +X[i]//вход
+            }
+            tic = 0
+            return false;
+        }else
+        {
+            CSK +=1;
+            XC = 0;
+            if(CSK >= MD.length)
+            {
+                return true
+            }
+            
+            d = MD[CSK].split(',');
+            LMX = MX[CSK].split(';');
+            if(LMX >1)
+            LMX.pop();
+
+            X = LMX[XC].split(',');
+
+            for(var i = 0; i < d.length; i++)
+            {
+                d[i] = +d[i]//ожидания
+            }
+
+            for(var i = 0; i < X.length; i++)
+            {
+                X[i] = +X[i]//вход
+            }
+            tic = 0
+            return false;
+
+        }
+       
+
+    }
+
       tic = 0;
     Byid('dowland').textContent = 'Подождите пока нейросеть обучится';
 
@@ -80,30 +212,7 @@ function Neuron(X,m)
         }
     
 
-    a;
-    it;
-    OutputSloi;
-    X = [];
-    Y = {};
-    W = {};
-    d = [];
-    learningRate;
-    erro = 0;
-    KolYInput;
-    KolYHidensloi=[];
-    KolYOutput;
-    counter = 0;
-    error = 0;
-    err = [];
-    hob =0
-    counterKorrekt = 0;
-    errors = '';
-    Windex = [];
-    AllError = {};
-    Bool = true;
-    AllYLastsloi = {};
-    AllYLastIter = [];
-
+    
     
     function getRandomArbitrary(min, max)
         {
@@ -115,12 +224,26 @@ function Neuron(X,m)
     learningRate  = Byid('learningRateInput').value;
     document.getElementsByClassName('resultat').hidden = true;
     
-    X = Byid('XInput').value.split(',');
-    for(var i =0; i < X.length; i++)
-    {
-        X[i] = +X[i];
-    }
-    KolX = X.length
+
+        if(Xflag != true)
+        {
+            X = Byid('XInput').value.split(',');
+                for(var i =0; i < X.length; i++)
+                {
+                  X[i] = +X[i];
+                }
+                KolX = X.length
+
+            d = Byid('dInput').value.split(',');
+                KolYOutput = d.length;
+                for(var i = 0; i < d.length; i++)
+                {
+                    d[i] = +d[i];
+                }
+        }
+
+
+    
 
     KolYInput = +Byid('OneSloi').value;
 
@@ -130,13 +253,6 @@ function Neuron(X,m)
         KolYHidensloi[i] = +KolYHidensloi[i];
     }
 
-    d = Byid('dInput').value.split(',');
-    KolYOutput = d.length;
-    for(var i = 0; i < d.length; i++)
-    {
-        d[i] = +d[i];
-    }
-    
     d.reverse(); 
 
     Byid('mashtab').innerHTML = ''; 
@@ -602,7 +718,10 @@ InputSloi = function() // Выходной слой
     
         while(Bool)
             {
-                if(tic >= it){break}
+                if(tic >= it)
+                {
+                    if(SystemClass()){break;}
+                }
                 for(var i = 0; i < d.length; i++)
                 {
                     if(+Y[Ylength-1][i].toFixed(1) != +d[i].toFixed(1))
