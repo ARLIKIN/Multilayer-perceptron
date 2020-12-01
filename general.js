@@ -111,7 +111,7 @@ function Neuron(X,m)
    //Суматор(X1*W1 + X2*W2...Xn*Wn)
     for(var i = 0 ; i < X.length; i++)
        {
-           u += X[i] + W[m][i+1];
+           u += X[i] * W[m][i+1];
        }
    //функция активации(Сигмоидальная унополярная)
     y =1/(1+Math.exp(-a*u));
@@ -224,7 +224,7 @@ function Neuron(X,m)
         return Math.random() * (max - min) + min;
         }
       
-    a = document.getElementById(id="aInput").value;
+    a = parseFloat(document.getElementById(id="aInput").value);
     it =  parseInt(Byid('iterInput').value);
     learningRate  = Byid('learningRateInput').value;
     document.getElementsByClassName('resultat').hidden = true;

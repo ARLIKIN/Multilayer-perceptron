@@ -98,5 +98,6 @@ Byid('RuchVod').onclick = function()
 
     str = Byid('XInput').value;
     alert(str)
+    alert(0.9999813443654153-0.999967598336989);
 }
   
