@@ -81,4 +81,22 @@ function showFile(input) {
     console.log(LMX.length);
     hy +=2;
   }
+
+
+  Byid('XInput').style.width = '100px';
+  Byid('XInput').style.height = '15px';
+  Byid('XInput').onclick = function()
+  {
+      this.style.height = '300px';
+  }
+
+
+
+Byid('RuchVod').onclick = function()
+{
+    var str = '';
+
+    str = Byid('XInput').value;
+    alert(str)
+}
   

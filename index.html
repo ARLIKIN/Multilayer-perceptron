@@ -24,16 +24,17 @@
                 <input id="learningRateInput" type="text" size="10" value="0.003">
             </p>
             <p>Входные данные:
-                <textarea id="XInput" cols="30" rows="30"></textarea>
                 <input type="file" onchange="showFile(this)">
             </p>
+            <p>Ручной ввод:</p>
+            <textarea id="XInput" style="width: 100px; height: 15px;"></textarea>
             <p>Входной слой:
                 <input type="text" id="OneSloi" size="30" value="2">
             </p>
             <p>Скрытые слои:
                 <input type="text" id="HidenSloi" size="30" value="6,6">
             </p>
-            <p>Ожидаемые значения:
+            <p hidden>Ожидаемые значения:
                 <input type="text" id="dInput" size="30" value="0,0">
             </p>
             <p>Графики ошибок:

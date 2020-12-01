@@ -47,13 +47,13 @@ function showFile(input)
     reader.onload = function()
         {
             alert('Началось чтение файла' + '\n'+ 'пожалуйста подождите');
-            Byid('XInput').disabled = true;
             Byid('dInput').disabled = true;
             Xflag = true;
 
             XD = reader.result.split('&'); // получаем входные данные из файла и формируем из них массив
             XD.pop();
-
+            Byid('XInput').value = reader.result;
+            Byid('XInput').style.height = '300px';
             for(var i = 0; i < XD.length; i++)//отдедяем ожидания от образцов
             {
                 if((i + 1) % 2 != 0)
@@ -94,6 +94,11 @@ function showFile(input)
 }
 
 
+
+Byid('XInput').onclick = function()
+  {
+      this.style.height = '300px';
+  }
 
 
 //Нейрон <
@@ -166,7 +171,7 @@ function Neuron(X,m)
             
             d = MD[CSK].split(',');
             LMX = MX[CSK].split(';');
-            if(LMX >1)
+            if(LMX.length>1)
             LMX.pop();
 
             X = LMX[XC].split(',');
@@ -227,20 +232,46 @@ function Neuron(X,m)
 
         if(Xflag != true)
         {
-            X = Byid('XInput').value.split(',');
-                for(var i =0; i < X.length; i++)
-                {
-                  X[i] = +X[i];
-                }
-                KolX = X.length
+            if(Byid('XInput').value.length == 0)
+            {
+                Byid('XInput').value = '1,1'+'\n'+'&'+'\n'+'0,1,0,1,0;'+'\n'+'&';
+            }
 
-            d = Byid('dInput').value.split(',');
-                KolYOutput = d.length;
-                for(var i = 0; i < d.length; i++)
-                {
-                    d[i] = +d[i];
-                }
+            XD = Byid('XInput').value.split('&'); // получаем входные данные из файла и формируем из них массив
+            XD.pop();
+
+            for(var i = 0; i < XD.length; i++)//отдедяем ожидания от образцов
+            {
+                if((i + 1) % 2 != 0)
+                    {
+                        MD.push(XD[i]);  
+                    }else
+                    {
+                        MX.push(XD[i]);
+                    }
+            }
+
+            d = MD[CSK].split(',');
+            LMX = MX[CSK].split(';');
+            LMX.pop();
+
+            X = LMX[0].split(',');
+
+            for(var i = 0; i < d.length; i++)
+            {
+                d[i] = +d[i]//ожидания
+            }
+
+            for(var i = 0; i < X.length; i++)
+            {
+                X[i] = +X[i]//вход
+            }
+
+            KolYOutput = d.length;
+            KolX = X.length
         }
+
+        Xflag = false;
 
 
     
