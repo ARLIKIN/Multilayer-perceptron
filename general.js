@@ -411,7 +411,7 @@ InputSloi = function() // Выходной слой
                             W[err[i]][p] += Multiplier(Y[o][0],error,i); 
                         }else
                         {
-                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[o-1][p-1]; // здесь ошибка
+                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[ o-1][p-1]; // здесь ошибка
                         }
                        
                     }
@@ -450,7 +450,7 @@ InputSloi = function() // Выходной слой
 
         for(var j = Index.length-1; j >=Index.length-Y[countSloi].length; j--, h++)
             {
-                ERORW.unshift(W[Index[j]][W[Index[j]].length-1 - hob] + error[l-1 - h]);
+                ERORW.unshift(W[Index[j]][W[Index[j]].length-1 - hob] + error[l-1 - h]); // ошибка неправельная должна быть 1 а она 0
             }   
 
             for(var j = 0; j < ERORW.length; j++)
