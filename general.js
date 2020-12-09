@@ -464,7 +464,7 @@ InputSloi = function() // Выходной слой
 
     var Minus = function(input,nm)
     {
-        var err = d[nm] - input[nm];
+        var err = d[nm]-input[nm];
         return err
     }
 
