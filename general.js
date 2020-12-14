@@ -678,8 +678,13 @@ InputSloi = function() // Выходной слой
             {
                 b = parseInt(tic*0.001)
             }
-
+            if(b > 100)
+            {
             GrafALL(b);
+            }if(b <=100)
+            {
+                //График ошибок для b <= 100 
+            }
         }
 
         if(Byid('checkGrafikNeuron').checked)
@@ -701,8 +706,10 @@ InputSloi = function() // Выходной слой
             {
                 b = parseInt(tic*0.001)
             }
-
-            GrafLastSloi(b);
+            if(b <= 100)
+            {
+                GrafLastSloi(b);
+            }
         }
 
 
