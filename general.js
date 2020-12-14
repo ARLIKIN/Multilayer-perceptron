@@ -395,10 +395,12 @@ InputSloi = function() // Выходной слой
         var kolNSloi = 0;
         var errLeng = error.length;
         mob = Y[o].length;
+        var yp = 0;
         for(var i = err.length-1; i >= 0; i--)
         {
                 
                 error[i] = KorrektError(error,i,hob,countSloi,kolNSloi,errLeng);
+                if(tic != 0){yp = AllError[tic-1][i]};
                 hob++
                 for(var p = W[err[i]].length-1; p >= 0; p--)
                     {
@@ -411,7 +413,7 @@ InputSloi = function() // Выходной слой
                             W[err[i]][p] += Multiplier(Y[o][0],error,i); 
                         }else
                         {
-                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[ o-1][p-1]; // здесь ошибка
+                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[ o-1][p-1]+(a*yp); // здесь ошибка
                         }
                        
                     }
@@ -678,10 +680,11 @@ InputSloi = function() // Выходной слой
             {
                 b = parseInt(tic*0.001)
             }
-            if(b > 100)
+            if(tic > 100)
             {
             GrafALL(b);
-            }if(b <=100)
+            }
+            if(tic <=100)
             {
                 GrafALL100(b) //График ошибок для b <= 100 
             }
@@ -1098,7 +1101,7 @@ var GrafLastSloi = function(b)
     }
     Byid('canvasNeuron').innerHTML = CanvaLastSloiSTR;
     
-    if(b > 100)
+    if(tic > 100)
     {
         for(var i =0; i < Y[Ylength-1].length; i++)
         {
@@ -1106,7 +1109,7 @@ var GrafLastSloi = function(b)
             OsiNeuron(i,canvas)
             GrafikNeuron(i,canvas,b)
         }
-    }if(b <=100)
+    }if(tic <=100)
     {
         for(var i =0; i < Y[Ylength-1].length; i++)
         {
