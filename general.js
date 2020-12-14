@@ -960,57 +960,57 @@ var GrafALL100 = function(b)
     {
         canvas = Byid('canva'+i);
 
-        if(Math.abs(AllError[0][i]) >100)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) >100)
         {
             Osi(i,canvas,10,0)
             Grafik100(i,canvas,0.01,b)
         }
-        if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <100)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) >1 && Math.abs(AllError[0][i]) <100)
         {
             Osi(i,canvas,1,0)
             Grafik100(i,canvas,0.1,b)
         }
-        if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <10)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) >1 && Math.abs(AllError[0][i]) <10)
         {
             Osi(i,canvas,0.1,0)
             Grafik100(i,canvas,1,b)
         }
-        if(Math.abs(AllError[0][i]) < 1 && Math.abs(AllError[0][i]) >=0.1)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) < 1 && Math.abs(AllError[0][i]) >=0.1)
         {
             Osi(i,canvas,0.01,1)
             Grafik100(i,canvas,10,b)
         }
-        if(Math.abs(AllError[0][i])<0.1 && Math.abs(AllError[0][i]) > 0.01)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i])<0.1 && Math.abs(AllError[0][i]) > 0.01)
         {
             Osi(i,canvas,0.001,2)
             Grafik100(i,canvas,100,b)
         }
-        if(Math.abs(AllError[0][i]) < 0.01 && Math.abs(AllError[0][i]) >=0.001)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) < 0.01 && Math.abs(AllError[0][i]) >=0.001)
         {
             Osi(i,canvas,0.0001,3)
             Grafik100(i,canvas,1000,b)
         }
-        if(Math.abs(AllError[0][i])<0.001 && Math.abs(AllError[0][i]) >= 0.0001)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i])<0.001 && Math.abs(AllError[0][i]) >= 0.0001)
         {
             Osi(i,canvas,0.00001,4)
             Grafik100(i,canvas,10000,b)
         }
-        if(Math.abs(AllError[0][i])<0.0001 && Math.abs(AllError[0][i]) >=0.00001)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i])<0.0001 && Math.abs(AllError[0][i]) >=0.00001)
         {
             Osi(i,canvas,0.000001,5)
             Grafik100(i,canvas,100000,b)
         }
-        if(Math.abs(AllError[0][i]) <0.00001 && Math.abs(AllError[0][i]) >=0.000001)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) <0.00001 && Math.abs(AllError[0][i]) >=0.000001)
         {
             Osi(i,canvas,0.0000001,6)
             Grafik100(i,canvas,1000000,b)
         }
-        if(Math.abs(AllError[0][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.0000001)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.0000001)
         {
             Osi(i,canvas,0.00000001,7)
             Grafik100(i,canvas,10000000,b)
         }
-        if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.00000001)
+        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.00000001)
         {
             Osi(i,canvas,0.00000001,8)
             Grafik100(i,canvas,10000000,b)
@@ -1035,6 +1035,11 @@ var Grafik100 = function(i,canvas,mn,b)
                 
                 h+=parseInt((1000 / b).toFixed(0));
         }
+        ctx.stroke();
+
+        ctx.setLineDash([8, 3]);
+        ctx.moveTo(h-parseInt((1000/b).toFixed(0)),500-(AllError[Object.keys(AllError).length-1][i]*mn*50))
+        ctx.lineTo(0,500-(AllError[Object.keys(AllError).length-1][i]*mn*50));
         ctx.stroke();
 }
 
@@ -1210,6 +1215,12 @@ var GrafikNeuron100 = function(i,canvas,b)
             
         }
         ctx.stroke();
+
+        ctx.setLineDash([8, 3]);
+        ctx.moveTo(h-parseInt((1000/b).toFixed(0)),1000-(AllYLastsloi[Object.keys(AllYLastsloi).length-1][i])*1000);
+        ctx.lineTo(0,1000-(AllYLastsloi[Object.keys(AllYLastsloi).length-1][i])*1000);
+        ctx.stroke();
+        
     }      
 
     //Структура сети
