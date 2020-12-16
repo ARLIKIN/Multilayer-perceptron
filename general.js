@@ -406,14 +406,14 @@ InputSloi = function() // Выходной слой
                     {
                         if(i <=KolYInput-1)
                         {
-                            if (p == 0){W[err[i]][p] += Multiplier(Y[o][0],error,i); continue}
-                            W[i][p] += Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
+                            if (p == 0){W[err[i]][p] += -1*Multiplier(Y[o][0],error,i); continue}
+                            W[i][p] += -1*Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
-                            W[err[i]][p] += Multiplier(Y[o][0],error,i); 
+                            W[err[i]][p] +=-1*Multiplier(Y[o][0],error,i); 
                         }else
                         {
-                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[ o-1][p-1]+(a*yp); // здесь ошибка
+                            W[err[i]][p] += -1*(Multiplier(Y[o][mob-1],error,i)) * learningRate * Y[ o-1][p-1]+(a*yp); // здесь ошибка
                         }
                        
                     }
