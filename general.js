@@ -346,6 +346,7 @@ HidenSloi = function(nm) // Скрытый слой
         Wlength = Object.keys(W).length; //
         var KolV; 
 
+        if(KolYHidensloi[0] == 0){return}
         Y[Ylength] = []; 
         if (KolYHidensloi <=0) KolYHidensloi[nm-1] = 1;
             KolV = KolYHidensloi[nm-1];
@@ -388,7 +389,7 @@ InputSloi = function() // Выходной слой
         var mob;
         var KOlYhidesl = KolYHidensloi;
         KOlYhidesl.unshift(KolYInput);
-        var o = KOlYhidesl.length-1;
+        var o = KOlYhidesl.length;
         var hob =0;
         var countSloi = KolSLOI + 1;
         var itoger= []
@@ -406,14 +407,14 @@ InputSloi = function() // Выходной слой
                     {
                         if(i <=KolYInput-1)
                         {
-                            if (p == 0){W[err[i]][p] += -1*Multiplier(Y[o][0],error,i); continue}
-                            W[i][p] += -1*Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
+                            if (p == 0){W[err[i]][p] += Multiplier(Y[o][0],error,i); continue}
+                            W[i][p] += Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
-                            W[err[i]][p] +=-1*Multiplier(Y[o][0],error,i); 
+                            W[err[i]][p] +=Multiplier(Y[o][0],error,i); 
                         }else
                         {
-                            W[err[i]][p] += -1*(Multiplier(Y[o][mob-1],error,i)) * learningRate * Y[ o-1][p-1]+(a*yp); // здесь ошибка
+                            W[err[i]][p] += (Multiplier(Y[o][mob-1],error,i)) * learningRate * Y[ o-1][p-1]+(a*yp); // здесь ошибка
                         }
                        
                     }
@@ -516,6 +517,15 @@ InputSloi = function() // Выходной слой
         
 
         KorrektHiddenSloi(Windex);
+
+
+        // Коррекция весов выходного слоя 
+
+        var KorrektInputsloi = function()
+        {
+
+        }
+            KorrektInputsloi();
 
         
 
