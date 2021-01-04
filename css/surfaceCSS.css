@@ -1,0 +1,33 @@
+body
+{
+    padding: 0;
+    margin: 0;
+    size: 16px;
+    background-color:wheat;
+    color: black;
+}
+.header
+{
+    display: flex;
+}
+.r1
+{
+    text-align: center;
+}
+
+.back
+{
+    margin: 0;
+    padding: 15px 0;
+}
+
+.aback
+{
+    text-decoration: none;
+    color: black;
+}
+
+.aback:hover
+{
+    color: green;
+}

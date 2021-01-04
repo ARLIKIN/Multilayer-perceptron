@@ -11,6 +11,22 @@ body
 {
     display: flex;
 }
+.Poverhnost
+{
+    margin: 0;
+    padding: 15px 0;
+}
+
+.APoverhnost
+{
+    text-decoration: none;
+    color: black;
+}
+
+.APoverhnost:hover
+{
+    color: green;
+}
 
 #Raspoznovanie
 {

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/surfaceCSS.css">
+    <title>3D Поверхность</title>
+</head>
+<body>
+    <div class="back">
+        <a class="aback" href="index.html">Назад</a>
+    </div>
+    <h1 class="r1">3D Поверхность</h1>
+    <div class="header">
+        
+        <div id="Param">
+            <h4 id="Param_H">Обучение</h4>
+            <p>Коэфицент a: 
+                <input id="aInput" type="text" size="10" value="0.8">
+            </p>
+
+            <p>Количество итераций:
+                <input id="iterInput" type="text" size="10" value="50">
+            </p>
+
+            <p>Скорость обучения:
+                <input id="learningRateInput" type="text" size="10" value="0.5">
+            </p>
+            <p>Входные данные:
+                <input type="file" onchange="showFile(this)">
+            </p>
+            <p>Ручной ввод:</p>
+            <textarea id="XInput" style="width: 100px; height: 15px;"></textarea>
+            <div id="btn">
+                <button id="button">Обучить</button>
+            </div>
+        <script src="js/surface.js"></script>
+</body>
+</html>
