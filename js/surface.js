@@ -358,4 +358,5 @@
         console.log(WAll);
         console.log(AllError);
         console.log(YAll);
+        console.log(X);
     }
