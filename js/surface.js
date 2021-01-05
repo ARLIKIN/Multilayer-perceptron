@@ -25,6 +25,7 @@
     var YAll;
     var Bool;
     var XC;
+    var CSK;
 
 
 
@@ -134,6 +135,7 @@
         YAll = {};
         Bool = true
         XC = 0;
+        CSK = 0;
 
 
 
@@ -190,7 +192,7 @@
          {
              if(Byid('XInput').value.length == 0)
              {
-                Byid('XInput').value = '1'+'\n'+'&'+'\n'+'0,1;'+'\n'+'&';
+                Byid('XInput').value = '1'+'\n'+'&'+'\n'+'0,1;'+'\n'+'1,0;'+'\n'+'&';
              }
 
              XD = Byid('XInput').value.split('&');
@@ -290,7 +292,7 @@
             var Multiplier = function(y,err,i)
             {
                 var result;
-                result = ((1-y)*y)*a*err[i];//Нужно ли здесь a??
+                result = ((1-y)*y)*err[i];//Нужно ли здесь a??
                 return result; 
             }
             
@@ -323,13 +325,16 @@
             {
                 Y[0][i] = Neuron(X,i)
             }
-
-            console.log(Y);
-            console.log(W);
-
         }
 
-        while(Bool)
+         //Start
+         GeneralSloi(X);
+
+         console.log(Y);
+ 
+         KorrektGeneralSloi();
+         
+         while(Bool)
         {
             if(tic >= it)
                 {
@@ -350,19 +355,7 @@
                 /*}else{break}*/
         }
 
-
-
-
-         //Start
-         GeneralSloi(X);
-
-         console.log(Y);
- 
-         KorrektGeneralSloi();
-         console.log(WAll);
-         console.log(AllError)
-         console.log(YAll);
-        
-
-
+        console.log(WAll);
+        console.log(AllError);
+        console.log(YAll);
     }
