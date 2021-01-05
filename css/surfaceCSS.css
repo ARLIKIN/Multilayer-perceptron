@@ -31,3 +31,30 @@ body
 {
     color: green;
 }
+
+/*Результат*/
+.GeneralTEXT
+{
+    text-align: center;
+}
+
+#result
+{
+    margin-top: 20px;
+}
+
+.r1
+{
+    text-align: center;
+}
+
+.InfoItog
+{
+    display: flex;
+    justify-content: center;
+}
+.InfoItogP
+{
+    margin-right: 15px;
+    text-align: center;
+}

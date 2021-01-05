@@ -10,7 +10,7 @@
     var MD = [];
     var MX = [];
     var LMX = [];
-    var Xflag;
+    var Xflag = false;
     var d = [];
     var X = [];
     var KolYOutput;
@@ -25,7 +25,15 @@
     var YAll;
     var Bool;
     var XC;
-    var CSK;
+    var CSK=0;
+    var GlWAll = {};
+    var GlYAll = {};
+    var GAllError = {};
+    var Sravn;
+    var dAll;
+    var RD;
+    var RX;
+
 
 
 
@@ -126,8 +134,6 @@
         Y = {};
         W = {};
         tic = 0;
-        MX = [];
-        MD = [];
         ErrorY = [];
         err = [];
         AllError = {};
@@ -136,15 +142,37 @@
         Bool = true
         XC = 0;
         CSK = 0;
+        GlWAll[0] = [];
+        GlYAll[0] = [];
+        GAllError[0] = [];
+        Sravn = [];
+        dAll = [];
+        RD = [];
+        RX = [];
 
 
 
 
          SystemClass = function()
          {
+            GAllError[0].push(JSON.parse(JSON.stringify(AllError)));
+            GlWAll[0].push(JSON.parse(JSON.stringify(WAll)));
+            GlYAll[0].push(JSON.parse(JSON.stringify(YAll)));
+            if(YAll[Object.keys(YAll).length-1][0] >0.5 && d[0] == 1){Sravn.push(true)}
+            else if(YAll[Object.keys(YAll).length-1][0] <0.5 && d[0] == 0){Sravn.push(true);}
+            else{Sravn.push(false)};
+            RD.push(d);
+            var itogX= '';
+            for(var i = 0; i <X.length; i++)
+            {
+                itogX += X[i] + ' ';
+            }
+            RX.push(itogX);
+            dAll.push(d[0]);
             if(XC != LMX.length-1)
         {
             XC +=1; 
+            
             X = LMX[XC].split(',');
 
             for(var i = 0; i < X.length; i++)
@@ -156,6 +184,10 @@
         }else
         {
             CSK +=1;
+            /*GAllError[0].push(JSON.parse(JSON.stringify(AllError)));
+            GlWAll[0].push(JSON.parse(JSON.stringify(WAll)));
+            GlYAll[0].push(JSON.parse(JSON.stringify(YAll)));
+            */
             XC = 0;
             if(CSK >= MD.length)
             {
@@ -228,8 +260,9 @@
              KolYOutput = d.length;
              KolX = X.length;
          }
-
          Xflag = false;
+
+         //
          KolYInput = 1;
          //d.reverse();
 
@@ -327,6 +360,35 @@
             }
         }
 
+    var Rezultat = function()
+    {
+        Byid('RezultatH1').hidden = false;
+        var itog = '';
+        var ii= 0;
+        for(var i=0; i < Sravn.length; i++)
+        {
+            if(Sravn[i])
+            {
+                ii +=1; 
+            } 
+        }
+        if (ii = Sravn.length) 
+        {
+            Byid('itog').textContent = "Нейрон прошел обучение"
+            Byid('itog').style.color = 'green';
+        }else
+        {
+            Byid('itog').textContent ="Нейрон не прошел обучение"
+            Byid('itog').style.color = 'red';
+        }
+        //Byid('itog').textContent += Sravn;
+        Byid('InfoItog').innerHTML = '';
+        for(var i =0; i < Sravn.length; i++)
+        {
+            Byid('InfoItog').innerHTML += '<p class="InfoItogP">'+ ' '+ RX[i] + '</br>' + GlYAll[0][i][it-1][0].toFixed(4) + '</br>' + '</p>'; 
+        }
+    }    
+
          //Start
          GeneralSloi(X);
 
@@ -359,4 +421,10 @@
         console.log(AllError);
         console.log(YAll);
         console.log(X);
+
+        console.log('Самое интересное');
+        console.log(GlWAll);
+        console.log(GAllError);
+        console.log(GlYAll);
+        Rezultat();
     }
