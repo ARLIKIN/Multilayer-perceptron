@@ -230,6 +230,8 @@
              XD = Byid('XInput').value.split('&');
              XD.pop();
 
+             MX = [];
+             MD = [];
              for(var i = 0; i < XD.length; i++)
              {
                  if((i + 1)%2 !=0)
@@ -385,7 +387,7 @@
         Byid('InfoItog').innerHTML = '';
         for(var i =0; i < Sravn.length; i++)
         {
-            Byid('InfoItog').innerHTML += '<p class="InfoItogP">'+ ' '+ RX[i] + '</br>' + GlYAll[0][i][it-1][0].toFixed(4) + '</br>' + '</p>'; 
+            Byid('InfoItog').innerHTML += '<p class="InfoItogP">'+ 'X:'+ RX[i] + '</br>' +'Y:'+GlYAll[0][i][it-1][0].toFixed(4) + '</br>' + '</p>'; 
         }
     }    
 
