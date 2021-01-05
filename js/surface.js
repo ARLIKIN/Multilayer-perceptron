@@ -365,6 +365,7 @@
     var Rezultat = function()
     {
         Byid('RezultatH1').hidden = false;
+        Byid('StruktH').hidden = false;
         var itog = '';
         var ii= 0;
         for(var i=0; i < Sravn.length; i++)
@@ -389,7 +390,15 @@
         {
             Byid('InfoItog').innerHTML += '<p class="InfoItogP">'+ 'X:'+ RX[i] + '</br>' +'Y:'+GlYAll[0][i][it-1][0].toFixed(4) + '</br>' + '</p>'; 
         }
-    }    
+    }   
+    
+    var Struktura = function()
+        {
+            var width = 800;
+            var height = 500;
+            Byid('Struktura').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "'+width+'" height = "'+height+'" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg"></svg>';
+            var Holst = Byid('StrukturaSVG');
+        }
 
          //Start
          GeneralSloi(X);
@@ -418,6 +427,8 @@
                     tic+=1;
                 /*}else{break}*/
         }
+
+        //Структура
 
         console.log(WAll);
         console.log(AllError);
