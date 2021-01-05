@@ -59,7 +59,13 @@ body
     text-align: center;
 }
 /*Структура*/
+#Struktura
+{
+    display: flex;
+    justify-content: center;
+}
+
 #StrukturaSVG
 {
-    background-color: aquamarine;
+    background-color: white;
 }
