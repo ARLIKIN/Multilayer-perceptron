@@ -33,6 +33,7 @@
     var dAll;
     var RD;
     var RX;
+    var Koordinat;
 
 
 
@@ -149,7 +150,10 @@
         dAll = [];
         RD = [];
         RX = [];
-
+        if(!Byid('DivKoordinat').hidden)
+        {
+            Byid('DivKoordinat').hidden = true;
+        }
 
 
 
@@ -169,6 +173,7 @@
             }
             RX.push(itogX);
             dAll.push(d[0]);
+            
             if(XC != LMX.length-1)
         {
             XC +=1; 
@@ -289,7 +294,7 @@
                     W[i] = [];
                     for(var j = 0; j < KolX+1;j++)
                     {
-                        if(j == 0){W[i][j] = 1; continue;}
+                        if(j == 0){W[i][j] = 0; continue;}
                         W[i][j] = getRandomArbitrary(-1,1);
                     }
                 }   
@@ -337,9 +342,8 @@
                 if(tic != 0){yp = AllError[tic-1][Num]} 
                 for(var i = 0; i < W[Num].length; i++)
                 {
-                    if(i == 0)
-                    {W[Num][i] += err *learningRate+(a*yp); continue;}
-                    if(i == 1){W[Num][i] += err *learningRate+(a*yp); continue;}
+                    if(i == 0){continue;}
+                    //if(i == 1){W[Num][i] += err *learningRate+(a*yp); continue;}
                     W[Num][i] += err * learningRate*X[i-1] +(a*yp);
                 }
             }
@@ -365,7 +369,6 @@
     var Rezultat = function()
     {
         Byid('RezultatH1').hidden = false;
-        Byid('StruktH').hidden = false;
         var itog = '';
         var ii= 0;
         for(var i=0; i < Sravn.length; i++)
@@ -390,16 +393,18 @@
         {
             Byid('InfoItog').innerHTML += '<p class="InfoItogP">'+ 'X:'+ RX[i] + '</br>' +'Y:'+GlYAll[0][i][it-1][0].toFixed(4) + '</br>' + '</p>'; 
         }
-    }   
-    
-    var Struktura = function()
+        Koordinat ='';
+        for(var j = 0; j < GlWAll[0].length; j++)
         {
-            var width = 800;
-            var height = 500;
-            Byid('Struktura').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "'+width+'" height = "'+height+'" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg"></svg>';
-            var Holst = Byid('StrukturaSVG');
-        }
-
+            for(var i = 0; i < tic; i++)
+            {
+            Koordinat += GlWAll[0][j][i][1] + ',' + GAllError[0][j][i][0] + ',' + GlWAll[0][j][i][2] + '\n';
+            }
+        }    
+        Byid('DivKoordinat').hidden = false;
+        console.log(Koordinat);
+        
+    }   
          //Start
          GeneralSloi(X);
 
@@ -427,9 +432,6 @@
                     tic+=1;
                 /*}else{break}*/
         }
-
-        //Структура
-        Struktura();
         console.log(WAll);
         console.log(AllError);
         console.log(YAll);
@@ -441,3 +443,101 @@
         console.log(GlYAll);
         Rezultat();
     }
+
+  //Структура обработчики кликов
+
+  var WOnClick = function(name,id)
+  {
+      if(id == 0)
+      {
+          var str = "Нулевой вес изначально умнажается на еденицу"
+          alert(name +' '+id + '\n' + str);
+          return;
+      }
+      else
+      {
+          var str = "Этот вес умножается на X"+ id;
+          alert(name +' '+id + '\n' + str);
+          return;
+      }
+  }
+
+  var SumatorOnClick = function(Index)
+  {
+      if(Index == 2)
+      {
+          alert('Суматор в котором складываются входы умноженные на веса' + '\n'
+          + 'u = W0 + X1*W1 + X2*W2');
+          return;
+      }if(Index == 3)
+      {
+          alert('Формирование ошибки' + '\n' + 
+          'Из ожидаемого результата вычетается фактический'+'\n'+ 'd-Y');
+          return;
+      }
+      else
+      {
+          alert('Суматор');
+          return;
+      }
+  }
+
+  var learningRateOnClick = function()
+  {
+      alert('Скороть обучения' + '\n' + 'n = ' + parseFloat(Byid('learningRateInput').value))
+  }
+
+  var aOnClick = function()
+  {
+      alert('Коэфицент a = ' + parseFloat(Byid("aInput").value));
+  }
+
+  var YPOnClick = function()
+  {
+      alert('Фильтр' + '\n' + 'Он равен ошибке на предыдущей иттерации.' + '\n' + 
+      'На первой иттерации ЯП равен нулю');
+  }
+
+  var FunOnClick = function(Index)
+  {
+      if(Index == 1)
+      {
+          alert('Функция активации'+ '\n'+ 'y =1/(1+exp(-a*u))');
+          return;
+      }
+      if(Index == 2)
+      {
+          alert('Производная от функции активации' + '\n' + '(1-y)*y');
+          return;
+      }
+  }
+
+  var UmnOnClick = function(Index)
+  {
+      if(Index == 3)
+      {
+          alert('Перемножитель' + '\n' + 
+          'Производная от функции активации умножается на разницу ожидаемого результата и фактического');
+          return;
+      }else
+      {
+        alert('Перемножитель' + '\n' + 
+        'Ошибка умножается на вход'+ '\n'+
+        'Error * X' + Index)
+      }
+
+  }
+
+  var XOnClick = function(Index)
+  {
+      alert('Вход №' + Index);
+  }
+  Byid('AKoordinat').onclick = function()
+        {
+            var text = Koordinat;
+            var csvData = 'data:application/txt;charset=utf-8,' + encodeURIComponent(text);
+            this.href = csvData;
+            this.target = '_blank';
+            this.download = 'Координаты.txt';
+        }
+

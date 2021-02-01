@@ -6,6 +6,13 @@ body
     background-color:wheat;
     color: black;
 }
+
+a
+{
+    text-decoration: none;
+    color: black;
+}
+
 .header
 {
     display: flex;
@@ -58,6 +65,23 @@ body
     margin-right: 15px;
     text-align: center;
 }
+
+#DivKoordinat
+{
+    text-align: center;
+}
+#AKoordinat
+{
+    border: 1px solid rgb(0, 0, 0);
+    padding: 2px;
+    border-radius: 5px;
+    background-color: rgb(196, 191, 191);
+}
+
+#AKoordinat:hover 
+{
+    background-color: grey;
+}
 /*Структура*/
 #Struktura
 {
@@ -65,7 +89,7 @@ body
     justify-content: center;
 }
 
-#StrukturaSVG
+#SrtukturaSVG
 {
-    background-color: white;
+    background-color: wheat;
 }
