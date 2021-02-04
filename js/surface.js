@@ -34,6 +34,8 @@
     var RD;
     var RX;
     var Koordinat;
+    var SystemCount;
+    var SystemCountD;
 
 
 
@@ -150,6 +152,8 @@
         dAll = [];
         RD = [];
         RX = [];
+        SystemCount = 0;
+        SystemCountD = 0;
         if(!Byid('DivKoordinat').hidden)
         {
             Byid('DivKoordinat').hidden = true;
@@ -159,66 +163,39 @@
 
          SystemClass = function()
          {
-            GAllError[0].push(JSON.parse(JSON.stringify(AllError)));
-            GlWAll[0].push(JSON.parse(JSON.stringify(WAll)));
-            GlYAll[0].push(JSON.parse(JSON.stringify(YAll)));
-            if(YAll[Object.keys(YAll).length-1][0] >0.5 && d[0] == 1){Sravn.push(true)}
-            else if(YAll[Object.keys(YAll).length-1][0] <0.5 && d[0] == 0){Sravn.push(true);}
-            else{Sravn.push(false)};
-            RD.push(d);
-            var itogX= '';
-            for(var i = 0; i <X.length; i++)
+            SystemCount +=1;
+            if(SystemCount < LMX.length)
             {
-                itogX += X[i] + ' ';
-            }
-            RX.push(itogX);
-            dAll.push(d[0]);
-            
-            if(XC != LMX.length-1)
-        {
-            XC +=1; 
-            
-            X = LMX[XC].split(',');
-
-            for(var i = 0; i < X.length; i++)
+                X = LMX[SystemCount].split(',');
+            }else
             {
-                X[i] = +X[i]//вход
+                if(SystemCountD >= MD.length-1)
+                {
+                    SystemCountD = 0;
+                }else
+                {
+                    SystemCountD +=1;
+                }
+                d = MD[SystemCountD].split(',');
+                SystemCount = 0;
+                LMX = MX[SystemCountD].split(';');
+                LMX.pop();
+                X = LMX[SystemCount].split(',');//замени уже а
             }
-            tic = 0
-            return false;
-        }else
-        {
-            CSK +=1;
-            /*GAllError[0].push(JSON.parse(JSON.stringify(AllError)));
-            GlWAll[0].push(JSON.parse(JSON.stringify(WAll)));
-            GlYAll[0].push(JSON.parse(JSON.stringify(YAll)));
-            */
-            XC = 0;
-            if(CSK >= MD.length)
-            {
-                return true
-            }
-            
-            d = MD[CSK].split(',');
-            LMX = MX[CSK].split(';');
-            if(LMX.length>1)
-            LMX.pop();
-
-            X = LMX[XC].split(',');
 
             for(var i = 0; i < d.length; i++)
-            {
-                d[i] = +d[i]//ожидания
-            }
+             {
+                 d[i] = +d[i];
+             }
 
-            for(var i = 0; i < X.length; i++)
-            {
-                X[i] = +X[i]//вход
-            }
-            tic = 0
-            return false;
+             for(var i = 0; i < X.length; i++)
+             {
+                 X[i] = +X[i];
+             }
 
-        }
+             KolYOutput = d.length;
+             KolX = X.length;
+
          }
 
          a = parseFloat(Byid("aInput").value);
@@ -342,7 +319,7 @@
                 if(tic != 0){yp = AllError[tic-1][Num]} 
                 for(var i = 0; i < W[Num].length; i++)
                 {
-                    if(i == 0){continue;}
+                    if(i == 0){ W[Num][0] += err *learningRate+(a*yp); continue;}
                     //if(i == 1){W[Num][i] += err *learningRate+(a*yp); continue;}
                     W[Num][i] += err * learningRate*X[i-1] +(a*yp);
                 }
@@ -369,24 +346,9 @@
     var Rezultat = function()
     {
         Byid('RezultatH1').hidden = false;
-        var itog = '';
-        var ii= 0;
-        for(var i=0; i < Sravn.length; i++)
-        {
-            if(Sravn[i])
-            {
-                ii +=1; 
-            } 
-        }
-        if (ii = Sravn.length) 
-        {
+        var itog = ''; 
             Byid('itog').textContent = "Нейрон прошел обучение"
             Byid('itog').style.color = 'green';
-        }else
-        {
-            Byid('itog').textContent ="Нейрон не прошел обучение"
-            Byid('itog').style.color = 'red';
-        }
         //Byid('itog').textContent += Sravn;
         Byid('InfoItog').innerHTML = '';
         for(var i =0; i < Sravn.length; i++)
@@ -407,7 +369,6 @@
     }   
          //Start
          GeneralSloi(X);
-
          console.log(Y);
  
          KorrektGeneralSloi();
@@ -416,31 +377,28 @@
         {
             if(tic >= it)
                 {
-                    if(SystemClass()){break;}
+                    break;
                 }
-                /*for(var i = 0; i < d.length; i++)
-                {
-                    if(+Y[Ylength-1][i].toFixed(1) != +d[i].toFixed(1))
-                    {
-                        break;
-                    }
-                }*/
-
-               /* if(i != d.length-1)
-                {*/
-                    KorrektGeneralSloi() ;
+     
+                    KorrektGeneralSloi();
+                    SystemClass();
                     tic+=1;
-                /*}else{break}*/
         }
+        console.log('W =>>');
         console.log(WAll);
+        console.log('Error =>>');
         console.log(AllError);
+        console.log('Y =>>');
         console.log(YAll);
+        console.log('X =>>');
         console.log(X);
 
+        /*
         console.log('Самое интересное');
         console.log(GlWAll);
         console.log(GAllError);
         console.log(GlYAll);
+        */
         Rezultat();
     }
 
@@ -540,4 +498,19 @@
             this.target = '_blank';
             this.download = 'Координаты.txt';
         }
+//Распознование
+Byid('Raspoznv').onclick = function()
+{
+    var str = 'Результат распознования: ';
+    X = Byid('XRaspoznovanie').value.split(',');
+    for(var i =0; i < X.length; i++)
+    {
+        X[i] = +X[i];
+    }
+
+    //alert(Neuron(X,0));
+    Byid('Raspoznovanie_Rezultat').innerHTML = str + Neuron(X,0);
+    console.log(str);
+
+}
 

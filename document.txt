@@ -59,3 +59,66 @@
 6) подаются на нейроны по логиге из 4 номера(Все остальные слоя)
 * нулевой вес корректируется
 
+
+SystemClass-->
+            GAllError[0].push(JSON.parse(JSON.stringify(AllError)));
+            GlWAll[0].push(JSON.parse(JSON.stringify(WAll)));
+            GlYAll[0].push(JSON.parse(JSON.stringify(YAll)));
+            if(YAll[Object.keys(YAll).length-1][0] >0.5 && d[0] == 1){Sravn.push(true)}
+            else if(YAll[Object.keys(YAll).length-1][0] <0.5 && d[0] == 0){Sravn.push(true);}
+            else{Sravn.push(false)};
+            RD.push(d);
+            var itogX= '';
+            for(var i = 0; i <X.length; i++)
+            {
+                itogX += X[i] + ' ';
+            }
+            RX.push(itogX);
+            dAll.push(d[0]);
+            
+            if(XC != LMX.length-1)
+        {
+            XC +=1; 
+            
+            X = LMX[XC].split(',');
+
+            for(var i = 0; i < X.length; i++)
+            {
+                X[i] = +X[i]//вход
+            }
+            tic = 0
+            return false;
+        }else
+        {
+            CSK +=1;
+            /*GAllError[0].push(JSON.parse(JSON.stringify(AllError)));
+            GlWAll[0].push(JSON.parse(JSON.stringify(WAll)));
+            GlYAll[0].push(JSON.parse(JSON.stringify(YAll)));
+            */
+            XC = 0;
+            if(CSK >= MD.length)
+            {
+                return true
+            }
+            
+            d = MD[CSK].split(',');
+            LMX = MX[CSK].split(';');
+            if(LMX.length>1)
+            LMX.pop();
+
+            X = LMX[XC].split(',');
+
+            for(var i = 0; i < d.length; i++)
+            {
+                d[i] = +d[i]//ожидания
+            }
+
+            for(var i = 0; i < X.length; i++)
+            {
+                X[i] = +X[i]//вход
+            }
+            tic = 0
+            return false;
+
+        }
+

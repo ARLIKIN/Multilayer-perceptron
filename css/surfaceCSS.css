@@ -93,3 +93,16 @@ a
 {
     background-color: wheat;
 }
+
+/*Распознование*/
+.Ras_flex
+{
+    display: flex;
+}
+
+#Raspoznovanie_Rezultat
+{
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+}
