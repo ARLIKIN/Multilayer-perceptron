@@ -1,4 +1,4 @@
-var a = '1\n';
-var b =2;
+var a = 1000;
+var b =180;
 
-console.log(a+b);
+console.log(parseInt(a/b));

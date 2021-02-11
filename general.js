@@ -474,7 +474,7 @@ InputSloi = function() // Выходной слой
     var Multiplier = function(y,err,i)
     {
         var result;
-        result = ((1-y)*y)*a*err[i];
+        result = ((1-y)*y)*a*err[i];//a!?
         return result; 
     }
 

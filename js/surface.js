@@ -158,6 +158,10 @@
         {
             Byid('DivKoordinat').hidden = true;
         }
+        if(!Byid('Div_Raspoznovanie').hidden)
+        {
+            Byid('Div_Raspoznovanie').hidden = true;
+        }
 
 
 
@@ -201,6 +205,7 @@
          a = parseFloat(Byid("aInput").value);
          it = parseFloat(Byid('iterInput').value);
          learningRate = parseFloat(Byid('learningRateInput').value);
+         Byid('Grafiks').innerHTML = '';
          
          if(Xflag != true)
          {
@@ -304,6 +309,7 @@
             var Minus = function(input,nm)
             {
                 var err = d[nm] - input[nm];
+                //var err = input[nm]- d[nm];
                 return err;
             }
             var Multiplier = function(y,err,i)
@@ -319,9 +325,10 @@
                 if(tic != 0){yp = AllError[tic-1][Num]} 
                 for(var i = 0; i < W[Num].length; i++)
                 {
-                    if(i == 0){ W[Num][0] += err *learningRate+(a*yp); continue;}
+                    if(i == 0){/*W[Num][0] += err *learningRate+(a*yp);*/ continue;}
                     //if(i == 1){W[Num][i] += err *learningRate+(a*yp); continue;}
-                    W[Num][i] += err * learningRate*X[i-1] +(a*yp);
+                    W[Num][i] += err * X[i-1] * learningRate +(a*yp);
+                    console.log('Тест' + X[i-1]);
                 }
             }
 
@@ -332,8 +339,8 @@
             for(var i = 0; i < 1; i++) // если нейронов больше 1 то знак = надо убрать
             {
                 err[i] = Minus(Y[0],i);
+                AllError[tic][i] = err[i];//все работает если находится здесь
                 err[i] = Multiplier(Y[0][i],err,i);
-                AllError[tic][i] = err[i];
                 KorrektW(err[i],i)
             }
             YAll[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
@@ -365,13 +372,16 @@
         }    
         Byid('DivKoordinat').hidden = false;
         console.log(Koordinat);
-        
+        GrafikW();
+        GrafikError();
+        GrafikY();
+        Byid('Div_Raspoznovanie').hidden = false;
     }   
          //Start
          GeneralSloi(X);
          console.log(Y);
  
-         KorrektGeneralSloi();
+         //KorrektGeneralSloi();
          
          while(Bool)
         {
@@ -514,3 +524,172 @@ Byid('Raspoznv').onclick = function()
 
 }
 
+//Графики
+var Line = function(x1,y1,x2,y2,color,thick)
+{
+    return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" stroke-width="'+thick+'"/>';
+}
+
+var Text1 = function(text,x,y)
+{
+    return '<text x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>'
+}
+var Text2 = function(text,x,y,color,size)
+{
+    return '<text font-size="'+size+'" fill="'+color+'" x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>'
+}
+//Веса
+var GrafikW = function()
+{
+    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafW" width = "1000" height = "1000"></svg>';
+    var Holst = Byid('GrafW');
+    //Координаты
+    Holst.innerHTML += Line(0,0,0,1000,'black','2px');//OY
+    Holst.innerHTML += Line(0,500,1000,500,'black','1px');//OX
+    //Риски на координатах
+    for(var i = 0, j = 10; i <=1000; i+=50,j-=1)
+    {
+        if(i == 0){Holst.innerHTML += Line(0,0,10,0,'black','1px');continue;}
+            if(i != 500)
+            Holst.innerHTML +=  Line(0,i,15,i,'black','1px'); //OY
+            Holst.innerHTML += Line(i,490,i,510,'black','1px');//OX
+            if(i !=1000)
+            Holst.innerHTML += Text1(j,3,i-2); //OY цифры
+            if(i == 50)
+            {Holst.innerHTML += Text1(i/10 + '%',i-5,488); continue}
+            if(i != 1000)
+            Holst.innerHTML += Text1(i/10 + '%',i-10,488);
+    }
+    //Подписи
+    Holst.innerHTML += Text1('Графики изменения весов',400,20);
+    Holst.innerHTML += Text1('W',20,20);
+    Holst.innerHTML += Text1('Итераций',920,470)
+    Holst.innerHTML += Text2(tic,940,455,'black','20');
+    Holst.innerHTML += Text2('W1',960,20,'blue','20');
+    Holst.innerHTML += Text2('W2',960,40,'green','20');
+
+    //Отрисовка
+    var interval;
+    if(tic < 1000)
+    {
+        interval = parseInt(1000 / tic);
+    }else
+    {
+        interval = 1; //можно флаг сделать
+    }
+
+
+
+    for(var i = 0,j = 0; i < Object.keys(WAll).length; i++,j +=interval)
+    {
+        if(i == 0)
+        {
+            Holst.innerHTML += Line(j,500-WAll[i][1]*50,j+interval,500-WAll[i][1]*50,'blue','2px');
+            Holst.innerHTML += Line(j,500-WAll[i][2]*50,j+interval,500-WAll[i][2]*50,'green','2px');
+            continue;
+        } 
+            Holst.innerHTML += Line(j,500-WAll[i-1][1]*50,j+interval,500-WAll[i][1]*50,'blue','2px');
+            Holst.innerHTML += Line(j,500-WAll[i-1][2]*50,j+interval,500-WAll[i][2]*50,'green','2px');
+
+    }
+}
+
+var GrafikError = function()
+{
+    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafError" width = "1000" height = "1000"></svg>';
+    var Holst = Byid('GrafError');
+    //Координаты
+    Holst.innerHTML += Line(0,0,0,1000,'black','2px');//OY
+    Holst.innerHTML += Line(0,500,1000,500,'black','1px');//OX
+    //Риски на координатах
+    for(var i = 0, j = 10; i <=1000; i+=50,j-=1)
+    {
+        if(i == 0){Holst.innerHTML += Line(0,0,10,0,'black','1px');continue;}
+            if(i != 500)
+            Holst.innerHTML +=  Line(0,i,15,i,'black','1px'); //OY
+            Holst.innerHTML += Line(i,490,i,510,'black','1px');//OX
+            if(i !=1000)
+            Holst.innerHTML += Text1(j/10,3,i-2); //OY цифры
+            if(i == 50)
+            {Holst.innerHTML += Text1(i/10 + '%',i-5,488); continue}
+            if(i != 1000)
+            Holst.innerHTML += Text1(i/10 + '%',i-10,488);
+    }
+    //Подписи
+    Holst.innerHTML += Text1('График изменения ошибки',400,20);
+    Holst.innerHTML += Text1('Erorr',20,20);
+    Holst.innerHTML += Text1('Итераций',920,470)
+    Holst.innerHTML += Text2(tic,940,455,'black','20');
+
+    //Отрисовка
+    var interval;
+    if(tic < 1000)
+    {
+        interval = parseInt(1000 / tic);
+    }else
+    {
+        interval = 1; //можно флаг сделать
+    }
+
+
+
+    for(var i = 0,j = 0; i < Object.keys(WAll).length; i++,j +=interval)
+    {
+        if(i == 0)
+        {
+            Holst.innerHTML += Line(j,500-AllError[i][0]*500,j+interval,500-AllError[i][0]*500,'red','2px');
+            continue;
+        } 
+            Holst.innerHTML += Line(j,500-AllError[i-1][0]*500,j+interval,500-AllError[i][0]*500,'red','2px');
+    }
+}
+
+var GrafikY = function()
+{
+    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafY" width = "1000" height = "500"></svg>';
+    var Holst = Byid('GrafY');
+    //Координаты
+    Holst.innerHTML += Line(0,0,0,500,'black','2px');//OY
+    Holst.innerHTML += Line(0,500,1000,500,'black','1px');//OX
+    //Риски на координатах
+    for(var i = 0, j = 10; i <=1000; i+=50,j-=1)
+    {
+        if(i == 0){Holst.innerHTML += Line(0,0,10,0,'black','1px');continue;}
+            if(i != 500)
+            Holst.innerHTML +=  Line(0,i,15,i,'black','1px'); //OY
+            Holst.innerHTML += Line(i,490,i,510,'black','1px');//OX
+            if(i !=1000)
+            Holst.innerHTML += Text1(j/10,3,i-2); //OY цифры
+            if(i == 50)
+            {Holst.innerHTML += Text1(i/10 + '%',i-5,488); continue}
+            if(i != 1000)
+            Holst.innerHTML += Text1(i/10 + '%',i-10,488);
+    }
+    //Подписи
+    Holst.innerHTML += Text1('График изменения выхода с нейрона',400,20);
+    Holst.innerHTML += Text1('Y',20,20);
+    Holst.innerHTML += Text1('Итераций',920,470)
+    Holst.innerHTML += Text2(tic,940,455,'black','20');
+
+    //Отрисовка
+    var interval;
+    if(tic < 1000)
+    {
+        interval = parseInt(1000 / tic);
+    }else
+    {
+        interval = 1; //можно флаг сделать
+    }
+
+
+
+    for(var i = 0,j = 0; i < Object.keys(WAll).length; i++,j +=interval)
+    {
+        if(i == 0)
+        {
+            Holst.innerHTML += Line(j,500-YAll[i][0]*500,j+interval,500-YAll[i][0]*500,'#6800a5','2px');
+            continue;
+        } 
+            Holst.innerHTML += Line(j,500-YAll[i-1][0]*500,j+interval,500-YAll[i][0]*500,'#6800a5','2px');
+    }
+}
