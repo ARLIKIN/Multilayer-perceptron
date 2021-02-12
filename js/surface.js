@@ -309,7 +309,7 @@
             var Minus = function(input,nm)
             {
                 var err = d[nm] - input[nm];
-                //var err = input[nm]- d[nm];
+                //var err = input[nm]- d[nm]; неправельно
                 return err;
             }
             var Multiplier = function(y,err,i)
@@ -328,13 +328,18 @@
                     if(i == 0){/*W[Num][0] += err *learningRate+(a*yp);*/ continue;}
                     //if(i == 1){W[Num][i] += err *learningRate+(a*yp); continue;}
                     W[Num][i] += err * X[i-1] * learningRate +(a*yp);
-                    console.log('Тест' + X[i-1]);
                 }
             }
 
             Wlength = Object.keys(W).length;
             var yp = 0;
             AllError[tic] = [];
+
+            for(var i =0; i < KolYInput; i++)
+            {
+                Y[0][i] = Neuron(X,i)
+            }
+            YAll[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
 
             for(var i = 0; i < 1; i++) // если нейронов больше 1 то знак = надо убрать
             {
@@ -343,11 +348,7 @@
                 err[i] = Multiplier(Y[0][i],err,i);
                 KorrektW(err[i],i)
             }
-            YAll[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
-            for(var i =0; i < KolYInput; i++)
-            {
-                Y[0][i] = Neuron(X,i)
-            }
+            
         }
 
     var Rezultat = function()
@@ -543,6 +544,32 @@ var GrafikW = function()
 {
     Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafW" width = "1000" height = "1000"></svg>';
     var Holst = Byid('GrafW');
+
+    //Отрисовка
+    var interval;
+    if(tic < 1000)
+    {
+        interval = parseInt(1000 / tic+1);
+    }else
+    {
+        interval = 1; //можно флаг сделать
+    }
+
+
+
+    for(var i = 0,j = 0; i < Object.keys(WAll).length; i++,j +=interval)
+    {
+        if(i == 0)
+        {
+            Holst.innerHTML += Line(j,500-WAll[i][1]*50,j+interval,500-WAll[i][1]*50,'blue','2px');
+            Holst.innerHTML += Line(j,500-WAll[i][2]*50,j+interval,500-WAll[i][2]*50,'green','2px');
+            continue;
+        } 
+            Holst.innerHTML += Line(j,500-WAll[i-1][1]*50,j+interval,500-WAll[i][1]*50,'blue','2px');
+            Holst.innerHTML += Line(j,500-WAll[i-1][2]*50,j+interval,500-WAll[i][2]*50,'green','2px');
+
+    }
+
     //Координаты
     Holst.innerHTML += Line(0,0,0,1000,'black','2px');//OY
     Holst.innerHTML += Line(0,500,1000,500,'black','1px');//OX
@@ -567,12 +594,18 @@ var GrafikW = function()
     Holst.innerHTML += Text2(tic,940,455,'black','20');
     Holst.innerHTML += Text2('W1',960,20,'blue','20');
     Holst.innerHTML += Text2('W2',960,40,'green','20');
+}
+
+var GrafikError = function()
+{
+    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafError" width = "1000" height = "1000"></svg>';
+    var Holst = Byid('GrafError');
 
     //Отрисовка
     var interval;
     if(tic < 1000)
     {
-        interval = parseInt(1000 / tic);
+        interval = parseInt(1000 / tic +1);
     }else
     {
         interval = 1; //можно флаг сделать
@@ -584,20 +617,12 @@ var GrafikW = function()
     {
         if(i == 0)
         {
-            Holst.innerHTML += Line(j,500-WAll[i][1]*50,j+interval,500-WAll[i][1]*50,'blue','2px');
-            Holst.innerHTML += Line(j,500-WAll[i][2]*50,j+interval,500-WAll[i][2]*50,'green','2px');
+            Holst.innerHTML += Line(j,500-AllError[i][0]*500,j+interval,500-AllError[i][0]*500,'red','2px');
             continue;
         } 
-            Holst.innerHTML += Line(j,500-WAll[i-1][1]*50,j+interval,500-WAll[i][1]*50,'blue','2px');
-            Holst.innerHTML += Line(j,500-WAll[i-1][2]*50,j+interval,500-WAll[i][2]*50,'green','2px');
-
+            Holst.innerHTML += Line(j,500-AllError[i-1][0]*500,j+interval,500-AllError[i][0]*500,'red','2px');
     }
-}
 
-var GrafikError = function()
-{
-    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafError" width = "1000" height = "1000"></svg>';
-    var Holst = Byid('GrafError');
     //Координаты
     Holst.innerHTML += Line(0,0,0,1000,'black','2px');//OY
     Holst.innerHTML += Line(0,500,1000,500,'black','1px');//OX
@@ -620,12 +645,18 @@ var GrafikError = function()
     Holst.innerHTML += Text1('Erorr',20,20);
     Holst.innerHTML += Text1('Итераций',920,470)
     Holst.innerHTML += Text2(tic,940,455,'black','20');
+}
+
+var GrafikY = function()
+{
+    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafY" width = "1000" height = "500"></svg>';
+    var Holst = Byid('GrafY');
 
     //Отрисовка
     var interval;
     if(tic < 1000)
     {
-        interval = parseInt(1000 / tic);
+        interval = parseInt(1000 / tic+1);
     }else
     {
         interval = 1; //можно флаг сделать
@@ -637,17 +668,12 @@ var GrafikError = function()
     {
         if(i == 0)
         {
-            Holst.innerHTML += Line(j,500-AllError[i][0]*500,j+interval,500-AllError[i][0]*500,'red','2px');
+            Holst.innerHTML += Line(j,500-YAll[i][0]*500,j+interval,500-YAll[i][0]*500,'#6800a5','2px');
             continue;
         } 
-            Holst.innerHTML += Line(j,500-AllError[i-1][0]*500,j+interval,500-AllError[i][0]*500,'red','2px');
+            Holst.innerHTML += Line(j,500-YAll[i-1][0]*500,j+interval,500-YAll[i][0]*500,'#6800a5','2px');
     }
-}
 
-var GrafikY = function()
-{
-    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafY" width = "1000" height = "500"></svg>';
-    var Holst = Byid('GrafY');
     //Координаты
     Holst.innerHTML += Line(0,0,0,500,'black','2px');//OY
     Holst.innerHTML += Line(0,500,1000,500,'black','1px');//OX
@@ -671,25 +697,5 @@ var GrafikY = function()
     Holst.innerHTML += Text1('Итераций',920,470)
     Holst.innerHTML += Text2(tic,940,455,'black','20');
 
-    //Отрисовка
-    var interval;
-    if(tic < 1000)
-    {
-        interval = parseInt(1000 / tic);
-    }else
-    {
-        interval = 1; //можно флаг сделать
-    }
-
-
-
-    for(var i = 0,j = 0; i < Object.keys(WAll).length; i++,j +=interval)
-    {
-        if(i == 0)
-        {
-            Holst.innerHTML += Line(j,500-YAll[i][0]*500,j+interval,500-YAll[i][0]*500,'#6800a5','2px');
-            continue;
-        } 
-            Holst.innerHTML += Line(j,500-YAll[i-1][0]*500,j+interval,500-YAll[i][0]*500,'#6800a5','2px');
-    }
+    
 }
