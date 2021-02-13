@@ -322,12 +322,14 @@
             var KorrektW = function(err,Num)
             {
                 WAll[tic] = Object.assign({}, W[Object.keys(W).length-1]);
-                if(tic != 0){yp = AllError[tic-1][Num]} 
+                
+                if(tic != 0){yp = AllError[tic-1][Num]+(a*yp)};
+                
                 for(var i = 0; i < W[Num].length; i++)
                 {
                     if(i == 0){/*W[Num][0] += err *learningRate+(a*yp);*/ continue;}
                     //if(i == 1){W[Num][i] += err *learningRate+(a*yp); continue;}
-                    W[Num][i] += err * X[i-1] * learningRate +(a*yp);
+                    W[Num][i] += err * X[i-1] * learningRate +(a*yp); // именно X обеспечивает правельную работу
                 }
             }
 
@@ -344,8 +346,10 @@
             for(var i = 0; i < 1; i++) // если нейронов больше 1 то знак = надо убрать
             {
                 err[i] = Minus(Y[0],i);
-                AllError[tic][i] = err[i];//все работает если находится здесь
+                
                 err[i] = Multiplier(Y[0][i],err,i);
+                AllError[tic][i] = err[i];
+                
                 KorrektW(err[i],i)
             }
             
