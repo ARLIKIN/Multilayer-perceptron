@@ -211,7 +211,7 @@
          {
              if(Byid('XInput').value.length == 0)
              {
-                Byid('XInput').value = '1'+'\n'+'&'+'\n'+'0,1;'+'\n'+'1,0;'+'\n'+'&';
+                Byid('XInput').value = '1'+'\n'+'&'+'\n'+'0,1;'+'\n'+'&' + '\n'+ '0' + '\n'+ '&' +'\n'+ '1,0;' + '\n' + '&';
              }
 
              XD = Byid('XInput').value.split('&');
@@ -380,6 +380,7 @@
         GrafikW();
         GrafikError();
         GrafikY();
+        Poverhnost();
         Byid('Div_Raspoznovanie').hidden = false;
     }   
          //Start
@@ -702,4 +703,28 @@ var GrafikY = function()
     Holst.innerHTML += Text2(tic,940,455,'black','20');
 
     
+} 
+
+//3D Поверхность
+var Poverhnost = function()
+{
+    var SW1 = {};
+    var SW0 = {};
+    var k = 0;
+    var h = 0;
+    for(var i = 2; i >= -2; i -= 0.2, k +=1)
+    {
+        SW1[k] = [];
+        SW0[k] = [];
+        for(var j = 2; j >= -2; j -= 0.2,h +=1)
+        {
+            SW1[k][h] = 1-(1/(1 + Math.exp(-a * (i+j))))
+            SW0[k][h] = 0-(1/(1 + Math.exp(-a * (i+j))))
+        }
+    }
+
+    console.log('1-Y');
+    console.log(SW1);
+    console.log('0-Y');
+    console.log(SW0)
 }
