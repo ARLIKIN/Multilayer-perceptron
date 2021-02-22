@@ -536,6 +536,11 @@ var Line = function(x1,y1,x2,y2,color,thick)
     return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" stroke-width="'+thick+'"/>';
 }
 
+var LinePunkt = function(x1,y1,x2,y2,color,thick)
+{
+    return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" style="stroke-dasharray: 20 5;  stroke-width="'+thick+'"/>';
+}
+
 var Text1 = function(text,x,y)
 {
     return '<text x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>'
@@ -727,4 +732,51 @@ var Poverhnost = function()
     console.log(SW1);
     console.log('0-Y');
     console.log(SW0)
+
+    Byid('DPov').innerHTML = '<svg class="Graf3D" id="3DPoverhnost" width = "1000" height = "1000"></svg>';
+    var Holst = Byid('3DPoverhnost');
+
+    //Оси
+    Holst.innerHTML += Line(0,100,0,900,'black','3px');//Error
+    Holst.innerHTML += Line(0,900,500,1000,'black','2px');//W1
+    Holst.innerHTML += Line(1000,100,1000,900,'black','1px');
+    Holst.innerHTML += Line(500,1000,1000,900,'black','2px');//W2
+    Holst.innerHTML += Line(0,100,500,0,'black','1px');
+    Holst.innerHTML += Line(500,0,1000,100,'black','1px');
+    
+    Holst.innerHTML += LinePunkt(500,0,500,800,'gray','1px'); // средняя линия
+    Holst.innerHTML += Text2('W1',150,970,'blue','24px');//подпись к оси W1
+    Holst.innerHTML += Text2('W2',800,970,'green','24px'); // подпись к оси W2
+    Holst.innerHTML += Text2('Error',10,70,'red','24px');
+
+    h = 10;
+    k =0;
+    for(var i =0; i <= 20; i++, h-=1, k+=40) //деления на оси Y
+    {
+        Holst.innerHTML += LinePunkt(0,100+k,500,k,'gray','1px');
+        Holst.innerHTML += Text1(h/10,5,100+k-7);
+        Holst.innerHTML += LinePunkt(500,k,1000,100+k,'gray','1px');
+    }
+    var y = 4.76;
+    var x = 23.8;
+    var s = 2
+    for(var i = 0; i < 20; i++, s-=0.2,y+=4.76,x+=23.8) // деления на оси W1 и W2
+    {
+       Holst.innerHTML += LinePunkt(x,y+900,500+x,800+y,'gray','1px');
+       Holst.innerHTML += LinePunkt(500+x,800+y,x+500,y,'gray','1px');
+
+       Holst.innerHTML += LinePunkt(1000 - x,900+y,500-x,800+y,'gray','1px');
+       Holst.innerHTML += LinePunkt(500-x,800+y,500-x,y,'gray','1px');
+
+       if(i %2 == 0)
+       { 
+       Holst.innerHTML += Text1(s.toFixed(1),x,y+900);
+       Holst.innerHTML += Text1(s.toFixed(1),1000-x-15,y+900-2);
+       }
+    }
+
+
+    // на горизонатльных осях промежуток между рисками состовляет 25.64
+
+
 }
