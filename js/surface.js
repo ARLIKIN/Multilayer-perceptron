@@ -543,11 +543,16 @@ var LinePunkt = function(x1,y1,x2,y2,color,thick)
 
 var Text1 = function(text,x,y)
 {
-    return '<text x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>'
+    return '<text x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>';
 }
 var Text2 = function(text,x,y,color,size)
 {
-    return '<text font-size="'+size+'" fill="'+color+'" x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>'
+    return '<text font-size="'+size+'" fill="'+color+'" x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>';
+}
+
+var Circle = function(r,x,y,color)
+{
+    return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
 //Веса
 var GrafikW = function()
@@ -723,8 +728,8 @@ var Poverhnost = function()
         SW0[k] = [];
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
-            SW1[k][h] = 1-(1/(1 + Math.exp(-a * (i+j))))
-            SW0[k][h] = 0-(1/(1 + Math.exp(-a * (i+j))))
+            SW1[k][h] = 1-(1/(1 + Math.exp(-a * (i+j))));
+            SW0[k][h] = 0-(1/(1 + Math.exp(-a * (i+j))));
         }
     }
 
@@ -775,8 +780,64 @@ var Poverhnost = function()
        }
     }
 
+    //Основная поверхность
+    x = 23.8;
+    var circl = 0;
+    for(var i =0; i <21; i++)
+    {
+        for(var j = 0; j<21; j++, circl++)
+        {
+            
+            //Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW1[i][circl]*200,'green'); // 1-Y
+            //Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW0[i][circl]*200,'red'); // 0-Y
+        }
+        x += 23.8;
+    }
 
-    // на горизонатльных осях промежуток между рисками состовляет 25.64
+    //Линия ошибки
+    var IzmerOX = function(WO)
+    {
+
+        var y = 4.76;
+        var x = 23.8;
+        var WO1 = 0.1010234//WO[1];
+        //var WO2 = WO[2];
+
+        var Sk = 0;
+        var ii;
+        for(var i =2; i > parseFloat(WO1.toFixed(1)); i -=0.2)
+        {
+            Sk +=1;
+            ii = i
+        }
+        console.log(Sk);
+        console.log(ii)
+
+        if(parseFloat((ii-0.1).toFixed(1)) == parseFloat(WO1.toFixed(1)))
+        {
+            x = x*Sk + (x/2);
+            y = y * Sk + (y/2);
+        }else
+        {
+            if(parseFloat(WO1.toFixed(1)) < 1.6)
+            {
+                x = x*Sk;
+                y = y * Sk;
+            }else
+            {
+                x =x+ x*Sk;
+                y =y+ y*Sk;
+            }    
+        }
+
+        
+
+        Holst.innerHTML += Circle(3,x,y+900,'red');
+        
+        
+    }
+
+    IzmerOX(WAll[0]);
 
 
 }
