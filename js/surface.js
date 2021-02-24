@@ -800,8 +800,8 @@ var Poverhnost = function()
 
         var y = 4.76;
         var x = 23.8;
-        var WO1 = 0.1010234//WO[1];
-        //var WO2 = WO[2];
+        var WO1 = 0.0010234;//WO[1];
+        var WO2 = 0.0323214;
 
         var Sk = 0;
         var ii;
@@ -830,7 +830,37 @@ var Poverhnost = function()
             }    
         }
 
-        
+        Sk = 0;
+        ii = 0;
+        for(var i = -2; i < parseFloat(WO2.toFixed(1)); i +=0.2)
+        {
+            Sk +=1;
+            ii = i
+        }
+
+        console.log(Sk + '\n' + ii);
+        Sk-=1;
+
+        //x = x + (Sk * 23.8);
+        //y = y - (Sk * 4.76)
+
+        if(parseFloat((ii+0.1).toFixed(1)) == parseFloat(WO2.toFixed(1)))
+        {
+            x = x + (Sk * 23.8) + (23.8/2);
+            y = y - (Sk * 4.76) - (4.76/2);
+        }else
+        {
+            if(parseFloat(WO2.toFixed(1)) <= -1.6)
+            {
+                Sk +=1
+                x = x + (Sk * 23.8);
+                y = y - (Sk * 4.76);
+            }else
+            {
+                x = x + (Sk * 23.8);
+                y = y - (Sk * 4.76);
+            }    
+        }
 
         Holst.innerHTML += Circle(3,x,y+900,'red');
         
