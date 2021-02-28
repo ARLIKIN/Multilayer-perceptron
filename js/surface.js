@@ -728,8 +728,8 @@ var Poverhnost = function()
         SW0[k] = [];
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
-            SW1[k][h] = 1-(1/(1 + Math.exp(-a * (i+j))));
-            SW0[k][h] = 0-(1/(1 + Math.exp(-a * (i+j))));
+            SW1[k][h] = (1/(1 + Math.exp(-a * (i+j))));
+            SW0[k][h] = (1/(1 + Math.exp(-a * (i))));
         }
     }
 
@@ -788,8 +788,8 @@ var Poverhnost = function()
         for(var j = 0; j<21; j++, circl++)
         {
             
-            //Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW1[i][circl]*200,'green'); // 1-Y
-            //Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW0[i][circl]*200,'red'); // 0-Y
+            Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW1[i][circl]*80*4.76,'green'); // 1-Y
+            Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW0[i][circl]*200,'blue'); // 0-Y
         }
         x += 23.8;
     }
@@ -800,8 +800,8 @@ var Poverhnost = function()
 
         var y = 4.76;
         var x = 23.8;
-        var WO1 = 0.0010234;//WO[1];
-        var WO2 = 0.0323214;
+        var WO1 = WO[1];
+        var WO2 = WO[2];
 
         var Sk = 0;
         var ii;
@@ -810,8 +810,8 @@ var Poverhnost = function()
             Sk +=1;
             ii = i
         }
-        console.log(Sk);
-        console.log(ii)
+        //console.log(Sk);
+        //console.log(ii)
 
         if(parseFloat((ii-0.1).toFixed(1)) == parseFloat(WO1.toFixed(1)))
         {
@@ -838,7 +838,7 @@ var Poverhnost = function()
             ii = i
         }
 
-        console.log(Sk + '\n' + ii);
+        //console.log(Sk + '\n' + ii);
         Sk-=1;
 
         //x = x + (Sk * 23.8);
@@ -863,11 +863,20 @@ var Poverhnost = function()
         }
 
         Holst.innerHTML += Circle(3,x,y+900,'red');
+
+        return x;
         
         
     }
 
-    IzmerOX(WAll[0]);
+    var xY;
+    for(var i = 0; i < Object.keys(WAll).length; i++)
+    {
+        xY = IzmerOX(WAll[i]);
+        Holst.innerHTML += Circle(3,xY,400+AllError[i][0]*200,'red');
+        console.log(i);
+    }
+    
 
 
 }
