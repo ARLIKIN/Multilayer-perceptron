@@ -728,8 +728,8 @@ var Poverhnost = function()
         SW0[k] = [];
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
-            SW1[k][h] = (1/(1 + Math.exp(-a * (i+j))));
-            SW0[k][h] = (1/(1 + Math.exp(-a * (i))));
+            SW1[k][h] = 1-(1/(1 + Math.exp(-a * (i+j))));
+            SW0[k][h] = 0-(1/(1 + Math.exp(-a * (i))));
         }
     }
 
@@ -780,19 +780,7 @@ var Poverhnost = function()
        }
     }
 
-    //Основная поверхность
-    x = 23.8;
-    var circl = 0;
-    for(var i =0; i <21; i++)
-    {
-        for(var j = 0; j<21; j++, circl++)
-        {
-            
-            Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW1[i][circl]*80*4.76,'green'); // 1-Y
-            Holst.innerHTML += Circle(3,(500+x)-j*23.8,400-SW0[i][circl]*200,'blue'); // 0-Y
-        }
-        x += 23.8;
-    }
+    
 
     //Линия ошибки
     var IzmerOX = function(WO)
@@ -862,7 +850,7 @@ var Poverhnost = function()
             }    
         }
 
-        Holst.innerHTML += Circle(3,x,y+900,'red');
+        //Holst.innerHTML += Circle(3,x,y+900,'red');
 
         return x;
         
@@ -875,6 +863,38 @@ var Poverhnost = function()
         xY = IzmerOX(WAll[i]);
         Holst.innerHTML += Circle(3,xY,400+AllError[i][0]*200,'red');
         console.log(i);
+    }
+
+    //Основная поверхность
+    x = 23.8;
+    y = 4.76*21;
+    y1 = 4.76*21;
+    var wo = [];
+    var w1 = 2;
+    var w2 = 2;
+    var circl = 0;
+    for(var i =0; i <21; i++ , w1-=0.2, y1-=4.76)
+    {
+        
+        for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)
+        {
+            wo[1] = w1;
+            wo[2] = w2; 
+            
+            xY =  IzmerOX(wo);
+            /*if(j == 0)
+            {
+                Holst.innerHTML += Circle(3,xY,(500+y1)-SW1[i][circl]*400,'green');
+            }*/
+            Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW1[i][circl]*400,'green');
+            Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');
+
+            
+            //Holst.innerHTML += Circle(3,(500+x)-j*23.8,(500-y)-SW1[i][circl]*400,'green'); // 1-Y
+            //Holst.innerHTML += Circle(3,(500+x)-j*23.8,(475-y)-SW0[i][circl]*400,'blue'); // 0-Y
+        }
+        w2 = 2;
+        y = 4.76*21;
     }
     
 
