@@ -234,7 +234,7 @@ function Neuron(X,m)
         {
             if(Byid('XInput').value.length == 0)
             {
-                Byid('XInput').value = '1'+'\n'+'&'+'\n'+'0,1,0,1,0;'+'\n'+'&';
+                Byid('XInput').value = '1,1'+'\n'+'&'+'\n'+'0,1,0,1,0;'+'\n'+'&';
             }
 
             XD = Byid('XInput').value.split('&'); // получаем входные данные из файла и формируем из них массив
@@ -346,7 +346,6 @@ HidenSloi = function(nm) // Скрытый слой
         Wlength = Object.keys(W).length; //
         var KolV; 
 
-        if(KolYHidensloi[0] == 0){return}
         Y[Ylength] = []; 
         if (KolYHidensloi <=0) KolYHidensloi[nm-1] = 1;
             KolV = KolYHidensloi[nm-1];
@@ -389,19 +388,17 @@ InputSloi = function() // Выходной слой
         var mob;
         var KOlYhidesl = KolYHidensloi;
         KOlYhidesl.unshift(KolYInput);
-        var o = KOlYhidesl.length;
+        var o = KOlYhidesl.length-1;
         var hob =0;
         var countSloi = KolSLOI + 1;
         var itoger= []
         var kolNSloi = 0;
         var errLeng = error.length;
         mob = Y[o].length;
-        var yp = 0;
         for(var i = err.length-1; i >= 0; i--)
         {
                 
                 error[i] = KorrektError(error,i,hob,countSloi,kolNSloi,errLeng);
-                if(tic != 0){yp = AllError[tic-1][i]};
                 hob++
                 for(var p = W[err[i]].length-1; p >= 0; p--)
                     {
@@ -411,10 +408,10 @@ InputSloi = function() // Выходной слой
                             W[i][p] += Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
-                            W[err[i]][p] +=Multiplier(Y[o][0],error,i); 
+                            W[err[i]][p] += Multiplier(Y[o][0],error,i); 
                         }else
                         {
-                            W[err[i]][p] += (Multiplier(Y[o][mob-1],error,i)) * learningRate * Y[ o-1][p-1]+(a*yp); // здесь ошибка
+                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[o-1][p-1]; // здесь ошибка
                         }
                        
                     }
@@ -453,7 +450,7 @@ InputSloi = function() // Выходной слой
 
         for(var j = Index.length-1; j >=Index.length-Y[countSloi].length; j--, h++)
             {
-                ERORW.unshift(W[Index[j]][W[Index[j]].length-1 - hob] + error[l-1 - h]); // ошибка неправельная должна быть 1 а она 0
+                ERORW.unshift(W[Index[j]][W[Index[j]].length-1 - hob] + error[l-1 - h]);
             }   
 
             for(var j = 0; j < ERORW.length; j++)
@@ -467,14 +464,14 @@ InputSloi = function() // Выходной слой
 
     var Minus = function(input,nm)
     {
-        var err = d[nm]-input[nm];
+        var err = d[nm] - input[nm];
         return err
     }
 
     var Multiplier = function(y,err,i)
     {
         var result;
-        result = ((1-y)*y)*a*err[i];//a!?
+        result = ((1-y)*y)*a*err[i];
         return result; 
     }
 
@@ -517,15 +514,6 @@ InputSloi = function() // Выходной слой
         
 
         KorrektHiddenSloi(Windex);
-
-
-        // Коррекция весов выходного слоя 
-
-        var KorrektInputsloi = function()
-        {
-
-        }
-            KorrektInputsloi();
 
         
 
@@ -690,14 +678,8 @@ InputSloi = function() // Выходной слой
             {
                 b = parseInt(tic*0.001)
             }
-            if(tic > 100)
-            {
+
             GrafALL(b);
-            }
-            if(tic <=100)
-            {
-                GrafALL100(b) //График ошибок для b <= 100 
-            }
         }
 
         if(Byid('checkGrafikNeuron').checked)
@@ -720,7 +702,7 @@ InputSloi = function() // Выходной слой
                 b = parseInt(tic*0.001)
             }
 
-                GrafLastSloi(b);
+            GrafLastSloi(b);
         }
 
 
@@ -933,14 +915,12 @@ var Osi = function(i,canvas,mn,fix)
 
         //Горизонтальные линии
         //var p = 50;
-        var m;
         for(var j = 50; j <= 1000; j+=50/*,p+=10*mn*/)
         {
             ctx.strokeText('|',j,504);
             if(j !=1000)
             {
-                m = j/10;
-                ctx.strokeText(m+'%',j-8,495);
+                ctx.strokeText(j,j-8,495)
             }
         }
         //Номер нейрона
@@ -955,106 +935,8 @@ var Osi = function(i,canvas,mn,fix)
         ctx.strokeText('Нейрон №'+nomer,900,14);
 
         ctx.strokeText('Ошибка',10,14);
-        ctx.strokeText('Итерации' ,900,480)
+        ctx.strokeText('Итерация',900,480)
 }    
-
-
-
-//при b <=100
-var GrafALL100 = function(b)
-{
-    var CanvaSTR=''
-    for(var i = 0; i < AllError[0].length; i++)
-    {
-        CanvaSTR +='<canvas class="canvas" id="canva' + i +'">нейрон №</canvas>'; 
-    }
-    Byid('canvasALL').innerHTML = CanvaSTR; 
-    for(var i = 0; i < AllError[0].length; i+=1)
-    {
-        canvas = Byid('canva'+i);
-
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) >100)
-        {
-            Osi(i,canvas,10,0)
-            Grafik100(i,canvas,0.01,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) >1 && Math.abs(AllError[0][i]) <100)
-        {
-            Osi(i,canvas,1,0)
-            Grafik100(i,canvas,0.1,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) >1 && Math.abs(AllError[0][i]) <10)
-        {
-            Osi(i,canvas,0.1,0)
-            Grafik100(i,canvas,1,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) < 1 && Math.abs(AllError[0][i]) >=0.1)
-        {
-            Osi(i,canvas,0.01,1)
-            Grafik100(i,canvas,10,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i])<0.1 && Math.abs(AllError[0][i]) > 0.01)
-        {
-            Osi(i,canvas,0.001,2)
-            Grafik100(i,canvas,100,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) < 0.01 && Math.abs(AllError[0][i]) >=0.001)
-        {
-            Osi(i,canvas,0.0001,3)
-            Grafik100(i,canvas,1000,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i])<0.001 && Math.abs(AllError[0][i]) >= 0.0001)
-        {
-            Osi(i,canvas,0.00001,4)
-            Grafik100(i,canvas,10000,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i])<0.0001 && Math.abs(AllError[0][i]) >=0.00001)
-        {
-            Osi(i,canvas,0.000001,5)
-            Grafik100(i,canvas,100000,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) <0.00001 && Math.abs(AllError[0][i]) >=0.000001)
-        {
-            Osi(i,canvas,0.0000001,6)
-            Grafik100(i,canvas,1000000,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.0000001)
-        {
-            Osi(i,canvas,0.00000001,7)
-            Grafik100(i,canvas,10000000,b)
-        }
-        if(Math.abs(AllError[parseInt(((b-1)/2).toFixed(0))][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.00000001)
-        {
-            Osi(i,canvas,0.00000001,8)
-            Grafik100(i,canvas,10000000,b)
-        }
-    }
-}
-
-var Grafik100 = function(i,canvas,mn,b)
-{
-    var h =1;
-    var ctx = canvas.getContext("2d");
-        ctx.strokeStyle = 'red';
-        for(var j =0; j < b; j++)
-        {
-            if(j == 0)
-            {
-                ctx.moveTo(j,500-(AllError[j][i]*mn*50));
-                continue;
-            }
-
-                ctx.lineTo(h,500-(AllError[j][i]*mn*50));
-                
-                h+=parseInt((1000 / b).toFixed(0));
-        }
-        ctx.stroke();
-
-        ctx.setLineDash([8, 3]);
-        ctx.moveTo(h-parseInt((1000/b).toFixed(0)),500-(AllError[Object.keys(AllError).length-1][i]*mn*50))
-        ctx.lineTo(0,500-(AllError[Object.keys(AllError).length-1][i]*mn*50));
-        ctx.stroke();
-}
 
 //Распознование
 
@@ -1111,22 +993,11 @@ var GrafLastSloi = function(b)
     }
     Byid('canvasNeuron').innerHTML = CanvaLastSloiSTR;
     
-    if(tic > 100)
+    for(var i =0; i < Y[Ylength-1].length; i++)
     {
-        for(var i =0; i < Y[Ylength-1].length; i++)
-        {
-            canvas = Byid('canvaLastSloi'+i);
-            OsiNeuron(i,canvas)
-            GrafikNeuron(i,canvas,b)
-        }
-    }if(tic <=100)
-    {
-        for(var i =0; i < Y[Ylength-1].length; i++)
-        {
-            canvas = Byid('canvaLastSloi'+i);
-            OsiNeuron(i,canvas)
-            GrafikNeuron100(i,canvas,b)
-        }
+        canvas = Byid('canvaLastSloi'+i);
+        OsiNeuron(i,canvas)
+        GrafikNeuron(i,canvas,b)
     }
 }
 
@@ -1164,14 +1035,12 @@ var OsiNeuron = function(i,canvas)
 
         //Горизонтальные линии
         //var p = 50;
-        var m;
         for(var j = 50; j <= 1000; j+=50/*,p+=10*mn*/)
         {
             ctx.strokeText('|',j,998);
             if(j !=1000)
             {
-                m = j/10
-                ctx.strokeText(m+'%',j-8,990)
+                ctx.strokeText(j,j-8,990)
             }
         }
         //Номер нейрона
@@ -1208,33 +1077,8 @@ var GrafikNeuron = function(i,canvas,b)
             
         }
         ctx.stroke();
-    }
-var GrafikNeuron100 = function(i,canvas,b)
-    {
-        var h =1;
-        var ctx = canvas.getContext("2d");
-        ctx.strokeStyle = 'blue';
-        for(var j =0; j < b; j++)
-        {
-            if(j == 0)
-            {
-                ctx.moveTo(j,1000-(AllYLastsloi[j][i]*1000));
-                continue;
-            }
+    }  
 
-                ctx.lineTo(h,1000-(AllYLastsloi[j][i]*1000));
-
-                h+=parseInt((1000/b).toFixed(0));
-            
-        }
-        ctx.stroke();
-
-        ctx.setLineDash([8, 3]);
-        ctx.moveTo(h-parseInt((1000/b).toFixed(0)),1000-(AllYLastsloi[Object.keys(AllYLastsloi).length-1][i])*1000);
-        ctx.lineTo(0,1000-(AllYLastsloi[Object.keys(AllYLastsloi).length-1][i])*1000);
-        ctx.stroke();
-        
-    }      
 
     //Структура сети
     Byid('Struktura_hiden').onclick = function()
