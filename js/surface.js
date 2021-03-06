@@ -728,8 +728,8 @@ var Poverhnost = function()
         SW0[k] = [];
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
-            SW1[k][h] = 1-(1/(1 + Math.exp(-a * (i+j))));
-            SW0[k][h] = 1-(1/(1 + Math.exp(-a * (i))));
+            SW1[k][h] = (1/(1 + Math.exp(-a * (i+j))));
+            SW0[k][h] = (1/(1 + Math.exp(-a * (i))));
         }
     }
 
