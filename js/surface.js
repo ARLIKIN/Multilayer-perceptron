@@ -903,7 +903,7 @@ var Poverhnost = function()
             wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
-            //Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');
+            Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');
         }
         w2 = 2;
         y = 4.76*21;

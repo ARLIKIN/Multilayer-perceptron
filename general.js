@@ -35,6 +35,8 @@
     var MD = [];
     var CSK = 0;
     var LMX = [];
+    var SystemCount;
+    var SystemCountD;
 
     
 function showFile(input) 
@@ -144,52 +146,46 @@ function Neuron(X,m)
     Bool = true;
     AllYLastsloi = {};
     AllYLastIter = [];
+    SystemCount = 0;
+    SystemCountD =0;
+
 
     var XC =0;
 
     SystemClass = function()
     {
-        if(XC != LMX.length-1)
-        {
-            XC +=1; 
-            X = LMX[XC].split(',');
-
-            for(var i = 0; i < X.length; i++)
+        SystemCount +=1;
+            if(SystemCount < LMX.length)
             {
-                X[i] = +X[i]//вход
-            }
-            tic = 0
-            return false;
-        }else
-        {
-            CSK +=1;
-            XC = 0;
-            if(CSK >= MD.length)
+                X = LMX[SystemCount].split(',');
+            }else
             {
-                return true
+                if(SystemCountD >= MD.length-1)
+                {
+                    SystemCountD = 0;
+                }else
+                {
+                    SystemCountD +=1;
+                }
+                d = MD[SystemCountD].split(',');
+                SystemCount = 0;
+                LMX = MX[SystemCountD].split(';');
+                LMX.pop();
+                X = LMX[SystemCount].split(',');//замени уже а
             }
-            
-            d = MD[CSK].split(',');
-            LMX = MX[CSK].split(';');
-            if(LMX.length>1)
-            LMX.pop();
-
-            X = LMX[XC].split(',');
 
             for(var i = 0; i < d.length; i++)
-            {
-                d[i] = +d[i]//ожидания
-            }
+             {
+                 d[i] = +d[i];
+             }
 
-            for(var i = 0; i < X.length; i++)
-            {
-                X[i] = +X[i]//вход
-            }
-            tic = 0
-            return false;
+             for(var i = 0; i < X.length; i++)
+             {
+                 X[i] = +X[i];
+             }
 
-        }
-       
+             KolYOutput = d.length;
+             KolX = X.length;
 
     }
 
@@ -746,27 +742,18 @@ InputSloi = function() // Выходной слой
         document.getElementById('oldW').innerHTML = w;    
 
         // обучение
-    
+        AllYLastsloi = {};
         while(Bool)
             {
                 if(tic >= it)
                 {
-                    if(SystemClass()){break;}
+                    break;
                 }
-                for(var i = 0; i < d.length; i++)
-                {
-                    if(+Y[Ylength-1][i].toFixed(1) != +d[i].toFixed(1))
-                    {
-                        break;
-                    }
-                }
-
-               /* if(i != d.length-1)
-                {*/
                     AllYLastsloi[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
                     Korrekt(false,X);
+                    SystemClass();
                     tic+=1;
-                /*}else{break}*/
+                    console.log(X + Y + '\n');
             }
 
             Rezultat(tic);
@@ -1066,12 +1053,12 @@ var GrafikNeuron = function(i,canvas,b)
         {
             if(j == 0)
             {
-                ctx.moveTo(j,1000-(AllYLastsloi[j][i]*1000));
+                ctx.moveTo(j,1000-(AllYLastsloi[j][0]*1000));
                 continue;
             }
 
-                ctx.lineTo(h,1000-(AllYLastsloi[j-b][i]*1000));
-                ctx.lineTo(h+1,1000-(AllYLastsloi[j][i]*1000));
+                ctx.lineTo(h,1000-(AllYLastsloi[j-b][0]*1000));
+                ctx.lineTo(h+1,1000-(AllYLastsloi[j][0]*1000));
 
                 h+=2;
             
