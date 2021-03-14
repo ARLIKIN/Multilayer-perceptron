@@ -889,14 +889,12 @@ var Poverhnost = function()
             }
             if(i>j)
                 {
-                     y2 +=4.76
-                     //Holst.innerHTML += Circle(3,xY,(730 - Math.pow(y2,1) + Math.pow(i,2.15))-SW1[i][circl]*530,'green');//правая часть графика
+                    Holst.innerHTML += Circle(3,xY,(200 + y+y1)-SW1[i][circl]*400,'green');//правая часть графика
                     continue;
                 }
             else
                 {
-                    Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW1[i][circl]*400,'green');
-                    //Holst.innerHTML += Circle(3,xY,(730 -  - Math.pow(i,2.15))-SW1[i][circl]*630,'green');//левая часть графика
+                    Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW1[i][circl]*400,'green'); //левая часть графика
                 continue;
                 }
 
