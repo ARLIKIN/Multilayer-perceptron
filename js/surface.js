@@ -912,7 +912,7 @@ var Poverhnost = function()
     var circl = 0;
     for(var i =0; i <21; i++ , w1-=0.2, y1-=-4.76)
     {
-       /* 
+       
         for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)
         {
             wo[1] = w1;
@@ -933,7 +933,7 @@ var Poverhnost = function()
                 Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');//левая часть графика
                 continue;
                 }
-        }*/
+        }
         w2 = 2;
         y = 4.76*21;
     }
