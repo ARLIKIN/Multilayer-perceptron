@@ -858,16 +858,23 @@ var Poverhnost = function()
     }
 
     var xY;
-    var mnoz = 400;
-    for(var i = 0; i < Object.keys(WAll).length; i++)
+    var mnoz = 100;
+    var yl = 4.76*21;
+    for(var i = 0; i < Object.keys(WAll).length; i++ , yl -= 4.76)
     {
         xY = IzmerOX(WAll[i]);
         if(i < 4)
         {
-            Holst.innerHTML += Circle(3,xY,410-YAll[i][0]*mnoz,'black');
+            Holst.innerHTML += Circle(3,xY,(410 - yl/2)-YAll[i][0]*mnoz,'black');
             continue;
         }
-        Holst.innerHTML += Circle(3,xY,410-YAll[i][0]*mnoz,'red');
+        if(i %2 != 0)
+        {
+            Holst.innerHTML += Circle(3,xY,(410 - yl/2)-YAll[i][0]*mnoz,'red');
+        }else
+        {
+            Holst.innerHTML += Circle(3,xY,(300 + yl/2)-YAll[i][0]*mnoz,'blue');
+        }
         console.log(i);
     }
 
