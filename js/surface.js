@@ -856,27 +856,42 @@ var Poverhnost = function()
         
         
     }
-
+    //линия ошибки
     var xY;
-    var mnoz = 100;
-    var yl = 4.76*21;
-    for(var i = 0; i < Object.keys(WAll).length; i++ , yl -= 4.76)
+    var mnoz = 400;
+    var sm;
+    var color;
+    var aC =0
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+    function rgb2hex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+    var SettingColor = 1//255 / Object.keys(WAll).length
+
+    for(var i = 0; i < Object.keys(WAll).length; i++ ,aC+=110)
     {
+        if(aC > 255){aC = 150}
         xY = IzmerOX(WAll[i]);
-        if(i < 4)
+        color = rgb2hex(aC,0,0);
+        //if(i < 0){color = 'blak'}
+
+        if(xY <= 500)
         {
-            Holst.innerHTML += Circle(3,xY,(410 - yl/2)-YAll[i][0]*mnoz,'black');
+            sm = (xY/40)*4.76*1.68;
+            Holst.innerHTML += Circle(3,xY,(500-sm)-YAll[i][0]*mnoz,color);
             continue;
-        }
-        if(i %2 != 0)
-        {
-            Holst.innerHTML += Circle(3,xY,(410 - yl/2)-YAll[i][0]*mnoz,'red');
         }else
         {
-            Holst.innerHTML += Circle(3,xY,(300 + yl/2)-YAll[i][0]*mnoz,'blue');
+            sm = (xY/40)*4.76*1.68;
+            Holst.innerHTML += Circle(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
+            continue;
         }
-        console.log(i);
     }
+
+   
 
     //Основная поверхность
     x = 23.8;
@@ -892,7 +907,7 @@ var Poverhnost = function()
         
         for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)//0.1
         {
-            /*wo[1] = w1;
+            wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
             if(i == 0)
@@ -914,7 +929,7 @@ var Poverhnost = function()
                 if(i == 20 && j == 20)
                 {
                     Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW1[i][circl]*400+7,'green');//Кост ыль
-                }*/
+                }
                
 
         }
@@ -934,7 +949,7 @@ var Poverhnost = function()
        
         for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)
         {
-            /*wo[1] = w1;
+            wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
             if(i == 0)
@@ -951,13 +966,13 @@ var Poverhnost = function()
                 {
                 Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW0[i][circl]*400,'blue');//левая часть графика
                 continue;
-                }*/
+                }
         }
         w2 = 2;
         y = 4.76*21;
     }
 
-    //Holst.innerHTML += Line(0,384,1000,384,'black','1px');
+   
     
 
 
