@@ -960,17 +960,17 @@ var Poverhnost = function()
             xY =  IzmerOX(wo);
             if(i == 0)
                 {
-                    Holst.innerHTML += Circle(3,xY,(1000-y - y1)-SW1[i][circl]*400,'blue',i,circl);
+                    Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);
                     continue;
                 }
             if(i>j)
                 {
-                    Holst.innerHTML += Circle(3,xY,(1000 - y-y1)-SW1[i][circl]*400,'blue',i,circl);//правая часть графика
+                    Holst.innerHTML += Circle(3,xY,(1008 - y-y1)-SW1[i][circl]*400,'blue',i,circl);//правая часть графика
                     continue;
                 }
             else
                 {
-                Holst.innerHTML += Circle(3,xY,(1000-y - y1)-SW1[i][circl]*400,'blue',i,circl);//левая часть графика
+                Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);//левая часть графика
                 continue;
              }
         }
@@ -978,7 +978,7 @@ var Poverhnost = function()
         y = 4.76*21;
     }
 
-    Holst.innerHTML += Line(0,638,1000,600,'black','1px');
+    Holst.innerHTML += Line(0,660,1000,460,'black','1px');
 
     
 
