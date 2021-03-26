@@ -36,6 +36,8 @@
     var Koordinat;
     var SystemCount;
     var SystemCountD;
+    var SW1 = {};
+    var SW0 = {};
 
 
 
@@ -550,7 +552,11 @@ var Text2 = function(text,x,y,color,size)
     return '<text font-size="'+size+'" fill="'+color+'" x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>';
 }
 
-var Circle = function(r,x,y,color)
+var Circle = function(r,x,y,color,i,j)
+{
+    return ' <circle onclick="CC3D('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+}
+var Circle2 = function(r,x,y,color,i,j)
 {
     return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
@@ -718,8 +724,7 @@ var GrafikY = function()
 //3D Поверхность
 var Poverhnost = function()
 {
-    var SW1 = {};
-    var SW0 = {};
+    
     var k = 0;
     var h = 0;
     for(var i = 2; i >= -2; i -= 0.2, k +=1)
@@ -882,12 +887,12 @@ var Poverhnost = function()
         if(xY <= 500)
         {
             sm = (xY/40)*4.76*1.68;
-            Holst.innerHTML += Circle(3,xY,(500-sm)-YAll[i][0]*mnoz,color);
+            Holst.innerHTML += Circle2(3,xY,(500-sm)-YAll[i][0]*mnoz,color);
             continue;
         }else
         {
             sm = (xY/40)*4.76*1.68;
-            Holst.innerHTML += Circle(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
+           Holst.innerHTML += Circle2(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
             continue;
         }
     }
@@ -908,7 +913,7 @@ var Poverhnost = function()
         
         for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)//0.1
         {
-            wo[1] = w1;
+           /* wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
             if(i == 0)
@@ -930,7 +935,7 @@ var Poverhnost = function()
                 if(i == 20 && j == 20)
                 {
                     //Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW1[i][circl]*400+7,'green');//Кост ыль
-                }
+                }*/
                
 
         }
@@ -949,32 +954,68 @@ var Poverhnost = function()
     {
        
         for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)
-        {
-            /*wo[1] = w1;
+        { 
+            wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
             if(i == 0)
                 {
-                    Holst.innerHTML += Circle(3,xY,(1000-y - y1)-SW1[i][circl]*400,'blue');
+                    Holst.innerHTML += Circle(3,xY,(1000-y - y1)-SW1[i][circl]*400,'blue',i,circl);
                     continue;
                 }
             if(i>j)
                 {
-                    Holst.innerHTML += Circle(3,xY,(1000 - y-y1)-SW1[i][circl]*400,'blue');//правая часть графика
+                    Holst.innerHTML += Circle(3,xY,(1000 - y-y1)-SW1[i][circl]*400,'blue',i,circl);//правая часть графика
                     continue;
                 }
             else
                 {
-                Holst.innerHTML += Circle(3,xY,(1000-y - y1)-SW1[i][circl]*400,'blue');//левая часть графика
+                Holst.innerHTML += Circle(3,xY,(1000-y - y1)-SW1[i][circl]*400,'blue',i,circl);//левая часть графика
                 continue;
-                }*/
+             }
         }
         w2 = 2;
         y = 4.76*21;
     }
 
-   
+    Holst.innerHTML += Line(0,638,1000,600,'black','1px');
+
     
 
 
 }
+
+//Клик для 3D графика
+   var CC3D = function(ix,jy)
+    {
+        //alert('Y = ' + SW1[ix][jy]);
+        var a;
+        var ii = 0;
+        var b = jy - (ix*21);
+        var jj = 0;
+        var j2y = 0;
+        for(var i = 2; i >=-2; i -=0.2,ii++)
+        {
+            if(ii == ix)
+            {
+                a = i;
+                break;
+            }
+        }
+
+         for(var i = 2; i >=-2; i -=0.2,jj++)
+        {
+            if(jj == b)
+            {
+                j2y = i;
+                break;
+            }
+        }
+
+        alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1));
+    }
+
+
+
+
+
