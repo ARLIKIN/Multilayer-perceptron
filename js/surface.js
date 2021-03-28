@@ -554,7 +554,7 @@ var Text2 = function(text,x,y,color,size)
 
 var Circle = function(r,x,y,color,i,j)
 {
-    return ' <circle onclick="CC3D('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+    return ' <circle class="C3D" onclick="CC3D('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
 var Circle2 = function(r,x,y,color,i,j)
 {
