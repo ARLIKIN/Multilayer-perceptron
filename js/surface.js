@@ -760,7 +760,7 @@ var Poverhnost = function()
     Holst.innerHTML += Text2('W2',800,970,'green','24px'); // подпись к оси W2
     Holst.innerHTML += Text2('Error',10,70,'red','24px');
 
-    h = 10;
+    h = 15;
     k =0;
     for(var i =0; i <= 20; i++, h-=1, k+=40) //деления на оси Y
     {
@@ -856,14 +856,16 @@ var Poverhnost = function()
             }    
         }
 
-        //Holst.innerHTML += Circle(3,x,y+900,'black');
-
-        return x;
+        Holst.innerHTML += Circle2(3,x,y+900,'black');
+        var KOR = [];
+        KOR[0] = x;
+        KOR[1] = y+900;
+        return KOR;
         
         
     }
     //линия ошибки
-    var xY;
+    var xY = [];
     var mnoz = 400;
     var sm;
     var color;
@@ -877,7 +879,7 @@ var Poverhnost = function()
     }
     var SettingColor = 1//255 / Object.keys(WAll).length
 
-    for(var i = 0; i < Object.keys(WAll).length; i++ ,aC+=10)
+    /*for(var i = 0; i < Object.keys(WAll).length; i++ ,aC+=10)
     {
         if(aC > 255){aC = 150}
         xY = IzmerOX(WAll[i]);
@@ -895,7 +897,7 @@ var Poverhnost = function()
            Holst.innerHTML += Circle2(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
             continue;
         }
-    }
+    }*/
 
    
 
@@ -913,7 +915,7 @@ var Poverhnost = function()
         
         for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)//0.1
         {
-           /* wo[1] = w1;
+            /*wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
             if(i == 0)
@@ -949,6 +951,7 @@ var Poverhnost = function()
     wo = [];
     w1 = 2;
     w2 = 2;
+    var oy;
     var circl = 0;
     for(var i =0; i <21; i++ , w1-=0.2, y1-=-4.76)
     {
@@ -958,7 +961,14 @@ var Poverhnost = function()
             wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
-            if(i == 0)
+            oy = ((SW1[i][circl] + 0.5)/0.1)*40;
+            //oy = (SW1[i][circl]*(40/0.5))*10;
+
+            Holst.innerHTML += Circle(3,xY[0],xY[1] - oy,'blue',i,circl);
+
+
+
+            /*if(i == 0)
                 {
                     Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);
                     continue;
@@ -972,7 +982,7 @@ var Poverhnost = function()
                 {
                 Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);//левая часть графика
                 continue;
-             }
+             }*/
         }
         w2 = 2;
         y = 4.76*21;
