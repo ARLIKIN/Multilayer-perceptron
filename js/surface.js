@@ -556,7 +556,7 @@ var Circle = function(r,x,y,color,i,j)
 {
     return ' <circle class="C3D" onclick="CC3D('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
-var Circle2 = function(r,x,y,color,i,j)
+var Circle2 = function(r,x,y,color)
 {
     return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
@@ -865,6 +865,7 @@ var Poverhnost = function()
         
     }
     //линия ошибки
+    var oy;
     var xY = [];
     var mnoz = 400;
     var sm;
@@ -879,14 +880,18 @@ var Poverhnost = function()
     }
     var SettingColor = 1//255 / Object.keys(WAll).length
 
-    /*for(var i = 0; i < Object.keys(WAll).length; i++ ,aC+=10)
+    for(var i = 0; i < Object.keys(WAll).length; i++ ,aC+=10)
     {
         if(aC > 255){aC = 150}
         xY = IzmerOX(WAll[i]);
+        oy = ((YAll[i][0] + 0.5)/0.1)*40;
+
         color = rgb2hex(aC,0,0);
         //if(i < 0){color = 'blak'}
 
-        if(xY <= 500)
+        Holst.innerHTML += Circle2(3,xY[0],xY[1]-oy,color)
+
+        /*if(xY <= 500)
         {
             sm = (xY/40)*4.76*1.68;
             Holst.innerHTML += Circle2(3,xY,(500-sm)-YAll[i][0]*mnoz,color);
@@ -896,8 +901,8 @@ var Poverhnost = function()
             sm = (xY/40)*4.76*1.68;
            Holst.innerHTML += Circle2(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
             continue;
-        }
-    }*/
+        }*/
+    }
 
    
 
@@ -951,7 +956,6 @@ var Poverhnost = function()
     wo = [];
     w1 = 2;
     w2 = 2;
-    var oy;
     var circl = 0;
     for(var i =0; i <21; i++ , w1-=0.2, y1-=-4.76)
     {
