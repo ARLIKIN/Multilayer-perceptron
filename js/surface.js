@@ -866,6 +866,7 @@ var Poverhnost = function()
     }
     //линия ошибки
     var oy;
+    var oy2;
     var xY = [];
     var mnoz = 400;
     var sm;
@@ -885,118 +886,36 @@ var Poverhnost = function()
         if(aC > 255){aC = 150}
         xY = IzmerOX(WAll[i]);
         oy = ((YAll[i][0] + 0.5)/0.1)*40;
-
         color = rgb2hex(aC,0,0);
         //if(i < 0){color = 'blak'}
-
         Holst.innerHTML += Circle2(3,xY[0],xY[1]-oy,color)
-
-        /*if(xY <= 500)
-        {
-            sm = (xY/40)*4.76*1.68;
-            Holst.innerHTML += Circle2(3,xY,(500-sm)-YAll[i][0]*mnoz,color);
-            continue;
-        }else
-        {
-            sm = (xY/40)*4.76*1.68;
-           Holst.innerHTML += Circle2(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
-            continue;
-        }*/
     }
 
    
 
     //Основная поверхность
-    x = 23.8;
-    y = 4.76*21;
-    y1 = 4.76*21;
     var wo = [];
     var w1 = 2;
     var w2 = 2;
-    var y2 =-4.76*21
     var circl = 0;
-    for(var i =0; i <21; i++ , w1-=0.2, y1+=4.76)//0.1
-    {
-        
-        for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)//0.1
-        {
-            /*wo[1] = w1;
-            wo[2] = w2; 
-            xY =  IzmerOX(wo);
-            if(i == 0)
-            {
-                Holst.innerHTML += Circle(3,xY,(800-y - y1)-SW1[i][circl]*400,'green');
-                continue;
-            }
-            
-            if(i>j)
-                {
-                    Holst.innerHTML += Circle(3,xY,(400 + y+y1)-SW1[i][circl]*400,'green');//правая часть графика
-                    continue;
-                }
-            else
-                {
-                    Holst.innerHTML += Circle(3,xY,(800-y - y1)-SW1[i][circl]*400,'green'); //левая часть графика
-                }
-
-                if(i == 20 && j == 20)
-                {
-                    //Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW1[i][circl]*400+7,'green');//Кост ыль
-                }*/
-               
-
-        }
-        w2 = 2;
-        y = 4.76*21;
-    }
-
-    x = 23.8;
-    y = 4.76*21;
-    y1 = 4.76*21;
-    wo = [];
-    w1 = 2;
-    w2 = 2;
-    var circl = 0;
-    for(var i =0; i <21; i++ , w1-=0.2, y1-=-4.76)
+    for(var i =0; i <21; i++ , w1-=0.2)
     {
        
-        for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)
+        for(var j = 0; j<21; j++, circl++, w2-=0.2)
         { 
             wo[1] = w1;
             wo[2] = w2; 
             xY =  IzmerOX(wo);
             oy = ((SW1[i][circl] + 0.5)/0.1)*40;
+            //oy2 = ((SW0[i][circl] + 0.5)/0.1)*40;
+            
             //oy = (SW1[i][circl]*(40/0.5))*10;
 
             Holst.innerHTML += Circle(3,xY[0],xY[1] - oy,'blue',i,circl);
-
-
-
-            /*if(i == 0)
-                {
-                    Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);
-                    continue;
-                }
-            if(i>j)
-                {
-                    Holst.innerHTML += Circle(3,xY,(1008 - y-y1)-SW1[i][circl]*400,'blue',i,circl);//правая часть графика
-                    continue;
-                }
-            else
-                {
-                Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);//левая часть графика
-                continue;
-             }*/
+           // Holst.innerHTML += Circle2(3,xY[0],xY[1] - oy2,'green',);
         }
         w2 = 2;
-        y = 4.76*21;
     }
-
-    Holst.innerHTML += Line(0,660,1000,460,'black','1px');
-
-    
-
-
 }
 
 //Клик для 3D графика
