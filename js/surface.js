@@ -788,8 +788,8 @@ var Poverhnost = function()
 
     
 
-    //Линия ошибки
-    var IzmerOX = function(WO)
+    //Поверхность весов
+    var IzmerOX = function(WO,bl)
     {
 
         var y = 4.76;
@@ -855,8 +855,14 @@ var Poverhnost = function()
                 y = y - (Sk * 4.76);
             }    
         }
-
-        Holst.innerHTML += Circle2(3,x,y+900,'black');
+        if(bl == 0)
+        {
+            Holst.innerHTML += Circle2(3,x,y+900,'black');
+        }
+        if(bl == 1)
+        {
+            Holst.innerHTML += Circle2(3,x,y+900,'darkred');
+        }
         var KOR = [];
         KOR[0] = x;
         KOR[1] = y+900;
@@ -872,6 +878,7 @@ var Poverhnost = function()
     var sm;
     var color;
     var aC =0
+    var SumY;
     function componentToHex(c) {
         var hex = c.toString(16);
         return hex.length == 1 ? "0" + hex : hex;
@@ -881,14 +888,16 @@ var Poverhnost = function()
     }
     var SettingColor = 1//255 / Object.keys(WAll).length
 
-    for(var i = 0; i < Object.keys(WAll).length; i++ ,aC+=10)
+    for(var i = 0; i < Object.keys(WAll).length; i+=2 ,aC+=10)
     {
         if(aC > 255){aC = 150}
-        xY = IzmerOX(WAll[i]);
+        xY = IzmerOX(WAll[i],1);
         oy = ((YAll[i][0] + 0.5)/0.1)*40;
+        SumY = ((YAll[i+1][0] + 0.5)/0.1)*40;
+        SumY= (SumY +oy)/2;
         color = rgb2hex(aC,0,0);
         //if(i < 0){color = 'blak'}
-        Holst.innerHTML += Circle2(3,xY[0],xY[1]-oy,color)
+        Holst.innerHTML += Circle2(3,xY[0],xY[1]-SumY,color)
     }
 
    
@@ -905,7 +914,7 @@ var Poverhnost = function()
         { 
             wo[1] = w1;
             wo[2] = w2; 
-            xY =  IzmerOX(wo);
+            xY =  IzmerOX(wo,0);
             oy = ((SW1[i][circl] + 0.5)/0.1)*40;
             //oy2 = ((SW0[i][circl] + 0.5)/0.1)*40;
             
