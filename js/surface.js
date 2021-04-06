@@ -339,10 +339,12 @@
             var yp = 0;
             AllError[tic] = [];
 
-            for(var i =0; i < KolYInput; i++)
+            /*for(var i =0; i < KolYInput; i++)
             {
                 Y[0][i] = Neuron(X,i)
-            }
+            }*/
+            
+            Y[0][0] = Neuron(X,0);
             YAll[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
 
             for(var i = 0; i < 1; i++) // если нейронов больше 1 то знак = надо убрать
