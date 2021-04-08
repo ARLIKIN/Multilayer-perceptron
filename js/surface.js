@@ -345,7 +345,7 @@
             }*/
             
             Y[0][0] = Neuron(X,0);
-            var SumER = Y[0][0];
+            var SumER = Y[0][0]
 
             for(var i = 0; i < 1; i++)
             {
