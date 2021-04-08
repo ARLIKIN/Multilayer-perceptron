@@ -345,13 +345,26 @@
             }*/
             
             Y[0][0] = Neuron(X,0);
+            var SumER = Y[0][0];
+
+            for(var i = 0; i < 1; i++)
+            {
+                
+                SystemClass();
+                Y[0][i] = Neuron(X,0);
+                SumER += Minus(Y[0],i);
+                
+            }
+            SystemClass();
+
+
             YAll[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
 
             for(var i = 0; i < 1; i++) // если нейронов больше 1 то знак = надо убрать
             {
-                err[i] = Minus(Y[0],i);
+                err[i] = SumER;
                 
-                err[i] = Multiplier(Y[0][i],err,i);
+                //err[i] = Multiplier(Y[0][i],err,i);
                 AllError[tic][i] = err[i];
                 
                 KorrektW(err[i],i)
@@ -401,7 +414,7 @@
                 }
      
                     KorrektGeneralSloi();
-                    SystemClass();
+                    //SystemClass();
                     tic+=1;
         }
         console.log('W =>>');
@@ -887,23 +900,8 @@ var Poverhnost = function()
         if(aC > 255){aC = 150}
         xY = IzmerOX(WAll[i]);
         oy = ((YAll[i][0] + 0.5)/0.1)*40;
-
         color = rgb2hex(aC,0,0);
-        //if(i < 0){color = 'blak'}
-
         Holst.innerHTML += Circle2(3,xY[0],xY[1]-oy,color)
-
-        /*if(xY <= 500)
-        {
-            sm = (xY/40)*4.76*1.68;
-            Holst.innerHTML += Circle2(3,xY,(500-sm)-YAll[i][0]*mnoz,color);
-            continue;
-        }else
-        {
-            sm = (xY/40)*4.76*1.68;
-           Holst.innerHTML += Circle2(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
-            continue;
-        }*/
     }
 
    
