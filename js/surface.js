@@ -122,7 +122,7 @@
             u += X[i] * W[m][i+1];
         }
         //функция активации(Сигмоидальная унополярная)
-        y =1/(1+Math.exp(-a*u));
+        y =  Math.tanh(a*u); //1/(1+Math.exp(-a*u));
         return y;     
     }
 
@@ -317,7 +317,7 @@
             var Multiplier = function(y,err,i)
             {
                 var result;
-                result = ((1-y)*y)*err[i];//Нужно ли здесь a??
+                result = 4/Math.pow((Math.pow(Math.E,y) + Math.pow(Math.E,-y)),2) * err[i];//Нужно ли здесь a??
                 return result; 
             }
             
