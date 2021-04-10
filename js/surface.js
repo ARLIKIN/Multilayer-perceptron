@@ -268,7 +268,7 @@
                     W[Wlength+i] = [];
                     for(var j = 0; j < Y[Ylength-1].length+1;j++)
                     {
-                        W[Wlength+i][j] = getRandomArbitrary(-1,1);
+                        W[Wlength+i][j] = getRandomArbitrary(1,2);
                     }
                 }
             }else
@@ -279,7 +279,7 @@
                     for(var j = 0; j < KolX+1;j++)
                     {
                         if(j == 0){W[i][j] = 0; continue;}
-                        W[i][j] = getRandomArbitrary(-1,1);
+                        W[i][j] = getRandomArbitrary(1,2);
                     }
                 }   
             }
@@ -345,17 +345,23 @@
             }*/
             
             Y[0][0] = Neuron(X,0);
-            var SumER = Y[0][0]
+            var SumER = Minus(Y[0],0);
+            var SUMY = Y[0][0];
 
             for(var i = 0; i < 1; i++)
             {
                 
                 SystemClass();
                 Y[0][i] = Neuron(X,0);
-                SumER += Minus(Y[0],i);
+                SUMY += Y[0][i];
+                SUMY = /*2**/(1-SUMY)*SUMY;
+                SumER = Math.abs(SumER) + Math.abs(Minus(Y[0],i));
+                SumER *=SUMY;
                 
             }
             SystemClass();
+
+            //2*(1-y)*y
 
 
             YAll[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
@@ -748,9 +754,9 @@ var Poverhnost = function()
         SW0[k] = [];
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
-            SW1[k][h] = (1/(1 + Math.exp(-a * (i+j))));
+            SW1[k][h] = 0-(1/(1 + Math.exp(-a * (i+j))));
             SW0[k][h] = 1-(1/(1 + Math.exp(-a * (i))));
-            SW1[k][h] = SW1[k][h] + SW0[k][h];
+            SW1[k][h] = Math.abs(SW1[k][h]) + SW0[k][h];
         }
     }
 
