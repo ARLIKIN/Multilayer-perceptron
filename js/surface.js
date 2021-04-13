@@ -990,7 +990,7 @@ var Poverhnost = function()
         xY = IzmerOX(WAll[i]);
         oy = ((YAll[i][0] + 0.5)/0.1)*40;
         color = rgb2hex(aC,0,0);
-        Holst.innerHTML += Circle3(3,xY[0],xY[1]-oy,color)
+        Holst.innerHTML += Circle3(3,xY[0],xY[1]-oy,color,i);
     }
 
    
