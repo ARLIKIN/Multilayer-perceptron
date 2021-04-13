@@ -38,6 +38,8 @@
     var SystemCountD;
     var SW1 = {};
     var SW0 = {};
+    var ER1;
+    var ER2;
 
 
 
@@ -156,6 +158,8 @@
         RX = [];
         SystemCount = 0;
         SystemCountD = 0;
+        ER1 = [];
+        ER2 = [];
         if(!Byid('DivKoordinat').hidden)
         {
             Byid('DivKoordinat').hidden = true;
@@ -346,6 +350,7 @@
             
             Y[0][0] = Neuron(X,0);
             var SumER = Minus(Y[0],0);
+            ER1[tic] = SumER;
             var SUMY = Y[0][0];
 
             for(var i = 0; i < 1; i++)
@@ -356,6 +361,7 @@
                 SUMY += Y[0][i];
                 SUMY = /*2**/(1-SUMY)*SUMY;
                 SumER = Math.abs(SumER) + Math.abs(Minus(Y[0],i));
+                ER2[tic] = SumER;
                 SumER *=SUMY;
                 
             }
@@ -402,6 +408,7 @@
         console.log(Koordinat);
         GrafikW();
         GrafikError();
+        GrafikError2();
         GrafikY();
         Poverhnost();
         Byid('Div_Raspoznovanie').hidden = false;
@@ -431,6 +438,9 @@
         console.log(YAll);
         console.log('X =>>');
         console.log(X);
+
+        console.log('Ошибка для первого образца:'+ER1)
+        console.log('Ошибка для второго образца:'+ER2)
 
         /*
         console.log('Самое интересное');
@@ -683,11 +693,80 @@ var GrafikError = function()
             Holst.innerHTML += Text1(i/10 + '%',i-10,488);
     }
     //Подписи
-    Holst.innerHTML += Text1('График изменения ошибки',400,20);
+    Holst.innerHTML += Text1('График суммарной ошибки',400,20);
     Holst.innerHTML += Text1('Erorr',20,20);
     Holst.innerHTML += Text1('Итераций',920,470)
     Holst.innerHTML += Text2(tic,940,455,'black','20');
 }
+
+
+var GrafikError2 = function()
+{
+    Byid('Grafiks').innerHTML += '<svg class="GrafALL" id="GrafError2" width = "1000" height = "1000"></svg>';
+    var Holst = Byid('GrafError2');
+
+    //Отрисовка
+    var interval;
+    if(tic < 1000)
+    {
+        interval = parseInt(1000 / tic +1);
+    }else
+    {
+        interval = 1; //можно флаг сделать
+    }
+
+
+
+    for(var i = 0,j = 0; i < Object.keys(WAll).length; i++,j +=interval)
+    {
+        if(i == 0)
+        {
+            Holst.innerHTML += Line(j,500-ER1[i]*250,j+interval,500-ER1[i]*250,'red','2px');
+            continue;
+        } 
+            Holst.innerHTML += Line(j,500-ER1[i-1]*250,j+interval,500-ER1[i]*250,'red','2px');
+    }
+
+
+    for(var i = 0,j = 0; i < Object.keys(WAll).length; i++,j +=interval)
+    {
+        if(i == 0)
+        {
+            Holst.innerHTML += Line(j,500-ER2[i]*250,j+interval,500-ER2[i]*250,'black','2px');
+            continue;
+        } 
+            Holst.innerHTML += Line(j,500-ER2[i-1]*250,j+interval,500-ER2[i]*250,'black','2px');
+    }
+
+
+
+    //Координаты
+    Holst.innerHTML += Line(0,0,0,1000,'black','2px');//OY
+    Holst.innerHTML += Line(0,500,1000,500,'black','1px');//OX
+    //Риски на координатах
+    for(var i = 0, j = 10; i <=1000; i+=50,j-=1)
+    {
+        if(i == 0){Holst.innerHTML += Line(0,0,10,0,'black','1px');continue;}
+            if(i != 500)
+            Holst.innerHTML +=  Line(0,i,15,i,'black','1px'); //OY
+            Holst.innerHTML += Line(i,490,i,510,'black','1px');//OX
+            if(i !=1000)
+            Holst.innerHTML += Text1(j/5,3,i-2); //OY цифры
+            if(i == 50)
+            {Holst.innerHTML += Text1(i/10 + '%',i-5,488); continue}
+            if(i != 1000)
+            Holst.innerHTML += Text1(i/10 + '%',i-10,488);
+    }
+    //Подписи
+    Holst.innerHTML += Text1('График изменения ошибок для двух образцов',400,20);
+    Holst.innerHTML += Text1('Erorr',20,20);
+    Holst.innerHTML += Text1('Итераций',920,470)
+    Holst.innerHTML += Text2(tic,940,455,'black','20');
+    Holst.innerHTML +=Text2('1 образец',915,80,'black','16');
+    Holst.innerHTML +=Text2('2 образец',915,100,'red','16');
+}
+
+
 
 var GrafikY = function()
 {
