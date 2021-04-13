@@ -1123,6 +1123,25 @@ var Poverhnost = function()
         alert('Y = ' + YAll[id][0].toFixed(3));
     }
 
+    var nbv = 0;
+    var VVV = function()
+    {
+        var colect = document.getElementsByClassName('C3D');
+
+        /*for(var i = 0; i < colect.length; i++)
+        {
+            colect[i].transform='translate('+colect[i].cx + nbv +' '+colect[i].cy+nbv+')';
+        }*/
+
+        console.log(colect[0].cx);
+
+        nbv+=10;
+
+        
+    }
+    
+   
+
 
 
 
