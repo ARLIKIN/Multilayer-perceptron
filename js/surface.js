@@ -1114,6 +1114,11 @@ var Poverhnost = function()
         alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1));
     }
 
+    var CE3D = function(id)
+    {
+        alert('Y = ' + YAll[id][0].toFixed(3));
+    }
+
 
 
 
