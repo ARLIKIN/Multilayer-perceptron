@@ -560,6 +560,10 @@ var Circle2 = function(r,x,y,color)
 {
     return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
+var Circle3 = function(r,x,y,color,i)
+{
+    return ' <circle class="CE3D" onclick="CE3D('+i+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+}
 //Веса
 var GrafikW = function()
 {
@@ -856,7 +860,7 @@ var Poverhnost = function()
             }    
         }
 
-        Holst.innerHTML += Circle2(3,x,y+900,'black');
+        //Holst.innerHTML += Circle2(3,x,y+900,'black');
         var KOR = [];
         KOR[0] = x;
         KOR[1] = y+900;
@@ -867,8 +871,6 @@ var Poverhnost = function()
     //линия ошибки
     var oy;
     var xY = [];
-    var mnoz = 400;
-    var sm;
     var color;
     var aC =0
     function componentToHex(c) {
@@ -889,73 +891,20 @@ var Poverhnost = function()
         color = rgb2hex(aC,0,0);
         //if(i < 0){color = 'blak'}
 
-        Holst.innerHTML += Circle2(3,xY[0],xY[1]-oy,color)
-
-        /*if(xY <= 500)
-        {
-            sm = (xY/40)*4.76*1.68;
-            Holst.innerHTML += Circle2(3,xY,(500-sm)-YAll[i][0]*mnoz,color);
-            continue;
-        }else
-        {
-            sm = (xY/40)*4.76*1.68;
-           Holst.innerHTML += Circle2(3,xY,(300+sm)-YAll[i][0]*mnoz,color);
-            continue;
-        }*/
+        Holst.innerHTML += Circle3(3,xY[0],xY[1]-oy,color,i)
     }
 
    
 
     //Основная поверхность
-    x = 23.8;
-    y = 4.76*21;
-    y1 = 4.76*21;
     var wo = [];
     var w1 = 2;
     var w2 = 2;
     var y2 =-4.76*21
     var circl = 0;
-    for(var i =0; i <21; i++ , w1-=0.2, y1+=4.76)//0.1
-    {
-        
-        for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)//0.1
-        {
-            /*wo[1] = w1;
-            wo[2] = w2; 
-            xY =  IzmerOX(wo);
-            if(i == 0)
-            {
-                Holst.innerHTML += Circle(3,xY,(800-y - y1)-SW1[i][circl]*400,'green');
-                continue;
-            }
-            
-            if(i>j)
-                {
-                    Holst.innerHTML += Circle(3,xY,(400 + y+y1)-SW1[i][circl]*400,'green');//правая часть графика
-                    continue;
-                }
-            else
-                {
-                    Holst.innerHTML += Circle(3,xY,(800-y - y1)-SW1[i][circl]*400,'green'); //левая часть графика
-                }
-
-                if(i == 20 && j == 20)
-                {
-                    //Holst.innerHTML += Circle(3,xY,(600-y - y1)-SW1[i][circl]*400+7,'green');//Кост ыль
-                }*/
-               
-
-        }
-        w2 = 2;
-        y = 4.76*21;
-    }
-
     x = 23.8;
     y = 4.76*21;
     y1 = 4.76*21;
-    wo = [];
-    w1 = 2;
-    w2 = 2;
     var circl = 0;
     for(var i =0; i <21; i++ , w1-=0.2, y1-=-4.76)
     {
@@ -969,24 +918,6 @@ var Poverhnost = function()
             //oy = (SW1[i][circl]*(40/0.5))*10;
 
             Holst.innerHTML += Circle(3,xY[0],xY[1] - oy,'blue',i,circl);
-
-
-
-            /*if(i == 0)
-                {
-                    Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);
-                    continue;
-                }
-            if(i>j)
-                {
-                    Holst.innerHTML += Circle(3,xY,(1008 - y-y1)-SW1[i][circl]*400,'blue',i,circl);//правая часть графика
-                    continue;
-                }
-            else
-                {
-                Holst.innerHTML += Circle(3,xY,(1008-y - y1)-SW1[i][circl]*400,'blue',i,circl);//левая часть графика
-                continue;
-             }*/
         }
         w2 = 2;
         y = 4.76*21;
@@ -1027,6 +958,11 @@ var Poverhnost = function()
         }
 
         alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1));
+    }
+
+    var CE3D = function(id)
+    {
+        alert('Y = ' + YAll[id][0].toFixed(3));
     }
 
 

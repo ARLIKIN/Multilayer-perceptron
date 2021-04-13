@@ -144,3 +144,8 @@ a
     r: 5px;
     fill: darkblue;
 }
+.CE3D:hover
+{
+    r: 5px;
+    fill: red;
+}
