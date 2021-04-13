@@ -591,6 +591,10 @@ var Circle2 = function(r,x,y,color)
 {
     return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
+var Circle3 = function(r,x,y,color,i)
+{
+    return ' <circle class="CE3D" onclick="CE3D('+i+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+}
 //Веса
 var GrafikW = function()
 {
@@ -986,7 +990,7 @@ var Poverhnost = function()
         xY = IzmerOX(WAll[i]);
         oy = ((YAll[i][0] + 0.5)/0.1)*40;
         color = rgb2hex(aC,0,0);
-        Holst.innerHTML += Circle2(3,xY[0],xY[1]-oy,color)
+        Holst.innerHTML += Circle3(3,xY[0],xY[1]-oy,color)
     }
 
    
