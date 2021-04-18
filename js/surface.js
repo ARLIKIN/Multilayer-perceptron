@@ -970,13 +970,15 @@ var Poverhnost = function()
     var VVV = function()
     {
         var colect = document.getElementsByClassName('C3D');
-
-        /*for(var i = 0; i < colect.length; i++)
+        var am
+        for(var i = 0; i < colect.length; i++)
         {
-            colect[i].transform='translate('+colect[i].cx + nbv +' '+colect[i].cy+nbv+')';
-        }*/
+            
+            
+            console.log(colect[i].getBoundingClientRect().x);
+        }
 
-        console.log(colect[0].cx);
+        //console.log(colect[0].cx);
 
         nbv+=10;
 
