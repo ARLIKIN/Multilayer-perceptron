@@ -967,15 +967,26 @@ var Poverhnost = function()
 
 
     var nbv = 0;
+    var smehcenie;
+    var cc;
     var VVV = function()
     {
         var colect = document.getElementsByClassName('C3D');
-        var am
+        var am;
         for(var i = 0; i < colect.length; i++)
         {
+            am = colect[i].getBoundingClientRect().x;
+            //console.log(colect[i].getBoundingClientRect().x);
+           // if(colect[i].getBoundingClientRect().x == 500){continue}
+            if(am < 500)
+            {
+                smehcenie = (((500-am)/100)*10)*2;
+                colect[i].style.transform = 'translate('+smehcenie+'px)'
+            }else
+            {
+                continue;
+            }
             
-            console.log(colect[i].getBoundingClientRect().x);
-            colect[i].style.transform = 'translate(100px,100px)'
         }
 
         //console.log(colect[0].cx);
