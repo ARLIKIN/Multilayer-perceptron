@@ -969,19 +969,34 @@ var Poverhnost = function()
     var nbv = 0;
     var smehcenie;
     var cc;
+    var MSm = [];
     var VVV = function()
     {
         var colect = document.getElementsByClassName('C3D');
         var am;
         for(var i = 0; i < colect.length; i++)
         {
-            am = colect[i].getBoundingClientRect().x;
+            //am = colect[i].getBoundingClientRect().x;
+            am = colect[i].attributes[3].nodeValue;
             //console.log(colect[i].getBoundingClientRect().x);
            // if(colect[i].getBoundingClientRect().x == 500){continue}
             if(am < 500)
             {
+                
                 smehcenie = (((500-am)/100)*10)*2;
+                if(nbv!=0)
+                {
+                    smehcenie += MSm[i];
+                }
                 colect[i].style.transform = 'translate('+smehcenie+'px)'
+                if(nbv == 0)
+                MSm[i] = smehcenie;
+                else
+                MSm[i] += smehcenie;
+                console.log(colect[i].getBoundingClientRect().x-361.25);
+                console.log(MSm[i]);
+                console.log(colect[0].attributes[3].nodeValue + '\n');
+                
             }else
             {
                 continue;
@@ -989,7 +1004,10 @@ var Poverhnost = function()
             
         }
 
-        //console.log(colect[0].cx);
+        console.log(' ');
+        console.log(colect[10].attributes[3].nodeValue)
+        colect[0].attributes[3].nodeValue +=5;
+        console.log(colect[10].getBoundingClientRect().x);
 
         nbv+=10;
 
