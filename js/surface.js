@@ -981,13 +981,14 @@ var Poverhnost = function()
             am = colect[i].attributes[3].nodeValue;
             //console.log(colect[i].getBoundingClientRect().x);
            // if(colect[i].getBoundingClientRect().x == 500){continue}
+            if(nbv <9)
             if(am < 500)
             {
                 
                 smehcenie = (((500-am)/100)*10)*2;
                 if(nbv!=0)
                 {
-                    smehcenie += MSm[i];
+                    smehcenie += MSm[i]/3;
                 }
                 colect[i].style.transform = 'translate('+smehcenie+'px)'
                 if(nbv == 0)
@@ -1003,7 +1004,7 @@ var Poverhnost = function()
                 smehcenie = (((500-am)/100)*10)*2;
                 if(nbv!=0)
                 {
-                    smehcenie += MSm[i];
+                    smehcenie += MSm[i]/3;
                 }
                 am = parseFloat(am)+smehcenie;
                 colect[i].style.transform = 'translate('+smehcenie+'px)'
@@ -1015,6 +1016,43 @@ var Poverhnost = function()
                 console.log(MSm[i]);
                 console.log(colect[0].attributes[3].nodeValue + '\n');
             }
+            else
+            {
+                if(am > 500)
+            {
+                
+                smehcenie = (((500-am)/100)*10)*2;
+                if(nbv!=0)
+                {
+                    smehcenie += MSm[i]/3;
+                }
+                colect[i].style.transform = 'translate('+smehcenie+'px)'
+                if(nbv == 0)
+                MSm[i] = smehcenie;
+                else
+                MSm[i] += smehcenie;
+                console.log(colect[i].getBoundingClientRect().x-361.25);
+                console.log(MSm[i]);
+                console.log(colect[0].attributes[3].nodeValue + '\n');
+                
+            }else
+            {
+                smehcenie = (((500-am)/100)*10)*2;
+                if(nbv!=0)
+                {
+                    smehcenie += MSm[i]/3;
+                }
+                am = parseFloat(am)+smehcenie;
+                colect[i].style.transform = 'translate('+smehcenie+'px)'
+                if(nbv == 0)
+                MSm[i] = smehcenie;
+                else
+                MSm[i] += smehcenie;
+                console.log(colect[i].getBoundingClientRect().x-361.25);
+                console.log(MSm[i]);
+                console.log(colect[0].attributes[3].nodeValue + '\n');
+            }
+            }
             
         }
 
@@ -1023,7 +1061,7 @@ var Poverhnost = function()
         colect[0].attributes[3].nodeValue +=5;
         console.log(colect[10].getBoundingClientRect().x);
 
-        nbv+=10;
+        nbv+=1;
 
         
     }
