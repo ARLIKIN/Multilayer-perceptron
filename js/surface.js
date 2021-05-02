@@ -966,11 +966,12 @@ var Poverhnost = function()
     }
 
 
-    var nbv = 0;
+    var nbvx = 0;
     var smehcenie;
     var cc;
     var MSm = [];
-    var VVV = function()
+    //смещение по оси ОX
+    var VVVX = function()
     {
         var colect = document.getElementsByClassName('C3D');
         var am;
@@ -981,17 +982,22 @@ var Poverhnost = function()
             am = colect[i].attributes[3].nodeValue;
             //console.log(colect[i].getBoundingClientRect().x);
            // if(colect[i].getBoundingClientRect().x == 500){continue}
-            if(nbv <9)
+            if(nbvx <9)
+        {
+            if(nbvx == 0 && i == 0)
+            {
+                MSm = [];
+            }
             if(am < 500)
             {
                 
                 smehcenie = (((500-am)/100)*10)*2;
-                if(nbv!=0)
+                if(nbvx!=0)
                 {
                     smehcenie += MSm[i]/3;
                 }
-                colect[i].style.transform = 'translate('+smehcenie+'px)'
-                if(nbv == 0)
+                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
                 MSm[i] += smehcenie;
@@ -1002,13 +1008,13 @@ var Poverhnost = function()
             }else
             {
                 smehcenie = (((500-am)/100)*10)*2;
-                if(nbv!=0)
+                if(nbvx!=0)
                 {
                     smehcenie += MSm[i]/3;
                 }
                 am = parseFloat(am)+smehcenie;
-                colect[i].style.transform = 'translate('+smehcenie+'px)'
-                if(nbv == 0)
+                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
                 MSm[i] += smehcenie;
@@ -1016,21 +1022,28 @@ var Poverhnost = function()
                 console.log(MSm[i]);
                 console.log(colect[0].attributes[3].nodeValue + '\n');
             }
+        }
             else
             {
-                if(am > 500)
+                /*if(nbv == 9 && i == 0)
+                {
+                    MSm = [];
+                }*/
+                if(am < 500)
             {
+
                 
                 smehcenie = (((500-am)/100)*10)*2;
-                if(nbv!=0)
+                if(nbvx!=0)
                 {
-                    smehcenie += MSm[i]/3;
+                    smehcenie = (MSm[i] - smehcenie)/(1.6);
                 }
-                colect[i].style.transform = 'translate('+smehcenie+'px)'
-                if(nbv == 0)
+                if(nbvx !=9)
+                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
-                MSm[i] += smehcenie;
+                MSm[i] -= smehcenie;
                 console.log(colect[i].getBoundingClientRect().x-361.25);
                 console.log(MSm[i]);
                 console.log(colect[0].attributes[3].nodeValue + '\n');
@@ -1038,16 +1051,17 @@ var Poverhnost = function()
             }else
             {
                 smehcenie = (((500-am)/100)*10)*2;
-                if(nbv!=0)
+                if(nbvx!=0)
                 {
-                    smehcenie += MSm[i]/3;
+                    smehcenie = (MSm[i] - smehcenie)/(1.6);
                 }
                 am = parseFloat(am)+smehcenie;
-                colect[i].style.transform = 'translate('+smehcenie+'px)'
-                if(nbv == 0)
+                if(nbvx !=9)
+                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
-                MSm[i] += smehcenie;
+                MSm[i] -= smehcenie;
                 console.log(colect[i].getBoundingClientRect().x-361.25);
                 console.log(MSm[i]);
                 console.log(colect[0].attributes[3].nodeValue + '\n');
@@ -1055,13 +1069,143 @@ var Poverhnost = function()
             }
             
         }
-
         console.log(' ');
         console.log(colect[10].attributes[3].nodeValue)
         colect[0].attributes[3].nodeValue +=5;
         console.log(colect[10].getBoundingClientRect().x);
+        nbvx+=1;
+        if(nbvx == 9)
+        {
+            VVVX();
+        }
+        if(nbvx == 20)
+        {
+            nbvx = 0;
+        }
 
-        nbv+=1;
+        
+    }
+
+
+
+
+
+    var nbvy = 0;
+    var smehcenieY;
+    var cc;
+    var MSmY = [];
+    //смещение по оси OY
+    var VVVY = function()
+    {
+        var colect = document.getElementsByClassName('C3D');
+        var am;
+        var ad;
+        for(var i = 0; i < colect.length; i++)
+        {
+            //am = colect[i].getBoundingClientRect().x;
+            am = colect[i].attributes[4].nodeValue;
+            //console.log(colect[i].getBoundingClientRect().x);
+           // if(colect[i].getBoundingClientRect().x == 500){continue}
+            if(nbvy <9)
+        {
+            if(nbvy == 0 && i == 0)
+            {
+                MSmY = [];
+            }
+            if(am < 500)
+            {
+                
+                smehcenieY = (((500-am)/100)*10)*2;
+                if(nbvy!=0)
+                {
+                    smehcenieY += MSmY[i]/3;
+                }
+                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(nbvy == 0)
+                MSmY[i] = smehcenieY;
+                else
+                MSmY[i] += smehcenieY;
+                console.log(colect[i].getBoundingClientRect().x-361.25);
+                console.log(MSmY[i]);
+                console.log(colect[0].attributes[3].nodeValue + '\n');
+                
+            }else
+            {
+                smehcenieY = (((500-am)/100)*10)*2;
+                if(nbvy!=0)
+                {
+                    smehcenieY += MSmY[i]/3;
+                }
+                am = parseFloat(am)+smehcenieY;
+                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(nbvy == 0)
+                MSmY[i] = smehcenieY;
+                else
+                MSmY[i] += smehcenieY;
+                console.log(colect[i].getBoundingClientRect().x-361.25);
+                console.log(MSmY[i]);
+                console.log(colect[0].attributes[3].nodeValue + '\n');
+            }
+        }
+            else
+            {
+                /*if(nbv == 9 && i == 0)
+                {
+                    MSm = [];
+                }*/
+                if(am < 500)
+            {
+
+                
+                smehcenieY = (((500-am)/100)*10)*2;
+                if(nbvy!=0)
+                {
+                    smehcenieY = (MSmY[i] - smehcenieY)/(1.6);
+                }
+                if(nbvy !=9)
+                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(nbvy == 0)
+                MSmY[i] = smehcenieY;
+                else
+                MSmY[i] -= smehcenieY;
+                console.log(colect[i].getBoundingClientRect().x-361.25);
+                console.log(MSmY[i]);
+                console.log(colect[0].attributes[3].nodeValue + '\n');
+                
+            }else
+            {
+                smehcenieY = (((500-am)/100)*10)*2;
+                if(nbvy!=0)
+                {
+                    smehcenieY = (MSmY[i] - smehcenieY)/(1.6);
+                }
+                am = parseFloat(am)+smehcenieY;
+                if(nbvy !=9)
+                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(nbvy == 0)
+                MSmY[i] = smehcenieY;
+                else
+                MSmY[i] -= smehcenieY;
+                console.log(colect[i].getBoundingClientRect().x-361.25);
+                console.log(MSmY[i]);
+                console.log(colect[0].attributes[3].nodeValue + '\n');
+            }
+            }
+            
+        }
+        console.log(' ');
+        console.log(colect[10].attributes[3].nodeValue)
+        colect[0].attributes[3].nodeValue +=5;
+        console.log(colect[10].getBoundingClientRect().x);
+        nbvy+=1;
+        if(nbvy == 9)
+        {
+            VVVX();
+        }
+        if(nbvy == 20)
+        {
+            nbvy = 0;
+        }
 
         
     }
