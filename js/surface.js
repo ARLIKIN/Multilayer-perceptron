@@ -923,7 +923,7 @@ var Poverhnost = function()
         y = 4.76*21;
     }
 
-    Holst.innerHTML += Line(0,660,1000,460,'black','1px');
+    Holst.innerHTML += Line(0,300,1000,300,'black','1px');
 
     
 
@@ -968,7 +968,6 @@ var Poverhnost = function()
 
     var nbvx = 0;
     var smehcenie;
-    var cc;
     var MSm = [];
     //смещение по оси ОX
     var VVVX = function()
@@ -976,6 +975,13 @@ var Poverhnost = function()
         var colect = document.getElementsByClassName('C3D');
         var am;
         var ad;
+        var ccy = false;
+
+        if(MSmY.length)
+        {
+            ccy = true;
+        }
+       
         for(var i = 0; i < colect.length; i++)
         {
             //am = colect[i].getBoundingClientRect().x;
@@ -996,7 +1002,13 @@ var Poverhnost = function()
                 {
                     smehcenie += MSm[i]/3;
                 }
-                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(ccy)
+                {
+                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                }
                 if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
@@ -1013,7 +1025,13 @@ var Poverhnost = function()
                     smehcenie += MSm[i]/3;
                 }
                 am = parseFloat(am)+smehcenie;
-                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(ccy)
+                {
+                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                }
                 if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
@@ -1039,7 +1057,13 @@ var Poverhnost = function()
                     smehcenie = (MSm[i] - smehcenie)/(1.6);
                 }
                 if(nbvx !=9)
-                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(ccy)
+                {
+                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                }
                 if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
@@ -1057,7 +1081,13 @@ var Poverhnost = function()
                 }
                 am = parseFloat(am)+smehcenie;
                 if(nbvx !=9)
-                colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                if(ccy)
+                {
+                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
+                }
                 if(nbvx == 0)
                 MSm[i] = smehcenie;
                 else
@@ -1100,6 +1130,12 @@ var Poverhnost = function()
         var colect = document.getElementsByClassName('C3D');
         var am;
         var ad;
+        var ccx = false;
+
+        if(MSm.length)
+        {
+            ccx = true;
+        }
         for(var i = 0; i < colect.length; i++)
         {
             //am = colect[i].getBoundingClientRect().x;
@@ -1112,15 +1148,21 @@ var Poverhnost = function()
             {
                 MSmY = [];
             }
-            if(am < 500)
+            if(am < 300)
             {
                 
-                smehcenieY = (((500-am)/100)*10)*2;
+                smehcenieY = (((300-am)/100)*10)*2;
                 if(nbvy!=0)
                 {
                     smehcenieY += MSmY[i]/3;
                 }
-                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(ccx)
+                {
+                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                }
                 if(nbvy == 0)
                 MSmY[i] = smehcenieY;
                 else
@@ -1131,13 +1173,19 @@ var Poverhnost = function()
                 
             }else
             {
-                smehcenieY = (((500-am)/100)*10)*2;
+                smehcenieY = (((300-am)/100)*10)*2;
                 if(nbvy!=0)
                 {
                     smehcenieY += MSmY[i]/3;
                 }
                 am = parseFloat(am)+smehcenieY;
-                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(ccx)
+                {
+                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                }
                 if(nbvy == 0)
                 MSmY[i] = smehcenieY;
                 else
@@ -1153,7 +1201,7 @@ var Poverhnost = function()
                 {
                     MSm = [];
                 }*/
-                if(am < 500)
+                if(am < 300)
             {
 
                 
@@ -1163,7 +1211,13 @@ var Poverhnost = function()
                     smehcenieY = (MSmY[i] - smehcenieY)/(1.6);
                 }
                 if(nbvy !=9)
-                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(ccx)
+                {
+                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                }
                 if(nbvy == 0)
                 MSmY[i] = smehcenieY;
                 else
@@ -1181,7 +1235,13 @@ var Poverhnost = function()
                 }
                 am = parseFloat(am)+smehcenieY;
                 if(nbvy !=9)
-                colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                if(ccx)
+                {
+                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
+                }else
+                {
+                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
+                }
                 if(nbvy == 0)
                 MSmY[i] = smehcenieY;
                 else
@@ -1200,9 +1260,9 @@ var Poverhnost = function()
         nbvy+=1;
         if(nbvy == 9)
         {
-            VVVX();
+            VVVY();
         }
-        if(nbvy == 20)
+        if(nbvy == 17)
         {
             nbvy = 0;
         }
