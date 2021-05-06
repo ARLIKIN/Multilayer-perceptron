@@ -969,7 +969,7 @@ var Poverhnost = function()
     var nbvx = 0;
     var smehcenie;
     var MSm = [];
-    //смещение по оси ОX
+    //смещение  оси ОX
     var VVVX = function()
     {
         var colect = document.getElementsByClassName('C3D');
