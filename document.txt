@@ -41,6 +41,7 @@
 #.Y на поверхности получатся из функции стоимости из W1 и W2
 #. убрать Функцию активации
 #. зафиксировать W0 +
+#. https://www.studmed.ru/ammeral-l-seriya-knig-mashinnaya-grafika-na-yazyke-si_10bad517c30.html 
 
 
 
