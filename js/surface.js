@@ -728,7 +728,51 @@ var GrafikY = function()
 //3D Поверхность
 var Poverhnost = function()
 {
-    
+    //lib svg
+var Masmove = [];
+var Masdraw = [];
+
+var move = function(x,y)
+{
+    clear();
+    Masmove[0] = x;
+    Masmove[1] = y;
+}
+var draw = function(x,y,color)
+{
+    var x1;
+    var y2;
+    var x2 = x;
+    var y2 = y;
+    if(Masdraw.length !=0)
+    {
+        x1 = Masdraw[0];
+        y1 = Masdraw[1];
+    }else
+    {
+        if(Masmove.length !=0)
+        {
+            x1 = Masmove[0];
+            y1 = Masmove[1];
+        }else
+        {
+            console.log('Вы не указали начальные координаты move(x,y)');
+            return;
+        }
+    } 
+
+    var line = '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke = "'+color+'"/>';
+    Masdraw[0] = x2;
+    Masdraw[1] = y2;
+    return line;
+}
+
+var clear = function()
+{
+    Masmove = [];
+    Masdraw = [];
+}
+//
     var k = 0;
     var h = 0;
     for(var i = 2; i >= -2; i -= 0.2, k +=1)
@@ -749,526 +793,228 @@ var Poverhnost = function()
     console.log(SW0)
 
     Byid('DPov').innerHTML = '<svg class="Graf3D" id="3DPoverhnost" width = "1000" height = "1000"></svg>';
-    var Holst = Byid('3DPoverhnost');
+
+    
+var Holst = Byid('3DPoverhnost');
+
+var v11,v12,v13,
+    v21,v22,v23,
+    v32,v33,v43;
+var c1=4.5,c2=3.5;
+var rho = 20//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100'));
+//alert('Задайте два угла в градусах');
+var theta = 0// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
+var phi = 0//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
+var screen_distc = 3000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
+var Pz = 0,Px = 0,Py = 0;
+
+
+//функции
+var Rz = function(x,y,z,a)
+{
+    var c = Math.cos(a);
+    var s = Math.sin(a);
+    
+
+    var m11 = c, m12 = s, m13=0,
+        m21 =-s, m22 = c, m23=0,
+        m31=0,   m32 = 0, m33=1;
+
+    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
+    var nx = m11*x + m12*y + m13*z;
+    var ny = m21*x + m22*y + m23*z; 
+    var nz = m31*x + m32*y + m33*z;
+
+    var M = [nx,ny,nz];
+    return M
+}
+
+var Rx = function(x,y,z,a)
+{
+    var c = Math.cos(a);
+    var s = Math.sin(a);
+    
+
+    var m11 = 1, m12 =  0, m13=0,
+        m21 = 0, m22 =  c, m23=s,
+        m31=  0, m32 = -s, m33=c;
+
+    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
+    var nx = m11*x + m12*y + m13*z;
+    var ny = m21*x + m22*y + m23*z; 
+    var nz = m31*x + m32*y + m33*z;
+
+    var M = [nx,ny,nz];
+    return M
+}
+var Ry = function(x,y,z,a)
+{
+    var c = Math.cos(a);
+    var s = Math.sin(a);
+    
+
+    var m11 = c, m12 = 0, m13= -s,
+        m21 = 0, m22 = 1, m23=  0,
+        m31=  s, m32 = 0, m33=  c;
+
+    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
+    var nx = m11*x + m12*y + m13*z;
+    var ny = m21*x + m22*y + m23*z; 
+    var nz = m31*x + m32*y + m33*z;
+
+    var M = [nx,ny,nz];
+    return M
+}
+
+var coeff=function(rho,theta,phi)
+{
+    var th,ph,costh,sinth,cosph,sinph,factor;
+    factor=Math.atan(1.0)/45.0;
+    //Углы в радианах
+    th=theta*factor;
+    ph = phi*factor;
+
+    costh = Math.cos(th);
+    cosph = Math.cos(ph);
+    sinth= Math.sin(th);
+    sinph= Math.sin(ph);
+    //Элементы матрицы V
+    v11 = -sinth;   v12 = -cosph*costh;     v13=-sinph*costh;
+    v21 = costh;    v22 = -cosph*sinth;     v23=-sinph*sinth;
+                    v32=sinph;              v33=-cosph;
+                                            v43=rho;
+}
+
+var perspective= function(x,y,z)
+{
+    var M = [];
+    if(Pz !=0)
+    {
+        M =  Rz(x,y,z,Pz);
+        x = M[0];
+        y = M[1];
+        z = M[2];
+    }
+    if(Px !=0)
+    {
+        M =  Rx(x,y,z,Px);
+        x = M[0];
+        y = M[1];
+        z = M[2];
+    }
+    if(Py !=0)
+    {
+        M =  Ry(x,y,z,Py);
+        x = M[0];
+        y = M[1];
+        z = M[2];
+    }
+
+    var xe,ye,ze;
+    var Mas = [];
+    //координаты глаза
+    xe = v11*x+v21*y;
+    ye = v12*x+v22*y+v32*z;
+    ze = v13*x + v23*y + v33*z+v43;
+    //экранные координаты
+    var pX = screen_distc*xe/ze+c1;
+    var pY = screen_distc*ye/ze+c2;
+    Mas[0] = pX;
+    Mas[1] = pY;
+    return Mas;
+} 
+
+
+var dwP = function(x,y,z)
+{
+    var Mas = [];
+    Mas= perspective(x,y,z,);
+    var X = Mas[0],Y=Mas[1];
+    Holst.innerHTML += Circle2(3,X+500,Y+500,'green');
+}
+
+var dwL = function(x,y,z)
+{
+    var Mas = [];
+    Mas= perspective(x,y,z,);
+    var X = Mas[0],Y=Mas[1];
+    Holst.innerHTML += Circle2(3,X+500,Y+500,'red');
+}
+
+var mv = function(x,y,z)
+{
+    var Mas = [];
+    Mas= perspective(x,y,z,);
+    var X = Mas[0],Y=Mas[1];
+    move(X+615,Y+65);
+}
+
+var dw = function(x,y,z,color)
+{
+    var Mas = [];
+    Mas= perspective(x,y,z,);
+    var X = Mas[0],Y=Mas[1];
+    Holst.innerHTML += draw(X+615,Y+65,color);
+}
+
+var Otrisovka = function()
+{
+coeff(rho,theta,phi);
+
+var k = 0, h = 0;                       
+    for(var i = 2; i >=-2; i-=0.2,k+=1) //Поверхность
+    {                                   
+        for(var j=2; j >=-2; j-=0.2,h+=1)
+        {
+            dwP(i,j,SW1[k][h]);
+        }
+    }
+
+    for(var i = 0; i<it;i++)
+    {
+        dwL(WAll[i][1],WAll[i][2],AllError[i][0]) // фактическая линия
+    }
 
     //Оси
-    Holst.innerHTML += Line(0,100,0,900,'black','3px');//Error
-    Holst.innerHTML += Line(0,900,500,1000,'black','2px');//W1
-    Holst.innerHTML += Line(1000,100,1000,900,'black','1px');
-    Holst.innerHTML += Line(500,1000,1000,900,'black','2px');//W2
-    Holst.innerHTML += Line(0,100,500,0,'black','1px');
-    Holst.innerHTML += Line(500,0,1000,100,'black','1px');
-    
-    Holst.innerHTML += LinePunkt(500,0,500,800,'gray','1px'); // средняя линия
-    Holst.innerHTML += Text2('W1',150,970,'blue','24px');//подпись к оси W1
-    Holst.innerHTML += Text2('W2',800,970,'green','24px'); // подпись к оси W2
-    Holst.innerHTML += Text2('Error',10,70,'red','24px');
+    mv(0,0,0);
+    dw(-4,0,0,'red');
+    mv(0,0,0);
+    dw(0,-4,0,'blue');
+    mv(0,0,0);
+    dw(0,0,4,'green');
+}
 
-    h = 15;
-    k =0;
-    for(var i =0; i <= 20; i++, h-=1, k+=40) //деления на оси Y
-    {
-        Holst.innerHTML += LinePunkt(0,100+k,500,k,'gray','1px');
-        Holst.innerHTML += Text1(h/10,5,100+k-7);
-        Holst.innerHTML += LinePunkt(500,k,1000,100+k,'gray','1px');//**
-    }
-    var y = 4.76;
-    var x = 23.8;
-    var s = 2
-    for(var i = 0; i < 20; i++, s-=0.2,y+=4.76,x+=23.8) // деления на оси W1 и W2
-    {
-       Holst.innerHTML += LinePunkt(x,y+900,500+x,800+y,'gray','1px');
-       Holst.innerHTML += LinePunkt(500+x,800+y,x+500,y,'gray','1px');
+Byid('PerZ').onclick = function()
+{
+    Holst.innerHTML = ''
+    Pz +=0.1
+    if(Pz >9){Pz=0}
+    Otrisovka();
+}
 
-       Holst.innerHTML += LinePunkt(1000 - x,900+y,500-x,800+y,'gray','1px');
-       Holst.innerHTML += LinePunkt(500-x,800+y,500-x,y,'gray','1px');
+Byid('PerX').onclick = function()
+{
+    Holst.innerHTML = ''
+    Px +=0.1
+    if(Pz >9){Pz=0}
+    Otrisovka();
+}
 
-       if(i %2 == 0)
-       { 
-       Holst.innerHTML += Text1(s.toFixed(1),x,y+900);
-       Holst.innerHTML += Text1(s.toFixed(1),1000-x-15,y+900-2);
-       }
-    }
+Byid('PerY').onclick = function()
+{
+    Holst.innerHTML = ''
+    Py +=0.1
+    if(Pz >9){Pz=0}
+    Otrisovka();
+}
+//
 
-    
+//Start
 
-    //Линия ошибки
-    var IzmerOX = function(WO)
-    {
-
-        var y = 4.76;
-        var x = 23.8;
-        var WO1 = WO[1];
-        var WO2 = WO[2];
-
-        var Sk = 0;
-        var ii;
-        for(var i =2; i > parseFloat(WO1.toFixed(1)); i -=0.2)
-        {
-            Sk +=1;
-            ii = i
-        }
-        //console.log(Sk);
-        //console.log(ii)
-
-        if(parseFloat((ii-0.1).toFixed(1)) == parseFloat(WO1.toFixed(1)))
-        {
-            x = x*Sk + (x/2);
-            y = y * Sk + (y/2);
-        }else
-        {
-            if(parseFloat(WO1.toFixed(1)) < 1.6)
-            {
-                x = x*Sk;
-                y = y * Sk;
-            }else
-            {
-                x =x+ x*Sk;
-                y =y+ y*Sk;
-            }    
-        }
-
-        Sk = 0;
-        ii = 0;
-        for(var i = -2; i < parseFloat(WO2.toFixed(1)); i +=0.2)
-        {
-            Sk +=1;
-            ii = i
-        }
-
-        //console.log(Sk + '\n' + ii);
-        Sk-=1;
-
-        //x = x + (Sk * 23.8);
-        //y = y - (Sk * 4.76)
-
-        if(parseFloat((ii+0.1).toFixed(1)) == parseFloat(WO2.toFixed(1)))
-        {
-            x = x + (Sk * 23.8) + (23.8/2);
-            y = y - (Sk * 4.76) - (4.76/2);
-        }else
-        {
-            if(parseFloat(WO2.toFixed(1)) <= -1.6)
-            {
-                Sk +=1
-                x = x + (Sk * 23.8);
-                y = y - (Sk * 4.76);
-            }else
-            {
-                x = x + (Sk * 23.8);
-                y = y - (Sk * 4.76);
-            }    
-        }
-
-        //Holst.innerHTML += Circle2(3,x,y+900,'black');
-        var KOR = [];
-        KOR[0] = x;
-        KOR[1] = y+900;
-        return KOR;
-        
-        
-    }
-    //линия ошибки
-    var oy;
-    var xY = [];
-    var color;
-    var aC =0
-    function componentToHex(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-    }
-    function rgb2hex(r, g, b) {
-        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    }
-    var SettingColor = 1//255 / Object.keys(WAll).length
-
-    for(var i = 0; i < Object.keys(WAll).length; i++ ,aC+=10)
-    {
-        if(aC > 255){aC = 150}
-        xY = IzmerOX(WAll[i]);
-        oy = ((YAll[i][0] + 0.5)/0.1)*40;
-
-        color = rgb2hex(aC,0,0);
-        //if(i < 0){color = 'blak'}
-
-        Holst.innerHTML += Circle3(3,xY[0],xY[1]-oy,color,i)
-    }
-
-   
-
-    //Основная поверхность
-    var wo = [];
-    var w1 = 2;
-    var w2 = 2;
-    var y2 =-4.76*21
-    var circl = 0;
-    x = 23.8;
-    y = 4.76*21;
-    y1 = 4.76*21;
-    var circl = 0;
-    for(var i =0; i <21; i++ , w1-=0.2, y1-=-4.76)
-    {
-       
-        for(var j = 0; j<21; j++, circl++, w2-=0.2, y-=4.76)
-        { 
-            wo[1] = w1;
-            wo[2] = w2; 
-            xY =  IzmerOX(wo);
-            oy = ((SW1[i][circl] + 0.5)/0.1)*40;
-            //oy = (SW1[i][circl]*(40/0.5))*10;
-
-            Holst.innerHTML += Circle(3,xY[0],xY[1] - oy,'blue',i,circl);
-        }
-        w2 = 2;
-        y = 4.76*21;
-    }
-
-    Holst.innerHTML += Line(0,300,1000,300,'black','1px');
-
-    
+Otrisovka();
 
 
 }
-
-//Клик для 3D графика
-   var CC3D = function(ix,jy)
-    {
-        //alert('Y = ' + SW1[ix][jy]);
-        var a;
-        var ii = 0;
-        var b = jy - (ix*21);
-        var jj = 0;
-        var j2y = 0;
-        for(var i = 2; i >=-2; i -=0.2,ii++)
-        {
-            if(ii == ix)
-            {
-                a = i;
-                break;
-            }
-        }
-
-         for(var i = 2; i >=-2; i -=0.2,jj++)
-        {
-            if(jj == b)
-            {
-                j2y = i;
-                break;
-            }
-        }
-
-        alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1));
-    }
-
-    var CE3D = function(id)
-    {
-        alert('Y = ' + YAll[id][0].toFixed(3));
-    }
-
-
-    var nbvx = 0;
-    var smehcenie;
-    var MSm = [];
-    //смещение  оси ОX
-    var VVVX = function()
-    {
-        var colect = document.getElementsByClassName('C3D');
-        var am;
-        var ad;
-        var ccy = false;
-
-        if(MSmY.length)
-        {
-            ccy = true;
-        }
-       
-        for(var i = 0; i < colect.length; i++)
-        {
-            //am = colect[i].getBoundingClientRect().x;
-            am = colect[i].attributes[3].nodeValue;
-            //console.log(colect[i].getBoundingClientRect().x);
-           // if(colect[i].getBoundingClientRect().x == 500){continue}
-            if(nbvx <9)
-        {
-            if(nbvx == 0 && i == 0)
-            {
-                MSm = [];
-            }
-            if(am < 500)
-            {
-                
-                smehcenie = (((500-am)/100)*10)*2;
-                if(nbvx!=0)
-                {
-                    smehcenie += MSm[i]/3;
-                }
-                if(ccy)
-                {
-                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
-                }
-                if(nbvx == 0)
-                MSm[i] = smehcenie;
-                else
-                MSm[i] += smehcenie;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSm[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-                
-            }else
-            {
-                smehcenie = (((500-am)/100)*10)*2;
-                if(nbvx!=0)
-                {
-                    smehcenie += MSm[i]/3;
-                }
-                am = parseFloat(am)+smehcenie;
-                if(ccy)
-                {
-                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
-                }
-                if(nbvx == 0)
-                MSm[i] = smehcenie;
-                else
-                MSm[i] += smehcenie;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSm[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-            }
-        }
-            else
-            {
-                /*if(nbv == 9 && i == 0)
-                {
-                    MSm = [];
-                }*/
-                if(am < 500)
-            {
-
-                
-                smehcenie = (((500-am)/100)*10)*2;
-                if(nbvx!=0)
-                {
-                    smehcenie = (MSm[i] - smehcenie)/(1.6);
-                }
-                if(nbvx !=9)
-                if(ccy)
-                {
-                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
-                }
-                if(nbvx == 0)
-                MSm[i] = smehcenie;
-                else
-                MSm[i] -= smehcenie;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSm[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-                
-            }else
-            {
-                smehcenie = (((500-am)/100)*10)*2;
-                if(nbvx!=0)
-                {
-                    smehcenie = (MSm[i] - smehcenie)/(1.6);
-                }
-                am = parseFloat(am)+smehcenie;
-                if(nbvx !=9)
-                if(ccy)
-                {
-                    colect[i].style.transform = 'translate('+smehcenie+'px,'+MSmY[i]+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateX('+smehcenie+'px)'
-                }
-                if(nbvx == 0)
-                MSm[i] = smehcenie;
-                else
-                MSm[i] -= smehcenie;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSm[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-            }
-            }
-            
-        }
-        console.log(' ');
-        console.log(colect[10].attributes[3].nodeValue)
-        colect[0].attributes[3].nodeValue +=5;
-        console.log(colect[10].getBoundingClientRect().x);
-        nbvx+=1;
-        if(nbvx == 9)
-        {
-            VVVX();
-        }
-        if(nbvx == 20)
-        {
-            nbvx = 0;
-        }
-
-        
-    }
-
-
-
-
-
-    var nbvy = 0;
-    var smehcenieY;
-    var cc;
-    var MSmY = [];
-    //смещение по оси OY
-    var VVVY = function()
-    {
-        var colect = document.getElementsByClassName('C3D');
-        var am;
-        var ad;
-        var ccx = false;
-
-        if(MSm.length)
-        {
-            ccx = true;
-        }
-        for(var i = 0; i < colect.length; i++)
-        {
-            //am = colect[i].getBoundingClientRect().x;
-            am = colect[i].attributes[4].nodeValue;
-            //console.log(colect[i].getBoundingClientRect().x);
-           // if(colect[i].getBoundingClientRect().x == 500){continue}
-            if(nbvy <9)
-        {
-            if(nbvy == 0 && i == 0)
-            {
-                MSmY = [];
-            }
-            if(am < 300)
-            {
-                
-                smehcenieY = (((300-am)/100)*10)*2;
-                if(nbvy!=0)
-                {
-                    smehcenieY += MSmY[i]/3;
-                }
-                if(ccx)
-                {
-                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
-                }
-                if(nbvy == 0)
-                MSmY[i] = smehcenieY;
-                else
-                MSmY[i] += smehcenieY;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSmY[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-                
-            }else
-            {
-                smehcenieY = (((300-am)/100)*10)*2;
-                if(nbvy!=0)
-                {
-                    smehcenieY += MSmY[i]/3;
-                }
-                am = parseFloat(am)+smehcenieY;
-                if(ccx)
-                {
-                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
-                }
-                if(nbvy == 0)
-                MSmY[i] = smehcenieY;
-                else
-                MSmY[i] += smehcenieY;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSmY[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-            }
-        }
-            else
-            {
-                /*if(nbv == 9 && i == 0)
-                {
-                    MSm = [];
-                }*/
-                if(am < 300)
-            {
-
-                
-                smehcenieY = (((500-am)/100)*10)*2;
-                if(nbvy!=0)
-                {
-                    smehcenieY = (MSmY[i] - smehcenieY)/(1.6);
-                }
-                if(nbvy !=9)
-                if(ccx)
-                {
-                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
-                }
-                if(nbvy == 0)
-                MSmY[i] = smehcenieY;
-                else
-                MSmY[i] -= smehcenieY;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSmY[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-                
-            }else
-            {
-                smehcenieY = (((500-am)/100)*10)*2;
-                if(nbvy!=0)
-                {
-                    smehcenieY = (MSmY[i] - smehcenieY)/(1.6);
-                }
-                am = parseFloat(am)+smehcenieY;
-                if(nbvy !=9)
-                if(ccx)
-                {
-                    colect[i].style.transform = 'translate('+MSm[i]+'px,'+smehcenieY+'px)'
-                }else
-                {
-                    colect[i].style.transform = 'translateY('+smehcenieY+'px)'
-                }
-                if(nbvy == 0)
-                MSmY[i] = smehcenieY;
-                else
-                MSmY[i] -= smehcenieY;
-                console.log(colect[i].getBoundingClientRect().x-361.25);
-                console.log(MSmY[i]);
-                console.log(colect[0].attributes[3].nodeValue + '\n');
-            }
-            }
-            
-        }
-        console.log(' ');
-        console.log(colect[10].attributes[3].nodeValue)
-        colect[0].attributes[3].nodeValue +=5;
-        console.log(colect[10].getBoundingClientRect().x);
-        nbvy+=1;
-        if(nbvy == 9)
-        {
-            VVVY();
-        }
-        if(nbvy == 17)
-        {
-            nbvy = 0;
-        }
-
-        
-    }
 
 
 
