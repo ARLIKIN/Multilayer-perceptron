@@ -925,12 +925,12 @@ var perspective= function(x,y,z)
 } 
 
 
-var dwP = function(x,y,z)
+var dwP = function(x,y,z,i,j)
 {
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += Circle2(3,X+500,Y+500,'green');
+    Holst.innerHTML += Circle(3,X+500,Y+500,'green',i,j);
 }
 
 var dwL = function(x,y,z)
@@ -966,7 +966,7 @@ var k = 0, h = 0;
     {                                   
         for(var j=2; j >=-2; j-=0.2,h+=1)
         {
-            dwP(i,j,SW1[k][h]);
+            dwP(i,j,SW1[k][h],k,h);
         }
     }
 
@@ -1016,6 +1016,36 @@ Otrisovka();
 
 }
 
+
+//Клик для 3D графика
+var CC3D = function(ix,jy)
+{
+    //alert('Y = ' + SW1[ix][jy]);
+    var a;
+    var ii = 0;
+    var b = jy - (ix*21);
+    var jj = 0;
+    var j2y = 0;
+    for(var i = 2; i >=-2; i -=0.2,ii++)
+    {
+        if(ii == ix)
+        {
+            a = i;
+            break;
+        }
+    }
+
+     for(var i = 2; i >=-2; i -=0.2,jj++)
+    {
+        if(jj == b)
+        {
+            j2y = i;
+            break;
+        }
+    }
+
+    alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1));
+}
 
 
 
