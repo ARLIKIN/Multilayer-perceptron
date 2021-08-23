@@ -165,6 +165,12 @@
             Byid('Div_Raspoznovanie').hidden = true;
         }
 
+        if(Byid('btn_3DD').hidden)
+        {
+            Byid('btn_3DD').hidden = false;
+        }
+        
+
 
 
          SystemClass = function()
@@ -792,7 +798,7 @@ var clear = function()
     console.log('0-Y');
     console.log(SW0)
 
-    Byid('DPov').innerHTML = '<svg class="Graf3D" id="3DPoverhnost" width = "1000" height = "1000"></svg>';
+    Byid('DPov').innerHTML = '<svg class="Graf3D" id="3DPoverhnost" width = "1000" height = "650"></svg>';
 
     
 var Holst = Byid('3DPoverhnost');
@@ -801,7 +807,7 @@ var v11,v12,v13,
     v21,v22,v23,
     v32,v33,v43;
 var c1=4.5,c2=3.5;
-var rho = 20//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100'));
+var rho = 30//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100'));
 //alert('Задайте два угла в градусах');
 var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
 var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
@@ -930,15 +936,15 @@ var dwP = function(x,y,z,i,j)
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += Circle(3,X+500,Y+500,'green',i,j);
+    Holst.innerHTML += Circle(3,X+500,Y+300,'green',i,j);
 }
 
-var dwL = function(x,y,z)
+var dwL = function(x,y,z,i)
 {
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += Circle2(3,X+500,Y+500,'red');
+    Holst.innerHTML += Circle3(3,X+500,Y+300,'red',i);
 }
 
 var mv = function(x,y,z)
@@ -946,7 +952,7 @@ var mv = function(x,y,z)
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    move(X+500,Y+500);//825,178
+    move(X+100,Y+550);//825,178
 }
 
 var dw = function(x,y,z,color)
@@ -954,7 +960,15 @@ var dw = function(x,y,z,color)
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += draw(X+500,Y+500,color);
+    Holst.innerHTML += draw(X+100,Y+550,color);
+}
+
+var dwT = function(x,y,z,text,color,size)
+{
+    var Mas = [];
+    Mas= perspective(x,y,z,);
+    var X = Mas[0],Y=Mas[1];
+    Holst.innerHTML += Text2(text,X+100,Y+548,color,size);
 }
 
 var Otrisovka = function()
@@ -972,22 +986,27 @@ var k = 0, h = 0;
 
     for(var i = 0; i<it;i++)
     {
-        dwL(WAll[i][1],WAll[i][2],AllError[i][0]) // фактическая линия
+        dwL(WAll[i][1],WAll[i][2],YAll[i][0],i) // фактическая линия
     }
 
     //Оси
     mv(0,0,0);
-    dw(-4,0,0,'red');
+    dw(-0.5,0,0,'red');
     mv(0,0,0);
-    dw(0,-4,0,'blue');
+    dw(0,-0.5,0,'blue');
     mv(0,0,0);
-    dw(0,0,2,'green');
+    dw(0,0,0.5,'green');
+    dwT(-0.55,0,0,'W2','red','10');
+    dwT(0,-0.55,0,'W1','blue','10');
+    dwT(0,0,0.55,'Y','green','10');
+
+
 }
 
 Byid('PerZ').onclick = function()
 {
     Holst.innerHTML = ''
-    Pz +=0.1
+    Pz +=0.5
     if(Pz >9){Pz=0}
     Otrisovka();
 }
@@ -995,7 +1014,7 @@ Byid('PerZ').onclick = function()
 Byid('PerX').onclick = function()
 {
     Holst.innerHTML = ''
-    Px +=0.1
+    Px +=0.5
     if(Pz >9){Pz=0}
     Otrisovka();
 }
@@ -1003,7 +1022,7 @@ Byid('PerX').onclick = function()
 Byid('PerY').onclick = function()
 {
     Holst.innerHTML = ''
-    Py +=0.1
+    Py +=0.5
     if(Pz >9){Pz=0}
     Otrisovka();
 }
@@ -1047,5 +1066,10 @@ var CC3D = function(ix,jy)
     alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1));
 }
 
+//клик на фактическую линию
+var CE3D = function(id)
+    {
+        alert('Y = ' + YAll[id][0].toFixed(3) + '\n' + 'W1 = ' + WAll[id][1].toFixed(1) + '\n' + 'W2 = ' + WAll[id][2].toFixed(1));
+    }
 
 

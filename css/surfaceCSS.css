@@ -127,7 +127,7 @@ a
 
 .Graf3D
 {
-    background-color: white;
+    background-color: wheat;
     border: 1px;
     margin-top: 40px;
     margin-bottom: 10px;
@@ -143,14 +143,37 @@ a
     text-align: center;
 }
 
+.DGraf_btn
+{
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 0.3em;
+}
+
+#PerX:hover
+{
+    background-color: rgba(231, 57, 57, 0.699);
+}
+
+#PerY:hover
+{
+    background-color: rgba(68, 68, 230, 0.664);
+}
+
+#PerZ:hover
+{
+    background-color: rgba(48, 168, 48, 0.61);
+}
+
 
 .C3D:hover
 {
-    r: 5px;
-    fill: darkgreen;
+    fill: yellowgreen;
 }
 .CE3D:hover
 {
-    r: 5px;
-    fill: red;
+    fill: darkred;
 }
+
