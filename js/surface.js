@@ -946,7 +946,7 @@ var mv = function(x,y,z)
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    move(X+825,Y+178);
+    move(X+500,Y+500);//825,178
 }
 
 var dw = function(x,y,z,color)
@@ -954,7 +954,7 @@ var dw = function(x,y,z,color)
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += draw(X+825,Y+178,color);
+    Holst.innerHTML += draw(X+500,Y+500,color);
 }
 
 var Otrisovka = function()
@@ -977,11 +977,11 @@ var k = 0, h = 0;
 
     //Оси
     mv(0,0,0);
-    dw(-4.5,0,0,'red');
+    dw(-4,0,0,'red');
     mv(0,0,0);
-    dw(0,-4.5,0,'blue');
+    dw(0,-4,0,'blue');
     mv(0,0,0);
-    dw(0,0,4.5,'green');
+    dw(0,0,2,'green');
 }
 
 Byid('PerZ').onclick = function()
