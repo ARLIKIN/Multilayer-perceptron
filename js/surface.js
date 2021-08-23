@@ -803,8 +803,8 @@ var v11,v12,v13,
 var c1=4.5,c2=3.5;
 var rho = 20//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100'));
 //alert('Задайте два угла в градусах');
-var theta = 0// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
-var phi = 0//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
+var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
+var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
 var screen_distc = 3000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
 var Pz = 0,Px = 0,Py = 0;
 
@@ -946,7 +946,7 @@ var mv = function(x,y,z)
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    move(X+615,Y+65);
+    move(X+825,Y+178);
 }
 
 var dw = function(x,y,z,color)
@@ -954,7 +954,7 @@ var dw = function(x,y,z,color)
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += draw(X+615,Y+65,color);
+    Holst.innerHTML += draw(X+825,Y+178,color);
 }
 
 var Otrisovka = function()
@@ -977,11 +977,11 @@ var k = 0, h = 0;
 
     //Оси
     mv(0,0,0);
-    dw(-4,0,0,'red');
+    dw(-4.5,0,0,'red');
     mv(0,0,0);
-    dw(0,-4,0,'blue');
+    dw(0,-4.5,0,'blue');
     mv(0,0,0);
-    dw(0,0,4,'green');
+    dw(0,0,4.5,'green');
 }
 
 Byid('PerZ').onclick = function()
