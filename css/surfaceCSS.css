@@ -167,6 +167,11 @@ a
     background-color: rgba(48, 168, 48, 0.61);
 }
 
+#PerRESET:hover
+{
+    background-color: rgba(0, 0, 0, 0.404);
+}
+
 
 .C3D:hover
 {

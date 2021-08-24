@@ -1026,6 +1026,16 @@ Byid('PerY').onclick = function()
     if(Pz >9){Pz=0}
     Otrisovka();
 }
+
+Byid('PerRESET').onclick = function()
+{
+    Holst.innerHTML = ''
+    Pz = 0;
+    Py = 0;
+    Px = 0;
+    Otrisovka();
+}
+
 //
 
 //Start
