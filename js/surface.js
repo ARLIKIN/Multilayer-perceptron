@@ -891,30 +891,53 @@ var coeff=function(rho,theta,phi)
                                             v43=rho;
 }
 
+var Rxyz = function(x,y,z,Px,Py,Pz) // Смещение по осям
+{
+    var cx = Math.cos(Px);
+    var sx = Math.sin(Px);
+    var cy = Math.cos(Py);
+    var sy = Math.sin(Py);
+    var cz = Math.cos(Pz);
+    var sz = Math.sin(Pz);
+
+
+    var x11 = 1, x12 =  0, x13=0, // матрица смещения по оси X
+        x21 = 0, x22 =  cx, x23=sx,
+        x31=  0, x32 = -sx, x33=cx;
+    
+    var y11 = cy, y12 = 0, y13= -sy,// матрица смещения по оси Y
+        y21 = 0,  y22 = 1, y23=  0,
+        y31=  sy, y32 = 0, y33= cy;
+
+    var z11 = cz, z12 = sz, z13=0,// матрица смещения по оси Z
+        z21 =-sz, z22 = cz, z23=0,
+        z31=0,    z32 = 0,  z33=1;
+
+    var xy11 = x11 * y11 + x12 * y21 + x13 * y31, xy12 = x11 * y12 + x12 * y22 + x13 * y32, xy13 = x11 * y13 + x12 * y23 + x13 * y33, // Умножение матрицы X на Y
+        xy21 = x21 * y11 + x22 * y21 + x23 * y31, xy22 = x21 * y12 + x22 * y22 + x23 * y32, xy23 = x21 * y13 + x22 * y23 + x23 * y33,
+        xy31 = x31 * y11 + x32 * y21 + x33 * y31, xy32 = x31 * y12 + x32 * y22 + x33 * y32, xy33 = x31 * y13 + x32 * y23 + x33 * y33;
+
+    var m11 = xy11 * z11 + xy12 * z21 + xy13 * z31, m12 = xy11 * z12 + xy12 * z22 + xy13 * z32, m13 = xy11 * z13 + xy12 * z23 + xy13 * z33, // Умножение матрицы XY на Z
+        m21 = xy21 * z11 + xy22 * z21 + xy23 * z31, m22 = xy21 * z12 + xy22 * z22 + xy23 * z32, m23 = xy21 * z13 + xy22 * z23 + xy23 * z33,
+        m31 = xy31 * z11 + xy32 * z21 + xy33 * z31, m32 = xy31 * z12 + xy32 * z22 + xy33 * z32, m33 = xy31 * z13 + xy32 * z23 + xy33 * z33;
+
+    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
+    var nx = m11*x + m12*y + m13*z;
+    var ny = m21*x + m22*y + m23*z; 
+    var nz = m31*x + m32*y + m33*z;
+
+    var M = [nx,ny,nz];
+    return M
+
+}
+
 var perspective= function(x,y,z)
 {
     var M = [];
-    if(Pz !=0)
-    {
-        M =  Rz(x,y,z,Pz);
+        M =  Rxyz(x,y,z,Px,Py,Pz);
         x = M[0];
         y = M[1];
         z = M[2];
-    }
-    if(Px !=0)
-    {
-        M =  Rx(x,y,z,Px);
-        x = M[0];
-        y = M[1];
-        z = M[2];
-    }
-    if(Py !=0)
-    {
-        M =  Ry(x,y,z,Py);
-        x = M[0];
-        y = M[1];
-        z = M[2];
-    }
 
     var xe,ye,ze;
     var Mas = [];
@@ -1007,7 +1030,7 @@ Byid('PerZ').onclick = function()
 {
     Holst.innerHTML = ''
     Pz +=0.5
-    if(Pz >9){Pz=0}
+    if(Pz >6.3){Pz=0}
     Otrisovka();
 }
 
@@ -1015,7 +1038,7 @@ Byid('PerX').onclick = function()
 {
     Holst.innerHTML = ''
     Px +=0.5
-    if(Pz >9){Pz=0}
+    if(Px >6.3){Px=0}
     Otrisovka();
 }
 
@@ -1023,7 +1046,7 @@ Byid('PerY').onclick = function()
 {
     Holst.innerHTML = ''
     Py +=0.5
-    if(Pz >9){Pz=0}
+    if(Py >6.3){Py=0}
     Otrisovka();
 }
 
