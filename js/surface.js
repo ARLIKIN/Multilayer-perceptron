@@ -1029,24 +1029,24 @@ var k = 0, h = 0;
 Byid('PerZ').onclick = function()
 {
     Holst.innerHTML = ''
-    Pz +=0.5
-    if(Pz >6.3){Pz=0}
+    Pz +=10*Math.PI/180
+    if(Pz >360*Math.PI/180){Pz=0}
     Otrisovka();
 }
 
 Byid('PerX').onclick = function()
 {
     Holst.innerHTML = ''
-    Px +=0.5
-    if(Px >6.3){Px=0}
+    Px +=10*Math.PI/180
+    if(Px >360*Math.PI/180){Px=0}
     Otrisovka();
 }
 
 Byid('PerY').onclick = function()
 {
     Holst.innerHTML = ''
-    Py +=0.5
-    if(Py >6.3){Py=0}
+    Py +=10*Math.PI/180
+    if(Py >360*Math.PI/180){Py=0}
     Otrisovka();
 }
 
