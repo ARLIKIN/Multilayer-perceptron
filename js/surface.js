@@ -38,6 +38,8 @@
     var SystemCountD;
     var SW1 = {};
     var SW0 = {};
+    var SWSUM = {};
+    var idPoverh = 2;
 
 
 
@@ -558,10 +560,21 @@ var Text2 = function(text,x,y,color,size)
     return '<text font-size="'+size+'" fill="'+color+'" x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>';
 }
 
-var Circle = function(r,x,y,color,i,j)
+var CircleSUM = function(r,x,y,color,i,j)
 {
-    return ' <circle  class="C3D" onclick="CC3D('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+    return ' <circle  class="C3D" onclick="CC3DSUM('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
 }
+
+var Circle1Y = function(r,x,y,color,i,j)
+{
+    return ' <circle  class="C3D" onclick="CC3D1Y('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+}
+
+var Circle0Y = function(r,x,y,color,i,j)
+{
+    return ' <circle  class="C3D" onclick="CC3D0Y('+i+','+j+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+}
+
 var Circle2 = function(r,x,y,color)
 {
     return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
@@ -785,11 +798,13 @@ var clear = function()
     {
         SW1[k] = [];
         SW0[k] = [];
+        SWSUM[k] = [];
+
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
             SW1[k][h] = (1/(1 + Math.exp(-a * (i+j))));
             SW0[k][h] = 1-(1/(1 + Math.exp(-a * (i))));
-            SW1[k][h] = SW1[k][h] + SW0[k][h];
+            SWSUM[k][h] = SW1[k][h] + SW0[k][h];
         }
     }
 
@@ -797,6 +812,8 @@ var clear = function()
     console.log(SW1);
     console.log('0-Y');
     console.log(SW0)
+    console.log('SUM 1-Y & 0-Y');
+    console.log(SWSUM);
 
     Byid('DPov').innerHTML = '<svg class="Graf3D" id="3DPoverhnost" width = "1000" height = "650"></svg>';
 
@@ -954,12 +971,27 @@ var perspective= function(x,y,z)
 } 
 
 
-var dwP = function(x,y,z,i,j)
+var dwPSUM = function(x,y,z,i,j)
 {
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += Circle(3,X+500,Y+300,'green',i,j);
+    Holst.innerHTML += CircleSUM(3,X+500,Y+300,'green',i,j);
+}
+
+var dwP1Y = function(x,y,z,i,j)
+{
+    var Mas = [];
+    Mas= perspective(x,y,z,);
+    var X = Mas[0],Y=Mas[1];
+    Holst.innerHTML += Circle1Y(3,X+500,Y+300,'orange',i,j);
+}
+var dwP0Y = function(x,y,z,i,j)
+{
+    var Mas = [];
+    Mas= perspective(x,y,z,);
+    var X = Mas[0],Y=Mas[1];
+    Holst.innerHTML += Circle0Y(3,X+500,Y+300,'blue',i,j);
 }
 
 var dwL = function(x,y,z,i)
@@ -997,16 +1029,41 @@ var dwT = function(x,y,z,text,color,size)
 var Otrisovka = function()
 {
 coeff(rho,theta,phi);
-
-var k = 0, h = 0;                       
-    for(var i = 2; i >=-2; i-=0.2,k+=1) //Поверхность
-    {                                   
-        for(var j=2; j >=-2; j-=0.2,h+=1)
-        {
-            dwP(i,j,SW1[k][h],k,h);
-        }
+if(idPoverh == 0)
+    {
+        var k = 0, h = 0;                       
+            for(var i = 2; i >=-2; i-=0.2,k+=1) //Поверхность 0-Y
+            {                                   
+                for(var j=2; j >=-2; j-=0.2,h+=1)
+                {
+                    dwP0Y(i,j,SW0[k][h],k,h);
+                }
+            }
     }
 
+if(idPoverh == 1)
+    {
+        var k = 0, h = 0;                       
+            for(var i = 2; i >=-2; i-=0.2,k+=1) //Поверхность Y-1
+            {                                   
+                for(var j=2; j >=-2; j-=0.2,h+=1)
+                {
+                    dwP1Y(i,j,SW1[k][h],k,h);
+                }
+            }
+    }
+
+    if(idPoverh == 2)
+    {
+        var k = 0, h = 0;                       
+            for(var i = 2; i >=-2; i-=0.2,k+=1) //Суммарная поверхность 
+            {                                   
+                for(var j=2; j >=-2; j-=0.2,h+=1)
+                {
+                    dwPSUM(i,j,SWSUM[k][h],k,h);
+                }
+            }
+    }
     for(var i = 0; i<it;i++)
     {
         dwL(WAll[i][1],WAll[i][2],YAll[i][0],i) // фактическая линия
@@ -1059,6 +1116,26 @@ Byid('PerRESET').onclick = function()
     Otrisovka();
 }
 
+Byid('PerSUMP').onclick = function()
+{
+    Holst.innerHTML = '';
+    idPoverh = 2;
+    Otrisovka();
+}
+
+Byid('Per1YP').onclick = function()
+{
+    Holst.innerHTML = '';
+    idPoverh = 1;
+    Otrisovka();
+}
+
+Byid('Per0YP').onclick = function()
+{
+    Holst.innerHTML = '';
+    idPoverh = 0;
+    Otrisovka();
+}
 //
 
 //Start
@@ -1070,7 +1147,7 @@ Otrisovka();
 
 
 //Клик для 3D графика
-var CC3D = function(ix,jy)
+var CC3DSUM = function(ix,jy)
 {
     //alert('Y = ' + SW1[ix][jy]);
     var a;
@@ -1096,7 +1173,65 @@ var CC3D = function(ix,jy)
         }
     }
 
-    alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1));
+    alert('Y = ' + SWSUM[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1) + '\n' + 'Суммарная поверхность');
+}
+
+var CC3D1Y = function(ix,jy)
+{
+    //alert('Y = ' + SW1[ix][jy]);
+    var a;
+    var ii = 0;
+    var b = jy - (ix*21);
+    var jj = 0;
+    var j2y = 0;
+    for(var i = 2; i >=-2; i -=0.2,ii++)
+    {
+        if(ii == ix)
+        {
+            a = i;
+            break;
+        }
+    }
+
+     for(var i = 2; i >=-2; i -=0.2,jj++)
+    {
+        if(jj == b)
+        {
+            j2y = i;
+            break;
+        }
+    }
+
+    alert('Y = ' + SW1[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1)+'\n' + '1- Y Поверхность');
+}
+
+var CC3D0Y = function(ix,jy)
+{
+    //alert('Y = ' + SW1[ix][jy]);
+    var a;
+    var ii = 0;
+    var b = jy - (ix*21);
+    var jj = 0;
+    var j2y = 0;
+    for(var i = 2; i >=-2; i -=0.2,ii++)
+    {
+        if(ii == ix)
+        {
+            a = i;
+            break;
+        }
+    }
+
+     for(var i = 2; i >=-2; i -=0.2,jj++)
+    {
+        if(jj == b)
+        {
+            j2y = i;
+            break;
+        }
+    }
+
+    alert('Y = ' + SW0[ix][jy].toFixed(3) + '\n' + 'W1 = ' + a.toFixed(1) +'\n'+'W2 = '+ j2y.toFixed(1)+'\n' + '0- Y Поверхность');
 }
 
 //клик на фактическую линию
