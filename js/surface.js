@@ -824,12 +824,13 @@ var v11,v12,v13,
     v21,v22,v23,
     v32,v33,v43;
 var c1=4.5,c2=3.5;
-var rho = 30//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100'));
+var rho = 30//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100')); p
 //alert('Задайте два угла в градусах');
-var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
-var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
+var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30')); ОВАЛ
+var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70')); p с заветушкой
 var screen_distc = 3000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
 var Pz = 0,Px = 0,Py = 0;
+var V = [1,0,0];
 
 
 //функции
@@ -948,14 +949,25 @@ var Rxyz = function(x,y,z,Px,Py,Pz) // Смещение по осям
 
 }
 
+var PovorotV = function(x,y,z)
+{
+
+
+
+
+    var nx,ny,nz,M=[];
+    return M=[nx,ny,nz];
+}
+
+
+
 var perspective= function(x,y,z)
 {
     var M = [];
-        M =  Rxyz(x,y,z,Px,Py,Pz);
+    M =  Rxyz(x,y,z);
         x = M[0];
         y = M[1];
         z = M[2];
-
     var xe,ye,ze;
     var Mas = [];
     //координаты глаза
