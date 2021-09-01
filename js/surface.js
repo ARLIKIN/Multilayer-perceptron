@@ -802,7 +802,7 @@ var clear = function()
 
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
-            SW1[k][h] = (1/(1 + Math.exp(-a * (i+j))));
+            SW1[k][h] = 0-(1/(1 + Math.exp(-a * (i+j))));
             SW0[k][h] = 1-(1/(1 + Math.exp(-a * (i))));
             SWSUM[k][h] = SW1[k][h] + SW0[k][h];
         }
@@ -1066,7 +1066,7 @@ if(idPoverh == 1)
     }
     for(var i = 0; i<it;i++)
     {
-        dwL(WAll[i][1],WAll[i][2],YAll[i][0],i) // фактическая линия
+        dwL(WAll[i][1],WAll[i][2],AllError[i][0],i) // фактическая линия
     }
 
     //Оси
