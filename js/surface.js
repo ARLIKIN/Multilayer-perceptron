@@ -1331,7 +1331,7 @@ var CC3D0Y = function(ix,jy)
 //клик на фактическую линию
 var CE3D = function(id)
     {
-        alert('Y = ' + YAll[id][0].toFixed(3) + '\n' + 'W1 = ' + WAll[id][1].toFixed(1) + '\n' + 'W2 = ' + WAll[id][2].toFixed(1));
+        alert('Error = ' + AllError[id][0].toFixed(3) + '\n' + 'W1 = ' + WAll[id][1].toFixed(1) + '\n' + 'W2 = ' + WAll[id][2].toFixed(1));
     }
 
 
