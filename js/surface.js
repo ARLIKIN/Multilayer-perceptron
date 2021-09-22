@@ -158,10 +158,6 @@
         RX = [];
         SystemCount = 0;
         SystemCountD = 0;
-        if(!Byid('DivKoordinat').hidden)
-        {
-            Byid('DivKoordinat').hidden = true;
-        }
         if(!Byid('Div_Raspoznovanie').hidden)
         {
             Byid('Div_Raspoznovanie').hidden = true;
@@ -221,7 +217,7 @@
          {
              if(Byid('XInput').value.length == 0)
              {
-                Byid('XInput').value = '0'+'\n'+'&'+'\n'+'1,1;'+'\n'+'&' + '\n'+ '1' + '\n'+ '&' +'\n'+ '0,1;' + '\n' + '&';
+                Byid('XInput').value = '0'+'\n'+'&'+'\n'+'1,1;'+'\n'+'&' + '\n'+ '1' + '\n'+ '&' +'\n'+ '1,0;' + '\n' + '&';
              }
 
              XD = Byid('XInput').value.split('&');
@@ -369,8 +365,6 @@
     {
         Byid('RezultatH1').hidden = false;
         var itog = ''; 
-            Byid('itog').textContent = "Нейрон прошел обучение"
-            Byid('itog').style.color = 'green';
         //Byid('itog').textContent += Sravn;
         Byid('InfoItog').innerHTML = '';
         for(var i =0; i < Sravn.length; i++)
@@ -385,7 +379,6 @@
             Koordinat += GlWAll[0][j][i][1] + ',' + GAllError[0][j][i][0] + ',' + GlWAll[0][j][i][2] + '\n';
             }
         }    
-        Byid('DivKoordinat').hidden = false;
         console.log(Koordinat);
         GrafikW();
         GrafikError();
@@ -516,14 +509,6 @@
   {
       alert('Вход №' + Index);
   }
-  Byid('AKoordinat').onclick = function()
-        {
-            var text = Koordinat;
-            var csvData = 'data:application/txt;charset=utf-8,' + encodeURIComponent(text);
-            this.href = csvData;
-            this.target = '_blank';
-            this.download = 'Координаты.txt';
-        }
 //Распознование
 Byid('Raspoznv').onclick = function()
 {
