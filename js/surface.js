@@ -221,7 +221,7 @@
          {
              if(Byid('XInput').value.length == 0)
              {
-                Byid('XInput').value = '1'+'\n'+'&'+'\n'+'0,1;'+'\n'+'&' + '\n'+ '0' + '\n'+ '&' +'\n'+ '1,0;' + '\n' + '&';
+                Byid('XInput').value = '0'+'\n'+'&'+'\n'+'1,1;'+'\n'+'&' + '\n'+ '1' + '\n'+ '&' +'\n'+ '0,1;' + '\n' + '&';
              }
 
              XD = Byid('XInput').value.split('&');
