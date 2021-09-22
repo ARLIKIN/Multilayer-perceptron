@@ -348,9 +348,8 @@
             for(var i = 0; i < 1; i++) // если нейронов больше 1 то знак = надо убрать
             {
                 err[i] = Minus(Y[0],i);
-                
-                err[i] = Multiplier(Y[0][i],err,i);
                 AllError[tic][i] = err[i];
+                err[i] = Multiplier(Y[0][i],err,i);
                 
                 KorrektW(err[i],i)
             }
