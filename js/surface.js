@@ -1119,14 +1119,50 @@ if(idPoverh == 1)
 
 }
 
+var MEGAColor = function(id)
+{
+    switch(id)
+    {
+        case 2: 
+        Byid('Per1YP').style.backgroundColor = 'wheat';
+        Byid('Per0YP').style.backgroundColor = 'wheat';
+        Byid('PerSUMP').style.backgroundColor = 'rgba(70, 143, 70, 0.61)';
+        break;
+        case 1:
+        Byid('Per1YP').style.backgroundColor = 'rgba(165, 135, 59, 0.664)';
+        Byid('Per0YP').style.backgroundColor = 'wheat';
+        Byid('PerSUMP').style.backgroundColor = 'wheat';
+        break;
+
+        case 0:
+        Byid('Per1YP').style.backgroundColor = 'wheat';
+        Byid('Per0YP').style.backgroundColor = 'rgba(68, 68, 230, 0.664)';
+        Byid('PerSUMP').style.backgroundColor = 'wheat';
+        break
+
+    }
+    
+}
+
 var step = 30;
+var step_user = function()
+{
+    
+    if(parseFloat( Byid('step').value) > 0)
+    {
+        return parseFloat( Byid('step').value);
+    }else
+    {
+        return 30;
+    }
+}
 Byid('PerZ').onclick = function()
 {
     Holst.innerHTML = '';
     V = [0,0,1];
-    Pz +=step*Math.PI/180 //- Pz;
+    Pz +=step_user()*Math.PI/180 //- Pz;
     //Pzt += step;
-    if(Pz >360*Math.PI/180){Pz=0;}
+    if(Pz >360*Math.PI/180){Pz=0;};
     Otrisovka();
 }
 
@@ -1134,7 +1170,7 @@ Byid('PerX').onclick = function()
 {
     Holst.innerHTML = ''
     V = [1,0,0];
-    Px +=step*Math.PI/180 //- Px
+    Px +=step_user()*Math.PI/180 //- Px
     //Pxt += step 
     if(Pxt >360*Math.PI/180){Px=0;}
     Otrisovka();
@@ -1144,7 +1180,7 @@ Byid('PerY').onclick = function()
 {
     Holst.innerHTML = ''
     V = [0,1,0];
-    Py +=step*Math.PI/180 //- Py;
+    Py +=step_user()*Math.PI/180 //- Py;
     //Pyt +=step;
     if(Pyt >360*Math.PI/180){Py=0;}
     Otrisovka();
@@ -1164,6 +1200,7 @@ Byid('PerSUMP').onclick = function()
 {
     Holst.innerHTML = '';
     idPoverh = 2;
+    MEGAColor(idPoverh);
     Otrisovka();
 }
 
@@ -1171,6 +1208,7 @@ Byid('Per1YP').onclick = function()
 {
     Holst.innerHTML = '';
     idPoverh = 1;
+    MEGAColor(idPoverh);
     Otrisovka();
 }
 
@@ -1178,6 +1216,7 @@ Byid('Per0YP').onclick = function()
 {
     Holst.innerHTML = '';
     idPoverh = 0;
+    MEGAColor(idPoverh);
     Otrisovka();
 }
 //

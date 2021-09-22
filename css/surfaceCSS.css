@@ -156,6 +156,18 @@ a
     text-align: center;
     border: 1px solid black;
     border-radius: 0.3em;
+
+}
+
+.btn_3DGraf_XYZ
+{
+    display: flex;
+    justify-content: center;
+}
+
+#step
+{
+    width: 22px;
 }
 
 #PerX:hover
@@ -178,21 +190,10 @@ a
     background-color: rgba(0, 0, 0, 0.404);
 }
 
-#PerSUMP:hover
+#PerSUMP
 {
     background-color: rgba(70, 143, 70, 0.61);
 }
-
-#Per1YP:hover
-{
-    background-color: rgba(165, 135, 59, 0.664);
-}
-
-#Per0YP:hover
-{
-    background-color: rgba(68, 68, 230, 0.664);
-}
-
 
 .C3D:hover
 {
