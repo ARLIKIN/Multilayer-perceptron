@@ -1024,12 +1024,21 @@ var dwP0Y = function(x,y,z,i,j)
     Holst.innerHTML += Circle0Y(3,X+500,Y+300,'blue',i,j);
 }
 
-var dwL = function(x,y,z,i)
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+function rgb2hex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+var dwL = function(x,y,z,i,aC)
 {
+    var color = rgb2hex(aC,0,0);
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
-    Holst.innerHTML += Circle3(3,X+500,Y+300,'red',i);
+    Holst.innerHTML += Circle3(3,X+500,Y+300,color,i);
 }
 
 var mv = function(x,y,z)
@@ -1094,9 +1103,11 @@ if(idPoverh == 1)
                 }
             }
     }
-    for(var i = 0; i<it;i++)
+    var aC = 0;
+    for(var i = 0; i<it;i++,aC+=10)
     {
-        dwL(WAll[i][1],WAll[i][2],AllError[i][0],i) // фактическая линия
+        if(aC > 255){aC = 170}
+        dwL(WAll[i][1],WAll[i][2],AllError[i][0],i,aC) // фактическая линия
     }
 
     //Оси
