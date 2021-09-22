@@ -829,64 +829,103 @@ var rho = 30//  parseFloat(prompt('Расстояние до наблюдате�
 var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
 var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
 var screen_distc = 3000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
-var Pz = 0,Px = 0,Py = 0;
+var Pz = 0,Px = 0,Py = 0, Pv = 0;
+var Pzt = 0, Pxt = 0, Pyt = 0, Pvt = 0;
+var tic = 0, ticP = 0;
+var PXYZ = {};
+var OldQ = {};
+var OldV = {};
+var SQ;
+var VS = [0,0,1];
+var V = VS;
 
 
 //функции
-var Rz = function(x,y,z,a)
+var PQ = function(q1,q2)
 {
-    var c = Math.cos(a);
-    var s = Math.sin(a);
-    
+    var a = 
+    {
+        x: q1[0],
+        y: q1[1],
+        z: q1[2],
+        w: q1[3]
+    }
 
-    var m11 = c, m12 = s, m13=0,
-        m21 =-s, m22 = c, m23=0,
-        m31=0,   m32 = 0, m33=1;
+    var b = 
+    {
+        x: q2[0],
+        y: q2[1],
+        z: q2[2],
+        w: q2[3]
+    }
 
-    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
-    var nx = m11*x + m12*y + m13*z;
-    var ny = m21*x + m22*y + m23*z; 
-    var nz = m31*x + m32*y + m33*z;
+    var res = [];
 
-    var M = [nx,ny,nz];
-    return M
+    res[0] = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
+    res[1] = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
+    res[2] = a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w;
+    res[3] = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
+    return res;
 }
 
-var Rx = function(x,y,z,a)
+var PovorotK = function(V,x,y,z,a)
 {
-    var c = Math.cos(a);
-    var s = Math.sin(a);
+    var nx,ny,nz;
+    var VM = [];
+    var l = Math.sqrt(V[0] * V[0] + V[1]* V[1] + V[2] * V[2]); // длинна вектора
+    //Нормализуем вектор 
+
+    V[0] = V[0]/l;
+    V[1] = V[1]/l;
+    V[2] = V[2]/l;
+    //Синус половины угла
+    var hSin = Math.sin(a/2);
+    //Косинус половины угла
+    var hCos = Math.cos(a/2);
+    SQ = 
+    [
+        V[0] * hSin,
+        V[1]* hSin,
+        V[2]* hSin,
+        hCos
+    ]
+
+
+    if(tic >1)
+    {
+        VM = PQ(OldQ[tic-1],SQ)
+
+        if(V[0] != OldV[tic-1][0] && V[1] != OldV[tic-1][1] && V[2] != OldV[tic-1][2])
+        {
+        SQ[0] = VM[0];
+        SQ[1] = VM[1];
+        SQ[2] = VM[2];
+        SQ[3] = VM[3];
+        }
+    }
+
+    var Q = 
+    {
+        x: SQ[0],
+        y: SQ[1],
+        z: SQ[2],
+        w: SQ[3]
+    }
+
     
 
-    var m11 = 1, m12 =  0, m13=0,
-        m21 = 0, m22 =  c, m23=s,
-        m31=  0, m32 = -s, m33=c;
+    var M = 
+    [
+        1 - 2*Math.pow(Q.y,2) - 2*Math.pow(Q.z,2), 2*Q.x*Q.y - 2*Q.z*Q.w, 2*Q.x*Q.z + 2*Q.y*Q.w,
+        2*Q.x*Q.y + 2*Q.z*Q.w, 1 - 2*Math.pow(Q.x,2) - 2* Math.pow(Q.z,2), 2*Q.y*Q.z - 2*Q.x*Q.w,
+        2*Q.x*Q.z - 2*Q.y*Q.w, 2*Q.y*Q.z + 2*Q.x*Q.w, 1 - 2* Math.pow(Q.x,2) - 2* Math.pow(Q.y,2)
+    ];
 
-    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
-    var nx = m11*x + m12*y + m13*z;
-    var ny = m21*x + m22*y + m23*z; 
-    var nz = m31*x + m32*y + m33*z;
-
-    var M = [nx,ny,nz];
-    return M
-}
-var Ry = function(x,y,z,a)
-{
-    var c = Math.cos(a);
-    var s = Math.sin(a);
-    
-
-    var m11 = c, m12 = 0, m13= -s,
-        m21 = 0, m22 = 1, m23=  0,
-        m31=  s, m32 = 0, m33=  c;
-
-    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
-    var nx = m11*x + m12*y + m13*z;
-    var ny = m21*x + m22*y + m23*z; 
-    var nz = m31*x + m32*y + m33*z;
-
-    var M = [nx,ny,nz];
-    return M
+    nx = M[0]*x + M[1]*y + M[2]*z;
+    ny = M[3]*x + M[4]*y + M[5]*z;
+    nz = M[6]*x + M[7]*y + M[8]*z;
+    var NM = [nx,ny,nz];
+    return NM
 }
 
 var coeff=function(rho,theta,phi)
@@ -908,53 +947,44 @@ var coeff=function(rho,theta,phi)
                                             v43=rho;
 }
 
-var Rxyz = function(x,y,z,Px,Py,Pz) // Смещение по осям
-{
-    var cx = Math.cos(Px);
-    var sx = Math.sin(Px);
-    var cy = Math.cos(Py);
-    var sy = Math.sin(Py);
-    var cz = Math.cos(Pz);
-    var sz = Math.sin(Pz);
-
-
-    var x11 = 1, x12 =  0, x13=0, // матрица смещения по оси X
-        x21 = 0, x22 =  cx, x23=sx,
-        x31=  0, x32 = -sx, x33=cx;
-    
-    var y11 = cy, y12 = 0, y13= -sy,// матрица смещения по оси Y
-        y21 = 0,  y22 = 1, y23=  0,
-        y31=  sy, y32 = 0, y33= cy;
-
-    var z11 = cz, z12 = sz, z13=0,// матрица смещения по оси Z
-        z21 =-sz, z22 = cz, z23=0,
-        z31=0,    z32 = 0,  z33=1;
-
-    var xy11 = x11 * y11 + x12 * y21 + x13 * y31, xy12 = x11 * y12 + x12 * y22 + x13 * y32, xy13 = x11 * y13 + x12 * y23 + x13 * y33, // Умножение матрицы X на Y
-        xy21 = x21 * y11 + x22 * y21 + x23 * y31, xy22 = x21 * y12 + x22 * y22 + x23 * y32, xy23 = x21 * y13 + x22 * y23 + x23 * y33,
-        xy31 = x31 * y11 + x32 * y21 + x33 * y31, xy32 = x31 * y12 + x32 * y22 + x33 * y32, xy33 = x31 * y13 + x32 * y23 + x33 * y33;
-
-    var m11 = xy11 * z11 + xy12 * z21 + xy13 * z31, m12 = xy11 * z12 + xy12 * z22 + xy13 * z32, m13 = xy11 * z13 + xy12 * z23 + xy13 * z33, // Умножение матрицы XY на Z
-        m21 = xy21 * z11 + xy22 * z21 + xy23 * z31, m22 = xy21 * z12 + xy22 * z22 + xy23 * z32, m23 = xy21 * z13 + xy22 * z23 + xy23 * z33,
-        m31 = xy31 * z11 + xy32 * z21 + xy33 * z31, m32 = xy31 * z12 + xy32 * z22 + xy33 * z32, m33 = xy31 * z13 + xy32 * z23 + xy33 * z33;
-
-    //var Rz = (m11*m22*m33 + m12*m23*m31 + m13*m21*m32)-(m13*m22*m31 + m12*m21*m33 + m11*m23*m32);
-    var nx = m11*x + m12*y + m13*z;
-    var ny = m21*x + m22*y + m23*z; 
-    var nz = m31*x + m32*y + m33*z;
-
-    var M = [nx,ny,nz];
-    return M
-
-}
-
 var perspective= function(x,y,z)
 {
+    /*if(tic != 0)
+    {
+        x = PXYZ[ticP][0];
+        y = PXYZ[ticP][1];
+        z = PXYZ[ticP][2];
+    }*/
+
     var M = [];
-        M =  Rxyz(x,y,z,Px,Py,Pz);
+
+    if(V[0] > 0 && V[1] == 0 && V[2] == 0 )
+    {
+        M =  PovorotK(V,x,y,z,Px);
         x = M[0];
         y = M[1];
         z = M[2];
+    } else if(V[0] == 0 && V[1] > 0 && V[2] == 0)
+    {
+        M =  PovorotK(V,x,y,z,Py);
+        x = M[0];
+        y = M[1];
+        z = M[2];
+    } else if(V[0] == 0 && V[1] == 0 && V[2] > 0)
+    {
+        M =  PovorotK(V,x,y,z,Pz);
+        x = M[0];
+        y = M[1];
+        z = M[2];
+    } else
+    {
+    M =  PovorotK(V,x,y,z,Pv);
+    x = M[0];
+    y = M[1];
+    z = M[2];
+    }
+
+    //PXYZ[ticP] =step
 
     var xe,ye,ze;
     var Mas = [];
@@ -1080,36 +1110,50 @@ if(idPoverh == 1)
     dwT(0,-0.55,0,'W2','blue','10');
     dwT(0,0,0.55,'Y','green','10');
 
+    OldQ[tic] = SQ
+    OldV[tic] = V
+
+    tic+=1;
+    ticP = 0;
+
 
 }
 
+var step = 30;
 Byid('PerZ').onclick = function()
 {
-    Holst.innerHTML = ''
-    Pz +=30*Math.PI/180
-    if(Pz >360*Math.PI/180){Pz=0}
+    Holst.innerHTML = '';
+    V = [0,0,1];
+    Pz +=step*Math.PI/180 //- Pz;
+    //Pzt += step;
+    if(Pz >360*Math.PI/180){Pz=0;}
     Otrisovka();
 }
 
 Byid('PerX').onclick = function()
 {
     Holst.innerHTML = ''
-    Px +=30*Math.PI/180
-    if(Px >360*Math.PI/180){Px=0}
+    V = [1,0,0];
+    Px +=step*Math.PI/180 //- Px
+    //Pxt += step 
+    if(Pxt >360*Math.PI/180){Px=0;}
     Otrisovka();
 }
 
 Byid('PerY').onclick = function()
 {
     Holst.innerHTML = ''
-    Py +=30*Math.PI/180
-    if(Py >360*Math.PI/180){Py=0}
+    V = [0,1,0];
+    Py +=step*Math.PI/180 //- Py;
+    //Pyt +=step;
+    if(Pyt >360*Math.PI/180){Py=0;}
     Otrisovka();
 }
 
 Byid('PerRESET').onclick = function()
 {
     Holst.innerHTML = ''
+    V = VS;
     Pz = 0;
     Py = 0;
     Px = 0;
