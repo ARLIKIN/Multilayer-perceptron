@@ -475,11 +475,41 @@ InputSloi = function() // Выходной слой
     {
         
         if (flag){return}
-
         Ylength = Object.keys(Y).length;
         Wlength = Object.keys(W).length; 
         var abc = 0;
         error = [0];
+
+        for(var j = 0; j < KolYInput;j++)
+                    {
+                        Y[0][j] = Neuron(X,j);
+                        
+                    }
+                
+                        for(var h = 0; h < KolYHidensloi.length;h++)
+                        {
+
+                            for(var j =0; j < KolYHidensloi[h]; j++)
+                            {
+                                Y[h+1][j] = Neuron(Y[h],j+KolYInput+abc); 
+                            }
+                        abc += KolYHidensloi[h];
+                        }
+
+                        
+                        for(var p =0; p < KolYOutput; p++)
+                            {
+                                Y[Ylength-1][p] = Neuron(Y[Ylength-2],p+(Wlength-KolYOutput) );
+                            }
+                            console.log(Y[Ylength-1]);
+            
+            counterKorrekt++
+
+
+
+
+
+
         //Коррекция весов выходного слоя
         for(var i = 0; i < d.length; i++ )
         {
@@ -520,32 +550,7 @@ InputSloi = function() // Выходной слой
             
                 
                                  
-                    for(var j = 0; j < KolYInput;j++)
-                    {
-                        Y[0][j] = Neuron(X,j);
-                        
-                    }
-                
-
-   
-                        for(var h = 0; h < KolYHidensloi.length;h++)
-                        {
-
-                            for(var j =0; j < KolYHidensloi[h]; j++)
-                            {
-                                Y[h+1][j] = Neuron(Y[h],j+KolYInput+abc); 
-                            }
-                        abc += KolYHidensloi[h];
-                        }
-
-                        
-                        for(var p =0; p < KolYOutput; p++)
-                            {
-                                Y[Ylength-1][p] = Neuron(Y[Ylength-2],p+(Wlength-KolYOutput) );
-                            }
-                            console.log(Y[Ylength-1]);
-            
-            counterKorrekt++
+                    
     }    
 
 
