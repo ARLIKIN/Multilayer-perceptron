@@ -401,7 +401,7 @@ InputSloi = function() // Выходной слой
                         if(i <=KolYInput-1)
                         {
                             if (p == 0){W[err[i]][p] += Multiplier(Y[o][0],error,i); continue}
-                            W[i][p] += Multiplier(Y[0][i],error,p-1) * learningRate * X[p-1];
+                            W[i][p] += Multiplier(Y[0][i],error,i) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
                             W[err[i]][p] += Multiplier(Y[o][0],error,i); 
@@ -446,7 +446,7 @@ InputSloi = function() // Выходной слой
 
         for(var j = Index.length-1; j >=Index.length-Y[countSloi].length; j--, h++)
             {
-                ERORW.unshift(W[Index[j]][W[Index[j]].length-1 - hob] + error[l-1 - h]);
+                ERORW.unshift(W[Index[j]][W[Index[j]].length-1 - hob] * error[l-1 - h]);
             }   
 
             for(var j = 0; j < ERORW.length; j++)
@@ -467,7 +467,7 @@ InputSloi = function() // Выходной слой
     var Multiplier = function(y,err,i)
     {
         var result;
-        result = ((1-y)*y)*a*err[i];
+        result = ((1-y)*y)*err[i]; //*a
         return result; 
     }
 
@@ -543,6 +543,7 @@ InputSloi = function() // Выходной слой
                             {
                                 Y[Ylength-1][p] = Neuron(Y[Ylength-2],p+(Wlength-KolYOutput) );
                             }
+                            console.log(Y[Ylength-1]);
             
             counterKorrekt++
     }    
