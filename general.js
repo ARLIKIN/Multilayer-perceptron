@@ -222,7 +222,7 @@ function Neuron(X,m)
       
     a = parseFloat(document.getElementById(id="aInput").value);
     it =  parseInt(Byid('iterInput').value);
-    learningRate  = Byid('learningRateInput').value;
+    learningRate  = parseFloat(Byid('learningRateInput').value);
     document.getElementsByClassName('resultat').hidden = true;
     
 
@@ -401,7 +401,7 @@ InputSloi = function() // Выходной слой
                         if(i <=KolYInput-1)
                         {
                             if (p == 0){W[err[i]][p] += Multiplier(Y[o][0],error,i); continue}
-                            W[i][p] += Multiplier(Y[0][i],error,0) * learningRate * X[p-1];
+                            W[i][p] += Multiplier(Y[0][i],error,p-1) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
                             W[err[i]][p] += Multiplier(Y[o][0],error,i); 
