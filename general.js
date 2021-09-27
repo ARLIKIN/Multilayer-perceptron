@@ -37,6 +37,7 @@
     var LMX = [];
     var SystemCount;
     var SystemCountD;
+    var NoHiden = false;
 
     
 function showFile(input) 
@@ -148,6 +149,7 @@ function Neuron(X,m)
     AllYLastIter = [];
     SystemCount = 0;
     SystemCountD =0;
+    NoHiden = false;
 
 
     var XC =0;
@@ -343,7 +345,12 @@ HidenSloi = function(nm) // Скрытый слой
         var KolV; 
 
         Y[Ylength] = []; 
-        if (KolYHidensloi <=0) KolYHidensloi[nm-1] = 1;
+        if (KolYHidensloi <=0) 
+        {
+            //KolYHidensloi[nm-1] = 1;
+            NoHiden = true;
+            return;
+        }
             KolV = KolYHidensloi[nm-1];
         // Случайная генерация весов
         
