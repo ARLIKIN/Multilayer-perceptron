@@ -344,13 +344,14 @@ HidenSloi = function(nm) // Скрытый слой
         Wlength = Object.keys(W).length; //
         var KolV; 
 
-        Y[Ylength] = []; 
+        
         if (KolYHidensloi <=0) 
         {
             //KolYHidensloi[nm-1] = 1;
             NoHiden = true;
             return;
         }
+            Y[Ylength] = []; 
             KolV = KolYHidensloi[nm-1];
         // Случайная генерация весов
         
@@ -398,6 +399,10 @@ InputSloi = function() // Выходной слой
         var kolNSloi = 0;
         var errLeng = error.length;
         mob = Y[o].length;
+        if(NoHiden)
+        {
+            countSloi -=1;
+        }
         for(var i = err.length-1; i >= 0; i--)
         {
                 
@@ -492,24 +497,24 @@ InputSloi = function() // Выходной слой
                         Y[0][j] = Neuron(X,j);
                         
                     }
-                
-                        for(var h = 0; h < KolYHidensloi.length;h++)
-                        {
+    if(!NoHiden)
+    {            
+    for(var h = 0; h < KolYHidensloi.length;h++)
+        {
 
-                            for(var j =0; j < KolYHidensloi[h]; j++)
-                            {
-                                Y[h+1][j] = Neuron(Y[h],j+KolYInput+abc); 
-                            }
-                        abc += KolYHidensloi[h];
-                        }
-
+            for(var j =0; j < KolYHidensloi[h]; j++)
+                {
+                    Y[h+1][j] = Neuron(Y[h],j+KolYInput+abc); 
+                }
+                abc += KolYHidensloi[h];
+        }
+    }
                         
-                        for(var p =0; p < KolYOutput; p++)
-                            {
-                                Y[Ylength-1][p] = Neuron(Y[Ylength-2],p+(Wlength-KolYOutput) );
-                            }
-                            console.log(Y[Ylength-1]);
-            
+        for(var p =0; p < KolYOutput; p++)
+            {
+                Y[Ylength-1][p] = Neuron(Y[Ylength-2],p+(Wlength-KolYOutput) );
+            }
+            console.log(Y[Ylength-1]);
             counterKorrekt++
 
 
@@ -525,6 +530,9 @@ InputSloi = function() // Выходной слой
             
             error[Wlength-1-i] = err[i];
             
+
+            if(!NoHiden)
+            {
             for(var j =0; j <= KolYHidensloi[KolYHidensloi.length-1]; j++ )
             {
                 if (j == 0)
@@ -535,7 +543,19 @@ InputSloi = function() // Выходной слой
                     W[Wlength-1-i][j] += err[i] * learningRate * Y[Ylength-2][j-1];
                 }
             }
-
+            }else
+            {
+                for(var j =0; j <= KolYInput; j++ )
+                {
+                    if (j == 0)
+                    {
+                        W[Wlength-1-i][j] += err[i] * learningRate;
+                    }else
+                    {
+                     W[Wlength-1-i][j] += err[i] * learningRate * Y[Ylength-2][j-1];
+                    }
+                }
+            }
         }
         //Коррекция весов скрытых слоев
           
