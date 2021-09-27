@@ -951,11 +951,11 @@ Byid('button2').onclick= function()
         count +=1;
     }
     //Скрытые слои
-    for(var i = 1; i <= KolYHidensloi.length-1; i++)
+    for(var i = 0; i < KolYHidensloi.length; i++)
     {
-        for(var j =0; j< Y[i].length;j++)
+        for(var j =0; j< Y[i+1].length;j++)
         {
-            Y[i][j] = Neuron(Y[i-1],count);
+            Y[i+1][j] = Neuron(Y[i],count);
             count +=1;
         }
     }
