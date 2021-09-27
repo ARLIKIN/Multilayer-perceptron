@@ -150,7 +150,7 @@ function Neuron(X,m)
     SystemCount = 0;
     SystemCountD =0;
     NoHiden = false;
-
+    
 
     var XC =0;
 
@@ -234,6 +234,8 @@ function Neuron(X,m)
             {
                 Byid('XInput').value = '1,1'+'\n'+'&'+'\n'+'0,1,0,1,0;'+'\n'+'&';
             }
+            MD = [];
+            MX = [];
 
             XD = Byid('XInput').value.split('&'); // получаем входные данные из файла и формируем из них массив
             XD.pop();
@@ -402,6 +404,7 @@ InputSloi = function() // Выходной слой
         if(NoHiden)
         {
             countSloi -=1;
+            o =0;
         }
         for(var i = err.length-1; i >= 0; i--)
         {
@@ -979,6 +982,8 @@ Byid('button2').onclick= function()
         count +=1;
     }
     //Скрытые слои
+    if(!NoHiden)
+    {
     for(var i = 0; i < KolYHidensloi.length; i++)
     {
         for(var j =0; j< Y[i+1].length;j++)
@@ -986,6 +991,7 @@ Byid('button2').onclick= function()
             Y[i+1][j] = Neuron(Y[i],count);
             count +=1;
         }
+    }
     }
     //Выходной слой
     for(var i = 0;i < Y[Ylength-1].length; i++)
@@ -1163,12 +1169,14 @@ var GrafikNeuron = function(i,canvas,b)
         var SLOI = [X.length];    
              SLOI[1] = VhodnoiSLOI;
 
+        if(!NoHiden)
+        {  
         for(var i = 0; i < HidenSLOI.length; i++)
         {
             SLOI[i+2] = HidenSLOI[i];
         }
+        }   
         SLOI.push(VihodnoiSLOI);
-
 
         var color;
         var c = 0
