@@ -703,7 +703,7 @@ InputSloi = function() // Выходной слой
             {
                 b = parseInt(tic*0.001)
             }
-
+           // b = parseInt(tic*0.01)
             GrafLastSloi(b);
         }
 
@@ -784,58 +784,58 @@ var GrafALL= function(b)
         canvas = Byid('canva'+i);
         if(Math.abs(AllError[0][i]) >100)
         {
-            Osi(i,canvas,10,0)
             Grafik(i,canvas,0.01,b)
+            Osi(i,canvas,10,0)
         }
         if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <100)
         {
-            Osi(i,canvas,1,0)
             Grafik(i,canvas,0.1,b)
+            Osi(i,canvas,1,0)
         }
         if(Math.abs(AllError[0][i]) >1 && Math.abs(AllError[0][i]) <10)
         {
-            Osi(i,canvas,0.1,0)
             Grafik(i,canvas,1,b)
+            Osi(i,canvas,0.1,0)
         }
         if(Math.abs(AllError[0][i]) < 1 && Math.abs(AllError[0][i]) >=0.1)
         {
-            Osi(i,canvas,0.01,1)
             Grafik(i,canvas,10,b)
+            Osi(i,canvas,0.01,1)
         }
         if(Math.abs(AllError[0][i])<0.1 && Math.abs(AllError[0][i]) > 0.01)
         {
-            Osi(i,canvas,0.001,2)
             Grafik(i,canvas,100,b)
+            Osi(i,canvas,0.001,2)
         }
         if(Math.abs(AllError[0][i]) < 0.01 && Math.abs(AllError[0][i]) >=0.001)
         {
-            Osi(i,canvas,0.0001,3)
             Grafik(i,canvas,1000,b)
+            Osi(i,canvas,0.0001,3)
         }
         if(Math.abs(AllError[0][i])<0.001 && Math.abs(AllError[0][i]) >= 0.0001)
         {
-            Osi(i,canvas,0.00001,4)
             Grafik(i,canvas,10000,b)
+            Osi(i,canvas,0.00001,4)
         }
         if(Math.abs(AllError[0][i])<0.0001 && Math.abs(AllError[0][i]) >=0.00001)
         {
-            Osi(i,canvas,0.000001,5)
             Grafik(i,canvas,100000,b)
+            Osi(i,canvas,0.000001,5)
         }
         if(Math.abs(AllError[0][i]) <0.00001 && Math.abs(AllError[0][i]) >=0.000001)
         {
-            Osi(i,canvas,0.0000001,6)
             Grafik(i,canvas,1000000,b)
+            Osi(i,canvas,0.0000001,6)
         }
         if(Math.abs(AllError[0][i]) <0.000001 && Math.abs(AllError[0][i]) >=0.0000001)
         {
-            Osi(i,canvas,0.00000001,7)
             Grafik(i,canvas,10000000,b)
+            Osi(i,canvas,0.00000001,7)
         }
         if(Math.abs(AllError[0][i]) <0.0000001 && Math.abs(AllError[0][i]) >=0.00000001)
         {
-            Osi(i,canvas,0.00000001,8)
             Grafik(i,canvas,10000000,b)
+            Osi(i,canvas,0.00000001,8)
         }
 
 
@@ -851,6 +851,9 @@ var Grafik = function(i,canvas,mn,b)
     {
         var h =1;
         var ctx = canvas.getContext("2d");
+        canvas.width = 1000;
+        canvas.height = 1000;
+        ctx.lineWidth = 0,5;
         ctx.strokeStyle = 'red';
         for(var j =0; j < b*1000; j+=b*2)
         {
@@ -878,10 +881,8 @@ var Grafik = function(i,canvas,mn,b)
 var Osi = function(i,canvas,mn,fix)
 {
         ctx = canvas.getContext("2d");
-        canvas.width = 1000;
-        canvas.height = 1000;
-        ctx.lineWidth = 0,5;
         ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'black';
         ctx.fillRect(0,0, 1, 1000);//вертикальная ось
         ctx.fillRect(0,500,1000,1);// горизонтальная ось
         ctx.font = '10px Verdana';
@@ -989,8 +990,9 @@ var GrafLastSloi = function(b)
     for(var i =0; i < Y[Ylength-1].length; i++)
     {
         canvas = Byid('canvaLastSloi'+i);
-        OsiNeuron(i,canvas)
         GrafikNeuron(i,canvas,b)
+        OsiNeuron(i,canvas)
+       
     }
 }
 
@@ -998,9 +1000,7 @@ var GrafLastSloi = function(b)
 var OsiNeuron = function(i,canvas)
 {
         ctx = canvas.getContext("2d");
-        canvas.width = 1000;
-        canvas.height = 1000;
-        ctx.lineWidth = 0,5;
+        ctx.strokeStyle = 'black';
         ctx.fillStyle = 'black';
         ctx.fillRect(0,0, 1, 1000);//вертикальная ось
         ctx.fillRect(0,999,1000,1);// горизонтальная ось
@@ -1054,6 +1054,9 @@ var GrafikNeuron = function(i,canvas,b)
     {
         var h =1;
         var ctx = canvas.getContext("2d");
+        canvas.width = 1000;
+        canvas.height = 1000;
+        ctx.lineWidth = 0,5;
         ctx.strokeStyle = 'blue';
         for(var j =0; j < b*1000; j+=b*2)
         {
