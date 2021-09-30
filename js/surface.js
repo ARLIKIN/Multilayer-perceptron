@@ -809,11 +809,10 @@ var v11,v12,v13,
     v21,v22,v23,
     v32,v33,v43;
 var c1=4.5,c2=3.5;
-var rho = 30//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100'));
-//alert('Задайте два угла в градусах');
-var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
-var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
-var screen_distc = 3000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
+var rho = 30//Расстояние до наблюдателя 
+var theta = 30// Угол theta измеряется по горизонтали от оси x
+var phi = 70//Угол phi измеряется по вертикали от оси z
+var screen_distc = 3000//Расстояни от точки наблюдения до экрана
 var Pz = 0,Px = 0,Py = 0, Pv = 0;
 var Pzt = 0, Pxt = 0, Pyt = 0, Pvt = 0;
 var tic = 0, ticP = 0;

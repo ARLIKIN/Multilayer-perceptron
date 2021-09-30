@@ -39,6 +39,8 @@
     var SystemCountD;
     var NoHiden = false;
     var Lf;
+    var WItALL;
+    var YItAll;
 
     
 function showFile(input) 
@@ -152,6 +154,8 @@ function Neuron(X,m)
     SystemCountD =0;
     NoHiden = false;
     Lf = false;
+    WItALL = {};
+    YItAll={};
     
 
     var XC =0;
@@ -572,18 +576,7 @@ InputSloi = function() // Выходной слой
             }
         
 
-        KorrektHiddenSloi(Windex);
-
-        
-
-        
-
-
-        // Корректировка Y
-            
-                
-                                 
-                    
+        KorrektHiddenSloi(Windex);            
     }    
 
 
@@ -750,6 +743,20 @@ InputSloi = function() // Выходной слой
             
         }
 
+        if(Byid('check3DGrafik').checked)
+        {
+            var option = '';
+            var n= 1
+            for(var i = 0; i< Object.keys(W).length; i++,n++)
+            {
+                option += '<option value="'+i+'" >Нейрон '+n+'</option>';
+            }
+            Byid('3DGraf_conteiner_select').innerHTML = '<select id="3DGraf_select" onchange="doSomething();">'+option+'</select>';
+            Byid('Graf_PG').innerHTML = '<svg class="3DGrafNeuron" id="Grafid" width = "1000" height = "1000"></svg>';
+            Main3DGrafik();
+
+        }
+
 
         console.log('\n'+ 'Первые ошибки' + '\n')
         var errstr = 'Ошибки на 1 итерации :' + '</br>'
@@ -768,6 +775,8 @@ InputSloi = function() // Выходной слой
         Byid('dowland').textContent = 'Нейросеть прошла обучение';
         console.log(Object.keys(AllError).length)
         Byid('Raspoznovanie_div').hidden = false;
+        console.log(WItALL);
+        console.log(YItAll);
 
 
     }
@@ -799,6 +808,8 @@ InputSloi = function() // Выходной слой
                     break;
                 }
                     AllYLastsloi[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
+                    WItALL[tic] = Object.assign({},W);
+                    YItAll[tic] = Object.assign({},Y[Object.keys(Y).length-1]);
                     Korrekt(false,X);
                     SystemClass();
                     tic+=1;
@@ -1355,6 +1366,275 @@ var GrafikNeuron = function(i,canvas,b)
     }
 
 
+    //3D Графики для нейронов
+    var Main3DGrafik = function(idNeuron)
+    {
+        var Holst = Byid('Grafid');
+        Holst.innerHTML = '';
+        var v11,v12,v13,
+            v21,v22,v23,
+            v32,v33,v43;
+        var c1=4.5,c2=3.5;
+        var rho = 30//  parseFloat(prompt('Расстояние до наблюдателя rho=EO','100'));
+        //alert('Задайте два угла в градусах');
+        var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
+        var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
+        var screen_distc = 3000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
+        var Pz = 0,Px = 0,Py = 0, Pv = 0;
+        var Pzt = 0, Pxt = 0, Pyt = 0, Pvt = 0;
+        var tic = 0, ticP = 0;
+        var PXYZ = {};
+        var OldQ = {};
+        var OldV = {};
+        var SQ;
+        var VS = [0,0,1];
+        var V = VS;
+
+
+        //Поворот кватернионом
+        var PQ = function(q1,q2)
+        {
+            var a = 
+            {
+                x: q1[0],
+                y: q1[1],
+                z: q1[2],
+                w: q1[3]
+            }
+
+            var b = 
+            {
+                x: q2[0],
+                y: q2[1],
+                z: q2[2],
+                w: q2[3]
+            }
+
+            var res = [];
+
+            res[0] = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
+            res[1] = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
+            res[2] = a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w;
+            res[3] = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
+            return res;
+        }
+
+        var PovorotK = function(V,x,y,z,a)
+        {
+            var nx,ny,nz;
+            var VM = [];
+            var l = Math.sqrt(V[0] * V[0] + V[1]* V[1] + V[2] * V[2]); // длинна вектора
+            //Нормализуем вектор 
+
+            V[0] = V[0]/l;
+            V[1] = V[1]/l;
+            V[2] = V[2]/l;
+            //Синус половины угла
+            var hSin = Math.sin(a/2);
+            //Косинус половины угла
+            var hCos = Math.cos(a/2);
+            SQ = 
+            [
+                V[0] * hSin,
+                V[1]* hSin,
+                V[2]* hSin,
+                hCos
+            ]
+
+
+            if(tic >1)
+            {
+                VM = PQ(OldQ[tic-1],SQ)
+
+                if(V[0] != OldV[tic-1][0] && V[1] != OldV[tic-1][1] && V[2] != OldV[tic-1][2])
+                {
+                SQ[0] = VM[0];
+                SQ[1] = VM[1];
+                SQ[2] = VM[2];
+                SQ[3] = VM[3];
+                }
+            }
+
+            var Q = 
+            {
+                x: SQ[0],
+                y: SQ[1],
+                z: SQ[2],
+                w: SQ[3]
+            }
+
     
+
+            var M = 
+            [
+                1 - 2*Math.pow(Q.y,2) - 2*Math.pow(Q.z,2), 2*Q.x*Q.y - 2*Q.z*Q.w, 2*Q.x*Q.z + 2*Q.y*Q.w,
+                2*Q.x*Q.y + 2*Q.z*Q.w, 1 - 2*Math.pow(Q.x,2) - 2* Math.pow(Q.z,2), 2*Q.y*Q.z - 2*Q.x*Q.w,
+                2*Q.x*Q.z - 2*Q.y*Q.w, 2*Q.y*Q.z + 2*Q.x*Q.w, 1 - 2* Math.pow(Q.x,2) - 2* Math.pow(Q.y,2)
+            ];
+
+            nx = M[0]*x + M[1]*y + M[2]*z;
+            ny = M[3]*x + M[4]*y + M[5]*z;
+            nz = M[6]*x + M[7]*y + M[8]*z;
+            var NM = [nx,ny,nz];
+            return NM
+        }
+
+        //Основной код
+        var coeff=function(rho,theta,phi)
+        {
+            var th,ph,costh,sinth,cosph,sinph,factor;
+            factor=Math.atan(1.0)/45.0;
+            //Углы в радианах
+            th=theta*factor;
+            ph = phi*factor;
+
+            costh = Math.cos(th);
+            cosph = Math.cos(ph);
+            sinth= Math.sin(th);
+            sinph= Math.sin(ph);
+            //Элементы матрицы V
+            v11 = -sinth;   v12 = -cosph*costh;     v13=-sinph*costh;
+            v21 = costh;    v22 = -cosph*sinth;     v23=-sinph*sinth;
+                    v32=sinph;                      v33=-cosph;
+                                                    v43=rho;
+        }
+
+        var perspective= function(x,y,z)
+        {
+            /*if(tic != 0)
+            {
+                x = PXYZ[ticP][0];
+                y = PXYZ[ticP][1];
+                z = PXYZ[ticP][2];
+            }*/
+
+            var M = [];
+
+            if(V[0] > 0 && V[1] == 0 && V[2] == 0 )
+            {
+                M =  PovorotK(V,x,y,z,Px);
+                x = M[0];
+                y = M[1];
+                z = M[2];
+            } else if(V[0] == 0 && V[1] > 0 && V[2] == 0)
+            {
+                M =  PovorotK(V,x,y,z,Py);
+                x = M[0];
+                y = M[1];
+                z = M[2];
+            } else if(V[0] == 0 && V[1] == 0 && V[2] > 0)
+            {
+                M =  PovorotK(V,x,y,z,Pz);
+                x = M[0];
+                y = M[1];
+                z = M[2];
+            } else
+            {
+            M =  PovorotK(V,x,y,z,Pv);
+            x = M[0];
+            y = M[1];
+            z = M[2];
+            }
+
+            //PXYZ[ticP] =step
+
+            var xe,ye,ze;
+            var Mas = [];
+            //координаты глаза
+            xe = v11*x+v21*y;
+            ye = v12*x+v22*y+v32*z;
+            ze = v13*x + v23*y + v33*z+v43;
+            //экранные координаты
+            var pX = screen_distc*xe/ze+c1;
+            var pY = screen_distc*ye/ze+c2;
+            Mas[0] = pX;
+            Mas[1] = pY;
+            return Mas;
+        } 
+
+        var clear = function()
+        {
+            Masmove = [];
+            Masdraw = [];
+        }
+        var move = function(x,y)
+        {
+            clear();
+            Masmove[0] = x;
+            Masmove[1] = y;
+        }
+        var draw = function(x,y,color)
+        {
+            var x1;
+            var y2;
+            var x2 = x;
+            var y2 = y;
+            if(Masdraw.length !=0)
+            {
+                x1 = Masdraw[0];
+                y1 = Masdraw[1];
+            }else
+            {
+                if(Masmove.length !=0)
+                {
+                    x1 = Masmove[0];
+                    y1 = Masmove[1];
+                }else
+                {
+                    console.log('Вы не указали начальные координаты move(x,y)');
+                    return;
+                }
+            } 
+
+            var line = '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke = "'+color+'"/>';
+            Masdraw[0] = x2;
+            Masdraw[1] = y2;
+            return line;
+        }
+
+        var mv = function(x,y,z)
+        {
+            var Mas = [];
+            Mas= perspective(x,y,z,);
+            var X = Mas[0],Y=Mas[1];
+            move(X+500,Y+550);//825,178
+        }
+
+        var dw = function(x,y,z,color)
+        {
+            var Mas = [];
+            Mas= perspective(x,y,z,);
+            var X = Mas[0],Y=Mas[1];
+            Holst.innerHTML += draw(X+500,Y+550,color);
+        }
+
+        var Otrisovka = function()
+        {
+            coeff(rho,theta,phi);
+
+
+
+            
+
+        }
+
+
+        Otrisovka(1);
+
+
+
+        
+
+
+
+    }
+
+    
+
+    var doSomething = function()
+        {
+            var idNeuron = parseInt(Byid('3DGraf_select').value);
+            Main3DGrafik(idNeuron);
+        }
 
 

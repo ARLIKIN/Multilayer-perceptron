@@ -105,6 +105,7 @@ body
     color: black;
 }
 
+
 .Struktura_canvas
 {
     
@@ -142,4 +143,21 @@ body
 .RectText:hover
 {
     fill: rgb(255, 81, 0);
+}
+
+#Graf_settings
+{
+    display: flex;
+    justify-content: center;
+}
+
+#Graf_PG
+{
+    display: flex;
+    justify-content: center;
+}
+
+#Grafid
+{
+    background-color: #ffffff;
 }
