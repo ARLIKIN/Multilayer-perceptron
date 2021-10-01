@@ -1391,6 +1391,8 @@ var GrafikNeuron = function(i,canvas,b)
         var SQ;
         var VS = [0,0,1];
         var V = VS;
+        var W102;
+        var W202;
 
 
         //Поворот кватернионом
@@ -1625,15 +1627,33 @@ var GrafikNeuron = function(i,canvas,b)
         var Otrisovka = function()
         {
             coeff(rho,theta,phi);
-
-            for(var i = W1min; Math.abs(i) < Math.abs(W1max); i+=W1d)
+            W102 = 2;
+            W202 = 2;
+            if(W[idNeuron].length >2)
             {
-                for(var j = W2min; Math.abs(j) < Math.abs(W2max); j+=W2d)
+                for(var i = W1min; i < W1max; i+=W1d,W102-=0.2)
                 {
-                    var yp =(1/(1 + Math.exp(-a * (i+j))));
-                    dwP(i,j,yp,'black');
-                    
+                    for(var j = W2min; j < W2max; j+=W2d,W202-=0.2)
+                    {
+                        var yp =(1/(1 + Math.exp(-a * (i+j))));
+                        dwP(W102,W202,yp,'black');
+                        
+                    }
+                    W202 = 2;
                 }
+            }else
+            {
+                for(var i = W0min;i < W0max; i+=W0d,W102-=0.2)
+                {
+                    for(var j = W1min; j < W1max; j+=W1d,W202-=0.2)
+                    {
+                        var yp =(1/(1 + Math.exp(-a * (i+j))));
+                        dwP(W102,W202,yp,'darkred');
+                        
+                    }
+                    W202 = 2;
+                }
+                
             }
 
             mv(0,0,0);
@@ -1653,7 +1673,7 @@ var GrafikNeuron = function(i,canvas,b)
 
 
 
-        var W1max,W1min,W2max,W2min,W1d,W2d;
+        var W1max,W1min,W2max,W2min,W0max,W0min,W0d,W1d,W2d;
         for(var i=0; i < tic; i++)
         {
             if(i !=0)
@@ -1668,6 +1688,16 @@ var GrafikNeuron = function(i,canvas,b)
                     W1min = WItALL[i][idNeuron][1];
                 }
 
+                if(W0max <WItALL[i][idNeuron][0])
+                {
+                    W0max = WItALL[i][idNeuron][0];
+                }
+                
+                if(W0min > WItALL[i][idNeuron][0])
+                {
+                    W0min = WItALL[i][idNeuron][0];
+                }
+
                 if(W2max <WItALL[i][idNeuron][2])
                 {
                     W2max = WItALL[i][idNeuron][2];
@@ -1679,6 +1709,8 @@ var GrafikNeuron = function(i,canvas,b)
                 }
             }else
             {
+                W0max = WItALL[i][idNeuron][0];
+                W0min = WItALL[i][idNeuron][0];
                 W1max = WItALL[i][idNeuron][1];
                 W1min = WItALL[i][idNeuron][1];
                 W2max = WItALL[i][idNeuron][2];
@@ -1687,13 +1719,19 @@ var GrafikNeuron = function(i,canvas,b)
             }
             
         }
-
+        W0max += W0max/2;
+        W0min = W0min/2;
         W1max += W1max/2;
         W1min = W1min/2
         W2max += W2max/2;
         W2min = W2min/2
+        W0d = (W0max-W0min)/21;
         W1d = (W1max-W1min)/21;
         W2d = (W2max-W2min)/21;
+        if(W1max<W1min){W1max=Math.abs(W1max); W1min=Math.abs(W1min); W1d=Math.abs(W1d)};
+        if(W2max<W2min){W2max=Math.abs(W2max); W2min=Math.abs(W2min); W2d=Math.abs(W2d)};
+        if(W0max<W0min){W0max=Math.abs(W0max); W0min=Math.abs(W0min); W0d=Math.abs(W0d)};
+
 
 
         Otrisovka();
