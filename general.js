@@ -808,8 +808,8 @@ InputSloi = function() // Выходной слой
                     break;
                 }
                     AllYLastsloi[tic] = Object.assign({}, Y[Object.keys(Y).length-1]);
-                    WItALL[tic] = Object.assign({},W);
-                    YItAll[tic] = Object.assign({},Y[Object.keys(Y).length-1]);
+                    WItALL[tic] = JSON.parse(JSON.stringify(W));
+                    YItAll[tic] = JSON.parse(JSON.stringify(Y));
                     Korrekt(false,X);
                     SystemClass();
                     tic+=1;
@@ -1608,10 +1608,11 @@ var GrafikNeuron = function(i,canvas,b)
             Holst.innerHTML += draw(X+500,Y+550,color);
         }
 
-        var Otrisovka = function()
+        var Otrisovka = function(idNeuron)
         {
             coeff(rho,theta,phi);
 
+            
 
 
             
@@ -1619,7 +1620,7 @@ var GrafikNeuron = function(i,canvas,b)
         }
 
 
-        Otrisovka(1);
+        Otrisovka(idNeuron);
 
 
 
