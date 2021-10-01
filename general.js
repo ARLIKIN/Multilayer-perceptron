@@ -751,9 +751,11 @@ InputSloi = function() // Выходной слой
             {
                 option += '<option value="'+i+'" >Нейрон '+n+'</option>';
             }
+            var btn = '<a href="#" class="DGraf_btn"  id="PerX">Ось X</a> <a href="#" class="DGraf_btn"  id="PerY">Ось Y</a> <a href="#" class="DGraf_btn"  id="PerZ">Ось Z</a> <a href="#" class="DGraf_btn"  id="PerRESET">Сброс</a> <p style="margin: 0; padding-left: 5px;">Шаг:</p> <input id="step" type="text" value="30">';
             Byid('3DGraf_conteiner_select').innerHTML = '<select id="3DGraf_select" onchange="doSomething();">'+option+'</select>';
             Byid('Graf_PG').innerHTML = '<svg class="3DGrafNeuron" id="Grafid" width = "1000" height = "1000"></svg>';
-            Main3DGrafik();
+            Byid('Graf_btn_XYZ').innerHTML = btn;
+            Main3DGrafik(0);
 
         }
 
@@ -1379,10 +1381,10 @@ var GrafikNeuron = function(i,canvas,b)
         //alert('Задайте два угла в градусах');
         var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
         var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
-        var screen_distc = 3000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
+        var screen_distc = 10000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
         var Pz = 0,Px = 0,Py = 0, Pv = 0;
         var Pzt = 0, Pxt = 0, Pyt = 0, Pvt = 0;
-        var tic = 0, ticP = 0;
+        var ticG = 0;
         var PXYZ = {};
         var OldQ = {};
         var OldV = {};
@@ -1442,11 +1444,11 @@ var GrafikNeuron = function(i,canvas,b)
             ]
 
 
-            if(tic >1)
+            if(ticG >1)
             {
-                VM = PQ(OldQ[tic-1],SQ)
+                VM = PQ(OldQ[ticG-1],SQ)
 
-                if(V[0] != OldV[tic-1][0] && V[1] != OldV[tic-1][1] && V[2] != OldV[tic-1][2])
+                if(V[0] != OldV[ticG-1][0] && V[1] != OldV[ticG-1][1] && V[2] != OldV[ticG-1][2])
                 {
                 SQ[0] = VM[0];
                 SQ[1] = VM[1];
@@ -1552,6 +1554,11 @@ var GrafikNeuron = function(i,canvas,b)
             return Mas;
         } 
 
+        var Circle2 = function(r,x,y,color)
+        {
+            return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+        }
+
         var clear = function()
         {
             Masmove = [];
@@ -1597,7 +1604,14 @@ var GrafikNeuron = function(i,canvas,b)
             var Mas = [];
             Mas= perspective(x,y,z,);
             var X = Mas[0],Y=Mas[1];
-            move(X+500,Y+550);//825,178
+            move(X+300,Y+550);//825,178
+        }
+        var dwP = function(x,y,z,color)
+        {
+            var Mas = [];
+            Mas= perspective(x,y,z,);
+            var X = Mas[0],Y=Mas[1];
+            Holst.innerHTML += Circle2(3,X+500,Y+500,color);
         }
 
         var dw = function(x,y,z,color)
@@ -1605,27 +1619,138 @@ var GrafikNeuron = function(i,canvas,b)
             var Mas = [];
             Mas= perspective(x,y,z,);
             var X = Mas[0],Y=Mas[1];
-            Holst.innerHTML += draw(X+500,Y+550,color);
+            Holst.innerHTML += draw(X+300,Y+550,color);
         }
 
-        var Otrisovka = function(idNeuron)
+        var Otrisovka = function()
         {
             coeff(rho,theta,phi);
 
-            
+            for(var i = W1min; Math.abs(i) < Math.abs(W1max); i+=W1d)
+            {
+                for(var j = W2min; Math.abs(j) < Math.abs(W2max); j+=W2d)
+                {
+                    var yp =(1/(1 + Math.exp(-a * (i+j))));
+                    dwP(i,j,yp,'black');
+                    
+                }
+            }
 
+            mv(0,0,0);
+            dw(-0.5,0,0,'red');
+            mv(0,0,0);
+            dw(0,-0.5,0,'blue');
+            mv(0,0,0);
+            dw(0,0,0.5,'green');
+          
+            OldQ[ticG] = SQ
+            OldV[ticG] = V
 
-            
+            ticG+=1;
 
         }
 
 
-        Otrisovka(idNeuron);
 
 
+        var W1max,W1min,W2max,W2min,W1d,W2d;
+        for(var i=0; i < tic; i++)
+        {
+            if(i !=0)
+            {
+                if(W1max <WItALL[i][idNeuron][1])
+                {
+                    W1max = WItALL[i][idNeuron][1];
+                }
+                
+                if(W1min > WItALL[i][idNeuron][1])
+                {
+                    W1min = WItALL[i][idNeuron][1];
+                }
 
+                if(W2max <WItALL[i][idNeuron][2])
+                {
+                    W2max = WItALL[i][idNeuron][2];
+                }
+                
+                if(W2min > WItALL[i][idNeuron][2])
+                {
+                    W2min = WItALL[i][idNeuron][2];
+                }
+            }else
+            {
+                W1max = WItALL[i][idNeuron][1];
+                W1min = WItALL[i][idNeuron][1];
+                W2max = WItALL[i][idNeuron][2];
+                W2min = WItALL[i][idNeuron][2];
+
+            }
+            
+        }
+
+        W1max += W1max/2;
+        W1min = W1min/2
+        W2max += W2max/2;
+        W2min = W2min/2
+        W1d = (W1max-W1min)/21;
+        W2d = (W2max-W2min)/21;
+
+
+        Otrisovka();
+
+
+        var step = 30;
+        var step_user = function()
+        {
+            
+            if(parseFloat( Byid('step').value) > 0)
+            {
+                return parseFloat( Byid('step').value);
+            }else
+            {
+                return 30;
+            }
+        }
         
+        Byid('PerZ').onclick = function()
+        {
+            Holst.innerHTML = '';
+            V = [0,0,1];
+            Pz +=step_user()*Math.PI/180 //- Pz;
+            //Pzt += step;
+            if(Pz >360*Math.PI/180){Pz=0;};
+            Otrisovka();
+        }
 
+        Byid('PerX').onclick = function()
+        {
+            Holst.innerHTML = ''
+            V = [1,0,0];
+            Px +=step_user()*Math.PI/180 //- Px
+            //Pxt += step 
+            if(Pxt >360*Math.PI/180){Px=0;}
+            Otrisovka();
+        }
+
+        Byid('PerY').onclick = function()
+        {
+            Holst.innerHTML = ''
+            V = [0,1,0];
+            Py +=step_user()*Math.PI/180 //- Py;
+            //Pyt +=step;
+            if(Pyt >360*Math.PI/180){Py=0;}
+            Otrisovka();
+        }
+
+        Byid('PerRESET').onclick = function()
+        {
+            Holst.innerHTML = ''
+            V = VS;
+            Pz = 0;
+            Py = 0;
+            Px = 0;
+            Otrisovka();
+        }
 
 
     }
