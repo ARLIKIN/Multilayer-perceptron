@@ -1612,7 +1612,7 @@ var GrafikNeuron = function(i,canvas,b)
         {
             coeff(rho,theta,phi);
 
-            
+            mv(0,0,0);
 
 
             
