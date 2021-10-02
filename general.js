@@ -233,6 +233,8 @@ function Neuron(X,m)
     if(it < 5){it=5};
     learningRate  = parseFloat(Byid('learningRateInput').value);
     document.getElementsByClassName('resultat').hidden = true;
+
+    //Byid('Podrob')
     
 
         if(Xflag != true)
