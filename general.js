@@ -751,9 +751,9 @@ InputSloi = function() // Выходной слой
             {
                 option += '<option value="'+i+'" >Нейрон '+n+'</option>';
             }
-            var btn = '<a href="#" class="DGraf_btn"  id="PerX">Ось X</a> <a href="#" class="DGraf_btn"  id="PerY">Ось Y</a> <a href="#" class="DGraf_btn"  id="PerZ">Ось Z</a> <a href="#" class="DGraf_btn"  id="PerRESET">Сброс</a> <p style="margin: 0; padding-left: 5px;">Шаг:</p> <input id="step" type="text" value="30">';
-            Byid('3DGraf_conteiner_select').innerHTML = '<select id="3DGraf_select" onchange="doSomething();">'+option+'</select>';
-            Byid('Graf_PG').innerHTML = '<svg class="3DGrafNeuron" id="Grafid" width = "1000" height = "1000"></svg>';
+            var btn = '<a href="#" class="DGraf_btn"  id="PerX">Ось X</a> <a href="#" class="DGraf_btn"  id="PerY">Ось Y</a> <a href="#" class="DGraf_btn"  id="PerZ">Ось Z</a> <a href="#" class="DGraf_btn"  id="PerRESET">Сброс</a> <p style="margin: 0; padding-left: 5px;">Шаг:</p> <input id="step" type="text" value="30"> <p style="margin: 0; padding-left: 5px;">Маштаб:</p> <input id="GrafMashtab" type="text" value="5000">';
+            Byid('3DGraf_conteiner_select').innerHTML = '<select id="3DGraf_select" class="Graf_select" onchange="doSomething();">'+option+'</select>';
+            Byid('Graf_PG').innerHTML = '<svg class="3DGrafNeuron" id="Grafid" width = "1000" height = "800"></svg>';
             Byid('Graf_btn_XYZ').innerHTML = btn;
             Main3DGrafik(0);
 
@@ -1381,15 +1381,15 @@ var GrafikNeuron = function(i,canvas,b)
         //alert('Задайте два угла в градусах');
         var theta = 30// parseFloat(prompt('Угол theta измеряется по горизонтали от оси x:','30'));
         var phi = 70//parseFloat(prompt('Угол phi измеряется по вертикали от оси z:','70'));
-        var screen_distc = 10000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
-        var Pz = 0,Px = 0,Py = 0, Pv = 0;
+        var screen_distc = 5000// parseFloat(prompt('Расстояни от точки наблюдения до экрана:','3000'));
+        var Pz = 0,Px = 0,Py = 180*Math.PI/180, Pv = 0;
         var Pzt = 0, Pxt = 0, Pyt = 0, Pvt = 0;
         var ticG = 0;
         var PXYZ = {};
         var OldQ = {};
         var OldV = {};
         var SQ;
-        var VS = [0,0,1];
+        var VS = [0,1,0];
         var V = VS;
         var W102;
         var W202;
@@ -1560,6 +1560,10 @@ var GrafikNeuron = function(i,canvas,b)
         {
             return ' <circle r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
         }
+        var Text2 = function(text,x,y,color,size)
+        {
+            return '<text font-size="'+size+'" fill="'+color+'" x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>';
+        }
 
         var clear = function()
         {
@@ -1601,19 +1605,34 @@ var GrafikNeuron = function(i,canvas,b)
             return line;
         }
 
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+        function rgb2hex(r, g, b) {
+            r = parseInt(r.toFixed(0));
+            g = parseInt(g.toFixed(0));
+            b = parseInt(b.toFixed(0));
+            return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+        }
+
         var mv = function(x,y,z)
         {
             var Mas = [];
             Mas= perspective(x,y,z,);
             var X = Mas[0],Y=Mas[1];
-            move(X+300,Y+550);//825,178
+            move(X+80,Y+700);//825,178
         }
-        var dwP = function(x,y,z,color)
+        var dwP = function(x,y,z)
         {
+            var color;
             var Mas = [];
             Mas= perspective(x,y,z,);
+            if(z>0){color=rgb2hex(z*255,0,0);}
+            if(z<0){color=rgb2hex(0,0,z*255);}
+
             var X = Mas[0],Y=Mas[1];
-            Holst.innerHTML += Circle2(3,X+500,Y+500,color);
+            Holst.innerHTML += Circle2(3,X+500,Y+400,color);
         }
 
         var dw = function(x,y,z,color)
@@ -1621,11 +1640,20 @@ var GrafikNeuron = function(i,canvas,b)
             var Mas = [];
             Mas= perspective(x,y,z,);
             var X = Mas[0],Y=Mas[1];
-            Holst.innerHTML += draw(X+300,Y+550,color);
+            Holst.innerHTML += draw(X+80,Y+700,color);
+        }
+
+        var dwT = function(x,y,z,text,color,size)
+        {
+            var Mas = [];
+            Mas= perspective(x,y,z,);
+            var X = Mas[0],Y=Mas[1];
+            Holst.innerHTML += Text2(text,X+76,Y+695,color,size);
         }
 
         var Otrisovka = function()
         {
+            screen_distc = parseFloat(Byid('GrafMashtab').value);
             coeff(rho,theta,phi);
             W102 = 2;
             W202 = 2;
@@ -1636,7 +1664,7 @@ var GrafikNeuron = function(i,canvas,b)
                     for(var j = W2min; j < W2max; j+=W2d,W202-=0.2)
                     {
                         var yp =(1/(1 + Math.exp(-a * (i+j))));
-                        dwP(W102,W202,yp,'black');
+                        dwP(W102,W202,yp);
                         
                     }
                     W202 = 2;
@@ -1648,7 +1676,7 @@ var GrafikNeuron = function(i,canvas,b)
                     for(var j = W1min; j < W1max; j+=W1d,W202-=0.2)
                     {
                         var yp =(1/(1 + Math.exp(-a * (i+j))));
-                        dwP(W102,W202,yp,'darkred');
+                        dwP(W102,W202,yp);
                         
                     }
                     W202 = 2;
@@ -1662,6 +1690,10 @@ var GrafikNeuron = function(i,canvas,b)
             dw(0,-0.5,0,'blue');
             mv(0,0,0);
             dw(0,0,0.5,'green');
+
+            dwT(-0.55,0,0,'W1','red','10');
+            dwT(0,-0.55,0,'W2','blue','10');
+            dwT(0,0,0.6,'Y','green','10');
           
             OldQ[ticG] = SQ
             OldV[ticG] = V
@@ -1785,7 +1817,7 @@ var GrafikNeuron = function(i,canvas,b)
             Holst.innerHTML = ''
             V = VS;
             Pz = 0;
-            Py = 0;
+            Py = 180*Math.PI/180;
             Px = 0;
             Otrisovka();
         }

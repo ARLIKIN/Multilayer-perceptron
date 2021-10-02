@@ -159,5 +159,47 @@ body
 
 #Grafid
 {
-    background-color: #ffffff;
+    background-color: wheat;
+}
+
+.btn_3DGraf_XYZ
+{
+    display: flex;
+}
+
+.DGraf_btn
+{
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 0.3em;
+    margin-left: 40px;
+    padding: 0 19px;
+
+}
+
+.Graf_select
+{
+    height: 23px;
+}
+
+#PerX:hover
+{
+    background-color: rgba(231, 57, 57, 0.699);
+}
+
+#PerY:hover
+{
+    background-color: rgba(68, 68, 230, 0.664);
+}
+
+#PerZ:hover
+{
+    background-color: rgba(48, 168, 48, 0.61);
+}
+
+#PerRESET:hover
+{
+    background-color: rgba(0, 0, 0, 0.404);
 }
