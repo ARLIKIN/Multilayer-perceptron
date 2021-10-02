@@ -615,8 +615,8 @@ InputSloi = function() // Выходной слой
 
         //Результат       
         var c =0;
-        var y = 'Финальные выходы: </br> Y = </br>';
-        var w = 'Финальные веса: </br> W = </br>';
+        var y = 'Финальные выходы:</br>';
+        var w = 'Финальные веса:</br>';
         //Byid('dowland').hidden = true;
         document.getElementsByClassName('resultat').hidden = true;
         Byid('RezultatH1').hidden = false;
@@ -640,14 +640,14 @@ InputSloi = function() // Выходной слой
         document.getElementById('W').innerHTML = w;
 
         console.log('\n'+'X = ' + X + '\n');
-        Byid('X').innerHTML = 'Входные данные: </br> X = ' + '</br>' + X;
+        Byid('X').innerHTML = 'Входные данные: </br> X: ' + MX;
         console.log('\n'+'a = ' + a +'\n');
-        Byid('a').innerHTML = 'a: '+ a;
+        Byid('a').innerHTML = 'Коэффициент a: '+ a;
         console.log('\n'+'d = '+ d + '\n');
         d.reverse();
-        Byid('d').innerHTML ='d: ' + '' + d;
+        Byid('d').innerHTML ='Ожидания d: ' + '' + MD;
         Byid('learningRate').innerHTML = 'Скорость обучения: '+learningRate;
-        Byid('iter').innerHTML = 'Количество итераций = ' + tic;
+        Byid('iter').innerHTML = 'Количество итераций: ' + tic;
         Byid('struktura').innerHTML = 
         'Структура нейросети:' + "</br>"+
         'Входной слой:' + KolYInput + '</br>'+
@@ -760,7 +760,7 @@ InputSloi = function() // Выходной слой
 
 
 
-    var y = 'Первые выходы Y:  </br>'
+    var y = 'Первые выходы:  </br>'
     for(var i = 0; i < Object.keys(Y).length; i++)
         {
             
@@ -768,7 +768,7 @@ InputSloi = function() // Выходной слой
         }
         document.getElementById('oldY').innerHTML = y;
 
-    var w = 'Первые веса W:  </br>'
+    var w = 'Первые веса:  </br>'
     for(var i =0; i< Object.keys(W).length; i++)
         {
                 
@@ -1172,7 +1172,17 @@ var GrafikNeuron = function(i,canvas,b)
 
 
     //Структура сети
-
+    Byid('Podrob').onclick = function()
+    {
+        var Struktura_SVG = Byid('Podrob_general');
+        if(Struktura_SVG.hidden)
+        {
+            Struktura_SVG.hidden = false
+        }else
+        {
+            Struktura_SVG.hidden = true;
+        }
+    }
     
     
     
