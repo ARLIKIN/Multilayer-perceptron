@@ -684,7 +684,11 @@ InputSloi = function() // Выходной слой
 
             
         }
-
+        var Struktura_hiden =  Byid('Podrob');
+        if(Struktura_hiden.hidden)
+        {
+            Struktura_hiden.hidden = false
+        }
         if(Byid('checkGrafikNeuron').checked)
         {
             Byid('GrafikNeuron').innerHTML = 'Графики нейронов выходного слоя'; 
