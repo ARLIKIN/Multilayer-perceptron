@@ -611,15 +611,14 @@ InputSloi = function() // Выходной слой
             }
         }
 
-        //Результат
-        var str = ''
-        var itog = ''
+        //Результат       
         var c =0;
         var y = 'Финальные выходы: </br> Y = </br>';
         var w = 'Финальные веса: </br> W = </br>';
         //Byid('dowland').hidden = true;
         document.getElementsByClassName('resultat').hidden = true;
         Byid('RezultatH1').hidden = false;
+        Byid('struktura_p').hidden = false;
         
         console.log('Y = ' )
         for(var i = 0; i < Object.keys(Y).length; i++)
@@ -641,33 +640,12 @@ InputSloi = function() // Выходной слой
         console.log('\n'+'X = ' + X + '\n');
         Byid('X').innerHTML = 'Входные данные: </br> X = ' + '</br>' + X;
         console.log('\n'+'a = ' + a +'\n');
-        Byid('a').innerHTML = 'a: ' + '</br>' + a;
+        Byid('a').innerHTML = 'a: '+ a;
         console.log('\n'+'d = '+ d + '\n');
         d.reverse();
-        Byid('d').innerHTML ='d: ' + '</br>' + d;
+        Byid('d').innerHTML ='d: ' + '' + d;
         Byid('learningRate').innerHTML = 'Скорость обучения: '+learningRate;
         Byid('iter').innerHTML = 'Количество итераций = ' + tic;
-        
-
-        str += 'Ожидаемые значения:' + '\n';
-        itog += 'Ожидаемые значения:' + '</br>';
-        
-        for(var i =0; i < d.length; i++)
-        {
-            str += d[i].toFixed(4) + '\n'
-            itog += d[i].toFixed(4) + '</br>'
-        }
-
-        str +='\n'+ 'Фактические значения:' + '\n';
-        itog += 'Фактические значения:' + '</br>';
-        for(var i =0; i<d.length; i++)
-        {
-            str +=Y[Object.keys(Y).length - 1][i].toFixed(4) + '\n';
-            itog += Y[Object.keys(Y).length - 1][i].toFixed(4) + '</br>'
-        }
-        console.log(str)
-        Byid('itog').innerHTML = itog;
-        
         Byid('struktura').innerHTML = 
         'Структура нейросети:' + "</br>"+
         'Входной слой:' + KolYInput + '</br>'+
@@ -677,15 +655,6 @@ InputSloi = function() // Выходной слой
         'Функция активации: Сигмоидальная унополярная';
 
         Struktra(KolYInput,KolYHidensloi,KolYOutput);
-        var Struktura_hiden =  Byid('Struktura_hiden');
-        if(Struktura_hiden.hidden)
-        {
-            Struktura_hiden.hidden = false
-        }
-
-
-
-
         
         if(Byid('checkGrafik').checked)
         { 
@@ -1197,17 +1166,7 @@ var GrafikNeuron = function(i,canvas,b)
 
 
     //Структура сети
-    Byid('Struktura_hiden').onclick = function()
-    {
-        var Struktura_SVG = Byid('DIV_StrukturaSVG');
-        if(Struktura_SVG.hidden)
-        {
-            Struktura_SVG.hidden = false
-        }else
-        {
-            Struktura_SVG.hidden = true;
-        }
-    }
+
     
     
     

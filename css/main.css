@@ -61,7 +61,8 @@ body
 
 .r1
 {
-    text-align: center;
+    text-align: left;
+    margin: 0;
 }
 
 #dowland
@@ -97,6 +98,12 @@ body
 #Div_srtuktura
 {
     display: grid;
+    justify-content: center;
+}
+
+#struktura_p
+{
+    margin-top: 50px;
 }
 
 #Struktura_hiden
