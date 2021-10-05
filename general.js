@@ -156,6 +156,10 @@ function Neuron(X,m)
     Lf = false;
     WItALL = {};
     YItAll={};
+
+    Byid('Graf_btn_XYZ').innerHTML = '';
+    Byid('3DGraf_conteiner_select').innerHTML = '';
+    Byid('Graf_PG').innerHTML = '';
     
 
     var XC =0;
@@ -537,10 +541,17 @@ InputSloi = function() // Выходной слой
         //Коррекция весов выходного слоя
         for(var i = 0; i < d.length; i++ )
         {
-            err[i] = Minus(Y[Ylength-1],i);
-            err[i] = Multiplier(Y[Ylength-1][i],err,i);
+            if(tic == 300)
+            {
+                err[(d.length-1)-i] = Minus(Y[Ylength-1],i);
+                err[(d.length-1)-i] = Multiplier(Y[Ylength-1][i],err,(d.length-1)-i);
+            }else
+            {
+                err[(d.length-1)-i] = Minus(Y[Ylength-1],i);
+                err[(d.length-1)-i] = Multiplier(Y[Ylength-1][i],err,(d.length-1)-i);
+            }
             
-            error[Wlength-1-i] = err[i];
+            error[Wlength-1-i] = err[(d.length-1)-i];
             
 
             if(!NoHiden)
@@ -549,10 +560,10 @@ InputSloi = function() // Выходной слой
             {
                 if (j == 0)
                 {
-                    W[Wlength-1-i][j] += err[i] * learningRate;
+                    W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate;
                 }else
                 {
-                    W[Wlength-1-i][j] += err[i] * learningRate * Y[Ylength-2][j-1];
+                    W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
                 }
             }
             }else
@@ -561,10 +572,10 @@ InputSloi = function() // Выходной слой
                 {
                     if (j == 0)
                     {
-                        W[Wlength-1-i][j] += err[i] * learningRate;
+                        W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate;
                     }else
                     {
-                     W[Wlength-1-i][j] += err[i] * learningRate * Y[Ylength-2][j-1];
+                     W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
                     }
                 }
             }
@@ -1140,12 +1151,12 @@ var GrafikNeuron = function(i,canvas,b)
         {
             if(j == 0)
             {
-                ctx.moveTo(j,1000-(AllYLastsloi[j][0]*1000));
+                ctx.moveTo(j,1000-(AllYLastsloi[j][i]*1000));
                 continue;
             }
 
-                ctx.lineTo(h,1000-(AllYLastsloi[j-b][0]*1000));
-                ctx.lineTo(h+1,1000-(AllYLastsloi[j][0]*1000));
+                ctx.lineTo(h,1000-(AllYLastsloi[j-b][i]*1000));
+                ctx.lineTo(h+1,1000-(AllYLastsloi[j][i]*1000));
 
                 h+=2;
             
@@ -1540,6 +1551,11 @@ var GrafikNeuron = function(i,canvas,b)
             return '<text font-size="'+size+'" fill="'+color+'" x="'+x+'" y="'+y+'" font-family="Arial">'+text+'</text>';
         }
 
+        var Circle3 = function(r,x,y,color,i)
+        {
+            return ' <circle class="CE3D" onclick="CE3D('+i+')"  r="'+r+'" cx="'+x+'" cy="'+y+'" fill="'+color+'" />';
+        }
+
         var clear = function()
         {
             Masmove = [];
@@ -1626,6 +1642,29 @@ var GrafikNeuron = function(i,canvas,b)
             Holst.innerHTML += Text2(text,X+76,Y+695,color,size);
         }
 
+        var dwL = function(x,y,z,i,aC)
+        {
+            var color = rgb2hex(aC,0,0);
+            var Mas = [];
+            Mas= perspective(x,y,z,);
+            var X = Mas[0],Y=Mas[1];
+            Holst.innerHTML += Circle3(3,X+500,Y+300,color,i);
+        }
+
+        var IndexNeuron = function(idNeuron)
+        {
+            var flag = false
+            var O;
+            if(KolYInput >=idNeuron)
+            {
+                return 0;
+            }
+            O = idNeuron-KolYInput;
+
+            
+
+        }
+
         var Otrisovka = function()
         {
             screen_distc = parseFloat(Byid('GrafMashtab').value);
@@ -1658,6 +1697,19 @@ var GrafikNeuron = function(i,canvas,b)
                 }
                 
             }
+
+        var aC = 0;
+        for(var i =0; i < idNeuron; i++)
+        {
+
+        }
+        var indexN;
+        
+        for(var i = 0; i<tic;i++,aC+=10)
+        {
+        if(aC > 255){aC = 170}
+        dwL(WItALL[i][1],WItALL[i][2],YItAll[tic][idNeuron][0],i,aC) // фактическая линия
+        }
 
             mv(0,0,0);
             dw(-0.5,0,0,'red');
