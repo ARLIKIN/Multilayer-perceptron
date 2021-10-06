@@ -55,6 +55,8 @@ function showFile(input)
             alert('Началось чтение файла' + '\n'+ 'пожалуйста подождите');
             Byid('dInput').disabled = true;
             Xflag = true;
+            MX = [];
+            MD = [];
 
             XD = reader.result.split('&'); // получаем входные данные из файла и формируем из них массив
             XD.pop();
