@@ -430,11 +430,11 @@ InputSloi = function() // Выходной слой
                     {
                         if(i <=KolYInput-1)
                         {
-                            if (p == 0){W[err[i]][p] += Multiplier(Y[o][0],error,i); continue}
+                            if (p == 0){W[err[i]][p] += Multiplier(Y[o][i],error,i)*learningRate; continue}
                             W[i][p] += Multiplier(Y[0][i],error,i) * learningRate * X[p-1];
                         }else if (p == 0)
                         {
-                            W[err[i]][p] += Multiplier(Y[o][0],error,i); 
+                            W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate; //скорее всего ошибка в Y 0 тут маловероятен.был 0
                         }else
                         {
                             W[err[i]][p] += Multiplier(Y[o][mob-1],error,i) * learningRate * Y[o-1][p-1]; // здесь ошибка
@@ -562,10 +562,10 @@ InputSloi = function() // Выходной слой
             {
                 if (j == 0)
                 {
-                    W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate;
+                    W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
                 }else
                 {
-                    W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
+                    W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
                 }
             }
             }else
@@ -574,10 +574,10 @@ InputSloi = function() // Выходной слой
                 {
                     if (j == 0)
                     {
-                        W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate;
+                        W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
                     }else
                     {
-                     W[Wlength-1-i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
+                     W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
                     }
                 }
             }
@@ -1707,11 +1707,11 @@ var GrafikNeuron = function(i,canvas,b)
         }
         var indexN;
         
-        for(var i = 0; i<tic;i++,aC+=10)
+        /*for(var i = 0; i<tic;i++,aC+=10)
         {
         if(aC > 255){aC = 170}
         dwL(WItALL[i][1],WItALL[i][2],YItAll[tic][idNeuron][0],i,aC) // фактическая линия
-        }
+        }*/
 
             mv(0,0,0);
             dw(-0.5,0,0,'red');
