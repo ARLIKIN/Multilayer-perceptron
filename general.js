@@ -1052,7 +1052,7 @@ Byid('button2').onclick= function()
     {
         Y[Ylength-1][i] = Neuron(Y[Ylength-2],count);
         count +=1;
-        str += (Y[Ylength-1][i]) + '</br>';
+        str += (Y[Ylength-1][i]).toFixed(3) + '</br>';
     }
 
     Byid('Raspoznovanie_Rezultat').innerHTML = str;
