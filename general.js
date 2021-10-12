@@ -91,7 +91,7 @@ function showFile(input)
 
             KolYOutput = d.length;
             KolX = X.length
-            alert('Файл прочитан')
+            alert('Файл прочитан');
         }
 
     
@@ -763,6 +763,7 @@ InputSloi = function() // Выходной слой
 
         Byid('error').innerHTML = errstr;
         Byid('dowland').textContent = 'Нейросеть прошла обучение';
+        Rezult_X();
         console.log(Object.keys(AllError).length)
         Byid('Raspoznovanie_div').hidden = false;
         console.log(WItALL);
@@ -1021,7 +1022,7 @@ var Osi = function(i,canvas,mn,fix)
 
 Byid('button2').onclick= function()
 {
-    var count = 0;
+    var Output = [];
     var str = 'Результат распознования: </br>';
     var Ylength = Object.keys(Y).length
     X = Byid('XRaspoznovanie').value.split(',');
@@ -1029,6 +1030,23 @@ Byid('button2').onclick= function()
     {
         X[i] = +X[i];
     }
+    
+    Output = Raspoznovanie_Neuron(X);
+
+    for(var i = 0;i < Output.length; i++)
+    {
+        str += (Y[Ylength-1][i]).toFixed(3) + '</br>';
+    }
+
+    Byid('Raspoznovanie_Rezultat').innerHTML = str;
+    console.log(str);
+}
+
+var Raspoznovanie_Neuron = function(X)
+{
+    var count = 0;
+    var Ylength = Object.keys(Y).length;
+    var Output = [];
     //Входной слой
     for(var i = 0; i < Y[0].length; i++)
     {
@@ -1052,13 +1070,15 @@ Byid('button2').onclick= function()
     {
         Y[Ylength-1][i] = Neuron(Y[Ylength-2],count);
         count +=1;
-        str += (Y[Ylength-1][i]).toFixed(3) + '</br>';
+        Output[i] = Y[Ylength-1][i];
     }
 
-    Byid('Raspoznovanie_Rezultat').innerHTML = str;
-    console.log(str);
+    return Output;
+}
 
-
+var Rezult_X = function()
+{
+    var Xall = MX;
 
 }
 
