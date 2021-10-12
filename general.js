@@ -204,8 +204,6 @@ function Neuron(X,m)
     }
 
       tic = 0;
-    Byid('dowland').textContent = 'Подождите пока нейросеть обучится';
-
         var colekt = document.getElementsByClassName('canvas');
         if(colekt)
         {
@@ -761,8 +759,7 @@ InputSloi = function() // Выходной слой
             errstr += AllError[Object.keys(AllError).length-1][i]+'</br>'
         }
 
-        Byid('error').innerHTML = errstr;
-        Byid('dowland').textContent = 'Нейросеть прошла обучение';
+        Byid('error').innerHTML = errstr; 
         Rezult_X();
         console.log(Object.keys(AllError).length)
         Byid('Raspoznovanie_div').hidden = false;
@@ -1025,13 +1022,7 @@ Byid('button2').onclick= function()
     var Output = [];
     var str = 'Результат распознования: </br>';
     var Ylength = Object.keys(Y).length
-    X = Byid('XRaspoznovanie').value.split(',');
-    for(var i =0; i < X.length; i++)
-    {
-        X[i] = +X[i];
-    }
-    
-    Output = Raspoznovanie_Neuron(X);
+    Output = Raspoznovanie_Neuron(Byid('XRaspoznovanie').value);
 
     for(var i = 0;i < Output.length; i++)
     {
@@ -1047,6 +1038,13 @@ var Raspoznovanie_Neuron = function(X)
     var count = 0;
     var Ylength = Object.keys(Y).length;
     var Output = [];
+
+    X = X.split(',');
+    for(var i =0; i < X.length; i++)
+    {
+        X[i] = +X[i];
+    }
+    
     //Входной слой
     for(var i = 0; i < Y[0].length; i++)
     {
@@ -1070,15 +1068,145 @@ var Raspoznovanie_Neuron = function(X)
     {
         Y[Ylength-1][i] = Neuron(Y[Ylength-2],count);
         count +=1;
-        Output[i] = Y[Ylength-1][i];
+        Output[i] = Y[Ylength-1][i].toFixed(3);
     }
 
     return Output;
 }
 
+var color_Raspozn = function(j,Yf)
+{
+    var d = MD[j].split(',');
+    var flag = true;
+    var color;
+    for(var i = 0; i < d.length; i++)
+        {
+            d[i] = +d[i]
+            //if(flag)
+            if(d[i] == 0)
+            {
+                if(Yf[i] < 0.5)
+                {
+                    flag = true;
+                }else{flag = false; return 'red'}
+            }else
+            {
+                if(Yf[i] > 0.5)
+                {
+                    flag = true;
+                }else{flag = false; return 'red'}
+            }
+        }
+    
+    if(flag)
+    {
+        return 'green';
+    }else
+    {
+        return 'red';
+    }
+
+}
+
+var X_Procent = function(j,Yf)
+{
+    var proc = [];
+    var d = MD[j].split(',');
+    for(var i = 0; i < d.length; i++)
+        {
+            d[i] = +d[i]
+            //if(flag)
+            if(d[i] == 0)
+            {
+                if(Yf[i] <0.5)
+                {
+                    proc[i] = 100-(Yf[i])*(1/50*10000);
+                }else
+                {
+                    proc[i] = 0;
+                }    
+            }else
+            {
+                if(Yf[i] > 0.5)
+                {
+                    proc[i] = (Yf[i])/(1/100);
+                }else
+                {
+                    proc[i] = 0;
+                }
+            }
+        }
+    
+   return proc;
+}
 var Rezult_X = function()
 {
     var Xall = MX;
+    var Xsloi;
+    var str = '';
+    var str2 = '';
+    var color;
+    var Yf;
+    var count = 0;
+    var Procent = {};
+
+    
+
+    for(var i = 0; i < Xall.length; i++)
+    {
+        Xsloi = Xall[i].split(';');
+        Xsloi.pop();
+        Procent[i] = [];
+        for(var j = 0; j < Xsloi.length; j++)
+        {
+            Procent[i][j] = [];
+            Yf = Raspoznovanie_Neuron(Xsloi[j]);
+            color = color_Raspozn(i,Yf);
+            Procent[i][j] = X_Procent(i,Yf);
+            str2 = '';
+            for(var h = 0; h < Y[Ylength-1].length; h++)
+            {
+                str2 += Yf[h] +' '+ Procent[i][j][h].toFixed(1) + '%; ';  
+                count +=1;
+            }
+            str += '<p class="Rezul_all_X" style="color:'+color+'">'+Xsloi[j] +'-'+ MD[i] +': '+str2+'</p>'; 
+        }
+    }
+    Byid('Raspoznovanie_All_obrazec').innerHTML = str;
+
+    var pn = 100/count 
+    var allproc=0;
+    var flag = true;
+    for(var i = 0; i < Xall.length; i++)
+    {
+        Xsloi = Xall[i].split(';');
+        Xsloi.pop();
+        for(var j = 0; j < Xsloi.length; j++)
+        {
+            for(var h = 0; h < Y[Ylength-1].length; h++)
+            {
+                if(Procent[i][j][h] == 0)
+                {
+                    Byid('AllProcent').innerHTML = '<h3>Нейросеть не обучилась</h3>';
+                    flag = false;
+                    return;
+                }
+                allproc += pn * (Procent[i][j][h]/100);
+            }
+        }
+    }
+
+
+    
+    
+
+    if(flag)
+    {
+    Byid('AllProcent').innerHTML = '<h3>Нейросеть обучилась</h3> <p id="ALLProcent_p">'+allproc.toFixed(2)+'%</p>';
+    }else
+    {
+    Byid('AllProcent').innerHTML = '<h3>Нейросеть не обучилась</h3>';
+    }
 
 }
 

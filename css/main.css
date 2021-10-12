@@ -35,6 +35,16 @@ body
     width: 100%;
 }
 
+#AllProcent
+{
+    text-align: center;
+}
+
+#ALLProcent_p
+{
+    font-size: 20px;
+}
+
 #button2
 {
     width: 100%;
