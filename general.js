@@ -1176,7 +1176,7 @@ var minMas = function(array)
 
 var Graf_Procent = function(allproc)
 {
-    Byid('SVG_Procent_Start').innerHTML = '<svg id="SVG_Proc" width="350px" height="280px" xmlns="http://www.w3.org/2000/svg"></svg>'
+    Byid('SVG_Procent_Start').innerHTML = '<svg id="SVG_Proc" width="350px" height="290px" xmlns="http://www.w3.org/2000/svg"></svg>'
     var Holst = Byid('SVG_Proc');
     Holst.innerHTML += LineS(10,10,10,270,'black');//OY
     Holst.innerHTML += LineS(10,270,340,270,'black');//OX
@@ -1193,6 +1193,8 @@ var Graf_Procent = function(allproc)
     var mean = 0;;
     Holst.innerHTML += TextS('min:'+min+'%',18,12,'Raspoz_But');
     Holst.innerHTML += TextS('max:'+max+'%',245,12,'Raspoz_But');
+    //Количество кликов
+    Holst.innerHTML += TextS(counter+1,170,285,'Raspoz_But');
     //Риски на оси Y
     for(var i = 243; i >= 10; i-=24.5 )
     {
