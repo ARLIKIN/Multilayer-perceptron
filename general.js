@@ -43,6 +43,8 @@
     var YItAll;
     var ProcentMas = [];
     var colorM = [];
+    var RasTCount =0;
+    var RasFCount =0;
 
     
 function showFile(input) 
@@ -1146,9 +1148,13 @@ var LineS = function(x1,y1,x2,y2,color)
     return '<line x1="'+x1+'" x2="'+x2+'" y1="'+y1+'" y2="'+y2+'" stroke="'+color+'" />';
 }
 
-var RectS = function(x,y,width,height,color)
+var RectS = function(x,y,width,height,color,id)
 {
-    return '<rect class="rectS"  x="'+x+'" y="'+y+'" width="'+width+'" height="'+height+'" fill="'+color+'" stroke="black"/>'
+    return '<rect class="rectS" onclick="Clikrec('+id+')"  x="'+x+'" y="'+y+'" width="'+width+'" height="'+height+'" fill="'+color+'" stroke="black"/>'
+}
+var RectS2 = function(x,y,width,height,color,id)
+{
+    return '<rect class="rectS" onclick="Clikrec2('+id+')"  x="'+x+'" y="'+y+'" width="'+width+'" height="'+height+'" fill="'+color+'" stroke="black"/>'
 }
 
 var TextS = function(text,x,y,clas)
@@ -1160,8 +1166,28 @@ var RestS = function()
 {
     ProcentMas= [0];
     counter = 0;
-    Graf_Procent(ProcentMas);
     colorM = [];
+    RasTCount =0;
+    RasFCount =0;
+    var reset = false
+    Graf_Procent(ProcentMas,reset);
+    
+}
+
+var Clikrec2 = function(id)
+{
+    if(id == 1)
+    {
+        alert('Количество удачных обучений');
+    }else
+    {
+        alert('Количество не удачных обучений');
+    }
+}
+
+var Clikrec = function(id)
+{
+    alert(ProcentMas[id].toFixed(2) + '%')
 }
 
 var maxMas = function(array)
@@ -1174,7 +1200,7 @@ var minMas = function(array)
     return Math.min.apply(Math,array)
 }
 
-var Graf_Procent = function(allproc)
+var Graf_Procent = function(allproc,reset)
 {
     Byid('SVG_Procent_Start').innerHTML = '<svg id="SVG_Proc" width="350px" height="290px" xmlns="http://www.w3.org/2000/svg"></svg>'
     var Holst = Byid('SVG_Proc');
@@ -1188,13 +1214,35 @@ var Graf_Procent = function(allproc)
     //Кнопка RESET
     Holst.innerHTML += '<rect class="rectReset" onclick="RestS()"  x="'+330+'" y="'+0+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
     Holst.innerHTML +='<text onclick="RestS()" x="'+334+'" y="'+17+'" class="Raspoznovanie_Reset">'+'&#8635'+'</text>'
+    //Min Max
     var min = minMas(allproc).toFixed(2);
     var max = maxMas(allproc).toFixed(2);
     var mean = 0;;
     Holst.innerHTML += TextS('min:'+min+'%',18,12,'Raspoz_But');
     Holst.innerHTML += TextS('max:'+max+'%',245,12,'Raspoz_But');
     //Количество кликов
-    Holst.innerHTML += TextS(counter+1,170,285,'Raspoz_But');
+    if(reset)
+    {
+        Holst.innerHTML += TextS(counter+1,170,285,'Raspoz_But');
+    }else
+    {
+        Holst.innerHTML += TextS(0,170,285,'Raspoz_But');
+    }
+    
+    //Удачные и не удачные обучения
+
+    Holst.innerHTML += RectS2(318,275,30,13,'green',1);
+    Holst.innerHTML += RectS2(2,275,30,13,'red',0);
+    if(reset)
+    if(colorM[colorM.length-1] == 'green')
+    {
+        RasTCount +=1;
+    }else
+    {
+        RasFCount +=1;
+    }
+    Holst.innerHTML += TextS(RasTCount + '- ',295,287,'Raspoz_count');
+    Holst.innerHTML += TextS(' -'+RasFCount,35,287,'Raspoz_count');
     //Риски на оси Y
     for(var i = 243; i >= 10; i-=24.5 )
     {
@@ -1207,8 +1255,8 @@ var Graf_Procent = function(allproc)
     {
         mean += allproc[i];
         shagY = 283.5-((allproc[i]/100)*270);
-        if(i == 0){Holst.innerHTML += RectS(15,shagY,shagX,270 -shagY-5,colorM[i]); continue}
-        Holst.innerHTML += RectS(i*shagX+15,shagY,shagX,270-shagY-5,colorM[i]);
+        if(i == 0){Holst.innerHTML += RectS(15,shagY,shagX,270 -shagY-5,colorM[i],i); continue}
+        Holst.innerHTML += RectS(i*shagX+15,shagY,shagX,270-shagY-5,colorM[i],i);
     }
     mean= (mean/allproc.length).toFixed(2);
     Holst.innerHTML += TextS('mean:'+mean+'%',125,12,'Raspoz_But');
@@ -1289,7 +1337,7 @@ var Rezult_X = function()
     Byid('AllProcent').innerHTML = '<h3>Нейросеть не обучилась</h3> <p id="ALLProcent_p">'+allproc.toFixed(2)+'%</p>';
     colorM[counter] = 'red'
     }
-    Graf_Procent(ProcentMas);
+    Graf_Procent(ProcentMas,true);
 
 }
 
