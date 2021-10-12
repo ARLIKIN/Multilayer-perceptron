@@ -1150,6 +1150,18 @@ var RectS = function(x,y,width,height,color)
     return '<rect class="rectS"  x="'+x+'" y="'+y+'" width="'+width+'" height="'+height+'" fill="'+color+'" stroke="black"/>'
 }
 
+var TextReset = function(text,x,y,clas)
+{
+    return '<text onclick="RestS()" x="'+x+'" y="'+y+'" class="'+clas+'">'+text+'</text>'
+}    
+
+var RestS = function()
+{
+    ProcentMas= [0];
+    counter = 0;
+    Graf_Procent(ProcentMas);
+}
+
 var Graf_Procent = function(allproc)
 {
     Byid('SVG_Procent_Start').innerHTML = '<svg id="SVG_Proc" width="350px" height="280px" xmlns="http://www.w3.org/2000/svg"></svg>'
@@ -1161,6 +1173,8 @@ var Graf_Procent = function(allproc)
     Holst.innerHTML += LineS(10,10,7.5,12.5,'black')
     Holst.innerHTML += LineS(340,270,337.5,267.5,'black');
     Holst.innerHTML += LineS(340,270,337.5,272.5,'black');
+    Holst.innerHTML += '<rect class="rectReset" onclick="RestS()"  x="'+330+'" y="'+0+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
+    Holst.innerHTML +='<text onclick="RestS()" x="'+334+'" y="'+17+'" class="Raspoznovanie_Reset">'+'&#8635'+'</text>'
     //Риски на оси Y
     for(var i = 243; i >= 10; i-=24.5 )
     {
