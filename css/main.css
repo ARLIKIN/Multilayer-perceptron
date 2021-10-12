@@ -45,6 +45,23 @@ body
     font-size: 20px;
 }
 
+#SVG_Procent_Start
+{
+    display: flex;
+    justify-content: right;
+}
+
+.rectS
+{
+    border-right: 1px solid black;
+}
+
+#SVG_Proc
+{
+    border: 1px solid black;
+    background-color: cadetblue;
+}
+
 #button2
 {
     width: 100%;

@@ -41,6 +41,7 @@
     var Lf;
     var WItALL;
     var YItAll;
+    var ProcentMas = [];
 
     
 function showFile(input) 
@@ -141,7 +142,6 @@ function Neuron(X,m)
     KolYInput;
     KolYHidensloi=[];
     KolYOutput;
-    counter = 0;
     error = 0;
     err = [];
     hob =0
@@ -765,6 +765,7 @@ InputSloi = function() // Выходной слой
         Byid('Raspoznovanie_div').hidden = false;
         console.log(WItALL);
         console.log(YItAll);
+        counter +=1;
 
 
     }
@@ -805,7 +806,6 @@ InputSloi = function() // Выходной слой
             }
 
             Rezultat(tic);
-            
  //>
 
 }
@@ -1139,6 +1139,48 @@ var X_Procent = function(j,Yf)
     
    return proc;
 }
+
+var LineS = function(x1,y1,x2,y2,color)
+{
+    return '<line x1="'+x1+'" x2="'+x2+'" y1="'+y1+'" y2="'+y2+'" stroke="'+color+'" />';
+}
+
+var RectS = function(x,y,width,height,color)
+{
+    return '<rect class="rectS"  x="'+x+'" y="'+y+'" width="'+width+'" height="'+height+'" fill="'+color+'" stroke="black"/>'
+}
+
+var Graf_Procent = function(allproc)
+{
+    Byid('SVG_Procent_Start').innerHTML = '<svg id="SVG_Proc" width="350px" height="280px" xmlns="http://www.w3.org/2000/svg"></svg>'
+    var Holst = Byid('SVG_Proc');
+    Holst.innerHTML += LineS(10,10,10,270,'black');//OY
+    Holst.innerHTML += LineS(10,270,340,270,'black');//OX
+    //Стрелочки
+    Holst.innerHTML += LineS(10,10,12.5,12.5,'black');
+    Holst.innerHTML += LineS(10,10,7.5,12.5,'black')
+    Holst.innerHTML += LineS(340,270,337.5,267.5,'black');
+    Holst.innerHTML += LineS(340,270,337.5,272.5,'black');
+    //Риски на оси Y
+    for(var i = 243; i >= 10; i-=24.5 )
+    {
+        Holst.innerHTML += LineS(5,i,15,i,'black');
+    }
+    //значения
+    var shagX = 320/allproc.length
+    var shagY;
+    for(var i = 0; i < allproc.length; i++)
+    {
+        shagY = 283.5-((allproc[i]/100)*270);
+        if(i == 0){Holst.innerHTML += RectS(15,shagY,shagX,270 -shagY-5,'green'); continue}
+        Holst.innerHTML += RectS(i*shagX+15,shagY,shagX,270-shagY-5,'green');
+    }
+
+
+
+
+}
+
 var Rezult_X = function()
 {
     var Xall = MX;
@@ -1189,12 +1231,13 @@ var Rezult_X = function()
                 {
                     Byid('AllProcent').innerHTML = '<h3>Нейросеть не обучилась</h3>';
                     flag = false;
-                    return;
+                    //return;
                 }
                 allproc += pn * (Procent[i][j][h]/100);
             }
         }
     }
+    ProcentMas[counter] = allproc;
 
 
     
@@ -1205,8 +1248,9 @@ var Rezult_X = function()
     Byid('AllProcent').innerHTML = '<h3>Нейросеть обучилась</h3> <p id="ALLProcent_p">'+allproc.toFixed(2)+'%</p>';
     }else
     {
-    Byid('AllProcent').innerHTML = '<h3>Нейросеть не обучилась</h3>';
+    Byid('AllProcent').innerHTML = '<h3>Нейросеть не обучилась</h3> <p id="ALLProcent_p">'+allproc.toFixed(2)+'%</p>';
     }
+    Graf_Procent(ProcentMas);
 
 }
 
