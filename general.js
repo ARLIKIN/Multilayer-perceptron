@@ -42,6 +42,7 @@
     var WItALL;
     var YItAll;
     var ProcentMas = [];
+    var colorM = [];
 
     
 function showFile(input) 
@@ -1150,9 +1151,9 @@ var RectS = function(x,y,width,height,color)
     return '<rect class="rectS"  x="'+x+'" y="'+y+'" width="'+width+'" height="'+height+'" fill="'+color+'" stroke="black"/>'
 }
 
-var TextReset = function(text,x,y,clas)
+var TextS = function(text,x,y,clas)
 {
-    return '<text onclick="RestS()" x="'+x+'" y="'+y+'" class="'+clas+'">'+text+'</text>'
+    return '<text  x="'+x+'" y="'+y+'" class="'+clas+'">'+text+'</text>'
 }    
 
 var RestS = function()
@@ -1160,6 +1161,17 @@ var RestS = function()
     ProcentMas= [0];
     counter = 0;
     Graf_Procent(ProcentMas);
+    colorM = [];
+}
+
+var maxMas = function(array)
+{
+    return Math.max.apply(Math,array)
+}
+
+var minMas = function(array)
+{
+    return Math.min.apply(Math,array)
 }
 
 var Graf_Procent = function(allproc)
@@ -1173,8 +1185,14 @@ var Graf_Procent = function(allproc)
     Holst.innerHTML += LineS(10,10,7.5,12.5,'black')
     Holst.innerHTML += LineS(340,270,337.5,267.5,'black');
     Holst.innerHTML += LineS(340,270,337.5,272.5,'black');
+    //Кнопка RESET
     Holst.innerHTML += '<rect class="rectReset" onclick="RestS()"  x="'+330+'" y="'+0+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
     Holst.innerHTML +='<text onclick="RestS()" x="'+334+'" y="'+17+'" class="Raspoznovanie_Reset">'+'&#8635'+'</text>'
+    var min = minMas(allproc).toFixed(2);
+    var max = maxMas(allproc).toFixed(2);
+    var mean = 0;;
+    Holst.innerHTML += TextS('min:'+min+'%',18,12,'Raspoz_But');
+    Holst.innerHTML += TextS('max:'+max+'%',245,12,'Raspoz_But');
     //Риски на оси Y
     for(var i = 243; i >= 10; i-=24.5 )
     {
@@ -1185,10 +1203,13 @@ var Graf_Procent = function(allproc)
     var shagY;
     for(var i = 0; i < allproc.length; i++)
     {
+        mean += allproc[i];
         shagY = 283.5-((allproc[i]/100)*270);
-        if(i == 0){Holst.innerHTML += RectS(15,shagY,shagX,270 -shagY-5,'green'); continue}
-        Holst.innerHTML += RectS(i*shagX+15,shagY,shagX,270-shagY-5,'green');
+        if(i == 0){Holst.innerHTML += RectS(15,shagY,shagX,270 -shagY-5,colorM[i]); continue}
+        Holst.innerHTML += RectS(i*shagX+15,shagY,shagX,270-shagY-5,colorM[i]);
     }
+    mean= (mean/allproc.length).toFixed(2);
+    Holst.innerHTML += TextS('mean:'+mean+'%',125,12,'Raspoz_But');
 
 
 
@@ -1260,9 +1281,11 @@ var Rezult_X = function()
     if(flag)
     {
     Byid('AllProcent').innerHTML = '<h3>Нейросеть обучилась</h3> <p id="ALLProcent_p">'+allproc.toFixed(2)+'%</p>';
+    colorM[counter] = 'green'
     }else
     {
     Byid('AllProcent').innerHTML = '<h3>Нейросеть не обучилась</h3> <p id="ALLProcent_p">'+allproc.toFixed(2)+'%</p>';
+    colorM[counter] = 'red'
     }
     Graf_Procent(ProcentMas);
 
