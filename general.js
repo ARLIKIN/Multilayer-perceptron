@@ -1241,7 +1241,7 @@ var Graf_Procent = function(allproc,reset)
     {
         RasFCount +=1;
     }
-    Holst.innerHTML += TextS(RasTCount + '- ',295,287,'Raspoz_count');
+    Holst.innerHTML += TextS(RasTCount + '- ',290,287,'Raspoz_count');
     Holst.innerHTML += TextS(' -'+RasFCount,35,287,'Raspoz_count');
     //Риски на оси Y
     for(var i = 243; i >= 10; i-=24.5 )
@@ -1254,7 +1254,7 @@ var Graf_Procent = function(allproc,reset)
     for(var i = 0; i < allproc.length; i++)
     {
         mean += allproc[i];
-        shagY = 283.5-((allproc[i]/100)*270);
+        shagY = 288-((allproc[i]/100)*270);
         if(i == 0){Holst.innerHTML += RectS(15,shagY,shagX,270 -shagY-5,colorM[i],i); continue}
         Holst.innerHTML += RectS(i*shagX+15,shagY,shagX,270-shagY-5,colorM[i],i);
     }
