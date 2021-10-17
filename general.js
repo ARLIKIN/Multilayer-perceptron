@@ -38,6 +38,7 @@
     var SystemCount;
     var SystemCountD;
     var NoHiden = false;
+    var Noinput = false;
     var Lf;
     var WItALL;
     var YItAll;
@@ -345,7 +346,13 @@ function Neuron(X,m)
 OutputSloi = function(X)
     {
     Y[0] = [];
-    if (KolYInput <=0) KolYInput = 1;
+    if (KolYInput <=0)
+    {
+        Noinput = true
+        //KolYInput = 1;
+        return;
+    }
+     
     // Случайная генерация весов
     
     GeneratWight(KolYInput,0);
@@ -385,18 +392,31 @@ HidenSloi = function(nm) // Скрытый слой
     
 InputSloi = function() // Выходной слой
     {
-        Ylength = Object.keys(Y).length; // длины объектов
-        Wlength = Object.keys(W).length; // 
-        Y[Ylength] = [];
-    
-        if (KolYOutput <=0) KolYOutput = 1;
-        // Случайная генерация весов
-        
-        GeneratWight(KolYOutput,1);
-        // изначальные Y  
-        for(var i =0; i < KolYOutput; i++)
+        if(!Noinput)
         {
-            Y[Ylength][i] = Neuron(Y[Ylength-1],Wlength+i);
+            Ylength = Object.keys(Y).length; // длины объектов
+            Wlength = Object.keys(W).length; // 
+            Y[Ylength] = [];
+        
+            if (KolYOutput <=0) KolYOutput = 1;
+            // Случайная генерация весов
+            
+            GeneratWight(KolYOutput,1);
+            // изначальные Y  
+            for(var i =0; i < KolYOutput; i++)
+            {
+                Y[Ylength][i] = Neuron(Y[Ylength-1],Wlength+i);
+            }
+        }else
+        {
+            Y[0] = [];
+            // Случайная генерация весов
+            GeneratWight(KolYOutput,0);
+            // изначальные Y  
+            for(var i =0; i < KolYOutput; i++)
+            {
+                Y[0][i] = Neuron(X,i)
+            }
         }
     
     }
@@ -512,32 +532,43 @@ InputSloi = function() // Выходной слой
         var abc = 0;
         error = [0];
 
-        for(var j = 0; j < KolYInput;j++)
-                    {
-                        Y[0][j] = Neuron(X,j);
-                        
-                    }
-    if(!NoHiden)
-    {            
-    for(var h = 0; h < KolYHidensloi.length;h++)
-        {
-
-            for(var j =0; j < KolYHidensloi[h]; j++)
-                {
-                    Y[h+1][j] = Neuron(Y[h],j+KolYInput+abc); 
-                }
-                abc += KolYHidensloi[h];
-        }
-    }
-                        
-        for(var p =0; p < KolYOutput; p++)
+        
+    if(!Noinput)
+    {
+            for(var j = 0; j < KolYInput;j++)
+                        {
+                            Y[0][j] = Neuron(X,j);
+                            
+                        }
+        if(!NoHiden)
+        {            
+        for(var h = 0; h < KolYHidensloi.length;h++)
             {
-                Y[Ylength-1][p] = Neuron(Y[Ylength-2],p+(Wlength-KolYOutput) );
+
+                for(var j =0; j < KolYHidensloi[h]; j++)
+                    {
+                        Y[h+1][j] = Neuron(Y[h],j+KolYInput+abc); 
+                    }
+                    abc += KolYHidensloi[h];
             }
-            console.log(Y[Ylength-1]);
-            counterKorrekt++
+        }
+                            
+            for(var p =0; p < KolYOutput; p++)
+                {
+                    Y[Ylength-1][p] = Neuron(Y[Ylength-2],p+(Wlength-KolYOutput) );
+                }
+                console.log(Y[Ylength-1]);
+                
 
-
+    }else
+    {
+        for(var p =0; p < KolYOutput; p++)
+                {
+                    Y[Ylength-1][p] = Neuron(X,p);
+                }
+                console.log(Y[Ylength-1]);
+    }        
+        counterKorrekt++
 
 
 
@@ -554,46 +585,64 @@ InputSloi = function() // Выходной слой
                 err[(d.length-1)-i] = Minus(Y[Ylength-1],i);
                 err[(d.length-1)-i] = Multiplier(Y[Ylength-1][i],err,(d.length-1)-i);
             }
-            
             error[Wlength-1-i] = err[(d.length-1)-i];
-            
-
-            if(!NoHiden)
+            if(!Noinput)
             {
-            for(var j =0; j <= KolYHidensloi[KolYHidensloi.length-1]; j++ )
-            {
-                if (j == 0)
-                {
-                    W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
-                }else
-                {
-                    W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
-                }
-            }
-            }else
-            {
-                for(var j =0; j <= KolYInput; j++ )
-                {
-                    if (j == 0)
+                    if(!NoHiden)
                     {
-                        W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
+                    for(var j =0; j <= KolYHidensloi[KolYHidensloi.length-1]; j++ )
+                    {
+                        if (j == 0)
+                        {
+                            W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
+                        }else
+                        {
+                            W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
+                        }
+                    }
                     }else
                     {
-                     W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
+                        for(var j =0; j <= KolYInput; j++ )
+                        {
+                            if (j == 0)
+                            {
+                                W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
+                            }else
+                            {
+                            W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
+                            }
+                        }
                     }
-                }
+            }else
+            {
+                for(var j =0; j < W[0].length; j++ )
+                        {
+                            if (j == 0)
+                            {
+                                W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
+                            }else
+                            {
+                            W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * X[j-1];
+                            }
+                        }
             }
         }
         //Коррекция весов скрытых слоев
-          
-            for(var j = Wlength-1-KolYOutput; j >= 0 ; j-- )
-            {
-              Windex[j] = j;
-              
-            }
-        
+          if(!Noinput)
+          {
+                for(var j = Wlength-1-KolYOutput; j >= 0 ; j-- )
+                {
+                Windex[j] = j;
+                
+                }
+            
 
-        KorrektHiddenSloi(Windex);            
+            KorrektHiddenSloi(Windex);
+          }else
+          {
+            //KolYHidensloi.shift();
+            AllError[tic] = error;
+          }            
     }    
 
 
@@ -1054,6 +1103,8 @@ var Raspoznovanie_Neuron = function(X)
     {
         Y[0][i] = Neuron(X,i);
         count +=1;
+        if(Noinput)
+        Output[i] = Y[Ylength-1][i].toFixed(3);
     }
     //Скрытые слои
     if(!NoHiden)
@@ -1068,6 +1119,7 @@ var Raspoznovanie_Neuron = function(X)
     }
     }
     //Выходной слой
+    if(!Noinput)
     for(var i = 0;i < Y[Ylength-1].length; i++)
     {
         Y[Ylength-1][i] = Neuron(Y[Ylength-2],count);
@@ -1575,8 +1627,9 @@ var GrafikNeuron = function(i,canvas,b)
         var HidenSLOI = Hide;
         var VihodnoiSLOI = Vihod;
 
-        var SLOI = [X.length];    
-             SLOI[1] = VhodnoiSLOI;
+        var SLOI = [X.length];
+        if(!Noinput)
+        SLOI[1] = VhodnoiSLOI;
 
         if(!NoHiden)
         {  
