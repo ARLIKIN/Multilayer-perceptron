@@ -45,6 +45,7 @@
     var colorM = [];
     var RasTCount =0;
     var RasFCount =0;
+    var FailX = '';
 
     
 function showFile(input) 
@@ -1169,7 +1170,8 @@ var RestS = function()
     colorM = [];
     RasTCount =0;
     RasFCount =0;
-    var reset = false
+    var reset = false;
+    FailX = ''
     Graf_Procent(ProcentMas,reset);
     
 }
@@ -1214,6 +1216,9 @@ var Graf_Procent = function(allproc,reset)
     //Кнопка RESET
     Holst.innerHTML += '<rect class="rectReset" onclick="RestS()"  x="'+330+'" y="'+0+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
     Holst.innerHTML +='<text onclick="RestS()" x="'+334+'" y="'+17+'" class="Raspoznovanie_Reset">'+'&#8635'+'</text>'
+    //Кнопка сохранить
+    Holst.innerHTML += '<rect class="rectReset" onclick="RestS()"  x="'+330+'" y="'+25+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
+    Holst.innerHTML +='<text onclick="" x="'+334+'" y="'+41+'" class="Raspoznovanie_Reset">'+'&#128428'+'</text>'
     //Min Max
     var min = minMas(allproc).toFixed(2);
     var max = maxMas(allproc).toFixed(2);
@@ -1276,6 +1281,7 @@ var Rezult_X = function()
     var Yf;
     var count = 0;
     var Procent = {};
+    var FXP = '';
 
     
 
@@ -1296,7 +1302,8 @@ var Rezult_X = function()
                 str2 += Yf[h] +' '+ Procent[i][j][h].toFixed(1) + '%; ';  
                 count +=1;
             }
-            str += '<p class="Rezul_all_X" style="color:'+color+'">'+Xsloi[j] +'-'+ MD[i] +': '+str2+'</p>'; 
+            str += '<p class="Rezul_all_X" style="color:'+color+'">'+Xsloi[j] +'-'+ MD[i] +': '+str2+'</p>'; //
+            FXP += Xsloi[j] + '-' + MD[i] + ': ' + str2 + ';';
         }
     }
     Byid('Raspoznovanie_All_obrazec').innerHTML = str;
@@ -1323,6 +1330,7 @@ var Rezult_X = function()
         }
     }
     ProcentMas[counter] = allproc;
+    FailX = allproc+'%' + ' ' + FXP + '\n';
 
 
     
@@ -1339,6 +1347,13 @@ var Rezult_X = function()
     }
     Graf_Procent(ProcentMas,true);
 
+    var blob = new Blob([FailX],{type:"text/plain"});
+
+}
+
+var FDowloand = function(string)
+{
+    
 }
 
 //Графики выходного слоя 
