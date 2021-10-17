@@ -79,6 +79,13 @@ body
     height: 17px;
 }
 
+#inputDohp
+{
+    display: grid;
+    justify-content: right;
+    text-align: center;
+}
+
 /*Результат*/
 
 #result

@@ -114,6 +114,16 @@ Byid('XInput').onclick = function()
       this.style.height = '300px';
   }
 
+  var CLMN = function()
+  {
+      var col = +Byid('inputDohp_input').value;
+      
+      for(var i =0; i < col; i++)
+      {
+      Byid('button').click();
+      }
+  }     
+
 
 //Нейрон <
 function Neuron(X,m)
@@ -1444,10 +1454,12 @@ var Rezult_X = function()
     }
     Graf_Procent(ProcentMas,true);
 
-    
-       //'<a id="adw" href="URL.createObjectURL('+blob+')" download="XAll.txt">a</a>';
+    var STRMn = '<p style="margin: 0; padding: 0;">Множественный Запуск</p><div id="inputDohp_box"><input type="text" id="inputDohp_input"><button onclick="CLMN()" id="DohpStart">Старт</button>';
 
+    Byid('inputDohp').innerHTML = STRMn;
 }
+
+
 
 //Графики выходного слоя 
 
@@ -2249,5 +2261,7 @@ var GrafikNeuron = function(i,canvas,b)
             var idNeuron = parseInt(Byid('3DGraf_select').value);
             Main3DGrafik(idNeuron);
         }
+
+
 
 
