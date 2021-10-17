@@ -45,7 +45,7 @@
     var colorM = [];
     var RasTCount =0;
     var RasFCount =0;
-    var FailX = '';
+    var FailX = 'Образец - Ожидание на образец : фактические результаты' + '\n'+'\n';
 
     
 function showFile(input) 
@@ -813,7 +813,7 @@ InputSloi = function() // Выходной слой
  //>
 
 }
-a = 2
+//a = 2
 //График
 
 var GrafALL= function(b)
@@ -1124,7 +1124,7 @@ var X_Procent = function(j,Yf)
             {
                 if(Yf[i] <0.5)
                 {
-                    proc[i] = 100-(Yf[i])*(1/50*10000);
+                    proc[i] = 100-(Yf[i]/(0.5/100));
                 }else
                 {
                     proc[i] = 0;
@@ -1133,7 +1133,7 @@ var X_Procent = function(j,Yf)
             {
                 if(Yf[i] > 0.5)
                 {
-                    proc[i] = (Yf[i])/(1/100);
+                    proc[i] = Math.abs(100-(Yf[i]/(0.5/100)));
                 }else
                 {
                     proc[i] = 0;
@@ -1174,6 +1174,20 @@ var RestS = function()
     FailX = ''
     Graf_Procent(ProcentMas,reset);
     
+}
+
+var FDowloand = function()
+{
+    var a = document.createElement("a");
+    Byid('alink').innerHTML = a;
+    a.style = "display: none";
+    var blob = new Blob([FailX],{type:"text/plain"});
+    var url = window.URL.createObjectURL(blob);
+    a.href= url;
+    a.download = 'Результаты обучения.txt';
+    a.id = "adw";
+    a.click();
+    window.URL.revokeObjectURL(url);
 }
 
 var Clikrec2 = function(id)
@@ -1217,8 +1231,8 @@ var Graf_Procent = function(allproc,reset)
     Holst.innerHTML += '<rect class="rectReset" onclick="RestS()"  x="'+330+'" y="'+0+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
     Holst.innerHTML +='<text onclick="RestS()" x="'+334+'" y="'+17+'" class="Raspoznovanie_Reset">'+'&#8635'+'</text>'
     //Кнопка сохранить
-    Holst.innerHTML += '<rect class="rectReset" onclick="RestS()"  x="'+330+'" y="'+25+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
-    Holst.innerHTML +='<text onclick="" x="'+334+'" y="'+41+'" class="Raspoznovanie_Reset">'+'&#128428'+'</text>'
+    Holst.innerHTML += '<rect class="rectReset" onclick="FDowloand()"  x="'+330+'" y="'+25+'" width="'+20+'" height="'+20+'" fill="grey" stroke="black"/>';
+    Holst.innerHTML +='<text onclick="FDowloand()" x="'+334+'" y="'+41+'" class="Raspoznovanie_Reset">'+'&#128428'+'</text>'
     //Min Max
     var min = minMas(allproc).toFixed(2);
     var max = maxMas(allproc).toFixed(2);
@@ -1259,7 +1273,16 @@ var Graf_Procent = function(allproc,reset)
     for(var i = 0; i < allproc.length; i++)
     {
         mean += allproc[i];
+        if(allproc[i] >20)
+        {
         shagY = 288-((allproc[i]/100)*270);
+        }else if(allproc[i] >3)
+        {
+            shagY = 270-((allproc[i]/100)*270);
+        }else
+        {
+            shagY = 263;
+        }
         if(i == 0){Holst.innerHTML += RectS(15,shagY,shagX,270 -shagY-5,colorM[i],i); continue}
         Holst.innerHTML += RectS(i*shagX+15,shagY,shagX,270-shagY-5,colorM[i],i);
     }
@@ -1270,6 +1293,26 @@ var Graf_Procent = function(allproc,reset)
 
 
 }
+
+var Perevod = function(str)
+{
+    var a = str.split(',');
+    var newstr='';
+    for(var i = 0; i < a.length; i++)
+    {
+        a[i] = +a[i];
+        if(i==a.length-1)
+        {
+            newstr += a[i];
+        }else
+        {
+        newstr += a[i] + ',';
+        }
+    }
+    return newstr;
+}
+
+
 
 var Rezult_X = function()
 {
@@ -1299,11 +1342,11 @@ var Rezult_X = function()
             str2 = '';
             for(var h = 0; h < Y[Ylength-1].length; h++)
             {
-                str2 += Yf[h] +' '+ Procent[i][j][h].toFixed(1) + '%; ';  
+                str2 += Yf[h] +' '+ Procent[i][j][h].toFixed(1) + '%;';  
                 count +=1;
             }
             str += '<p class="Rezul_all_X" style="color:'+color+'">'+Xsloi[j] +'-'+ MD[i] +': '+str2+'</p>'; //
-            FXP += Xsloi[j] + '-' + MD[i] + ': ' + str2 + ';';
+            FXP += Xsloi[j] + ' - ' + Perevod(MD[i])+ ' : ' + str2;
         }
     }
     Byid('Raspoznovanie_All_obrazec').innerHTML = str;
@@ -1330,7 +1373,8 @@ var Rezult_X = function()
         }
     }
     ProcentMas[counter] = allproc;
-    FailX = allproc+'%' + ' ' + FXP + '\n';
+    var str = 'a:' + a + ' скорость обучения' + learningRate;
+    FailX += counter+1+' '+flag+ ' ' + allproc.toFixed(3)+'% ' +it + ' иттераций ' +'Структура сети('+KolYInput+','+KolYHidensloi+','+KolYOutput+') '+str+' ' + FXP + '\n' + '\n';
 
 
     
@@ -1347,13 +1391,9 @@ var Rezult_X = function()
     }
     Graf_Procent(ProcentMas,true);
 
-    var blob = new Blob([FailX],{type:"text/plain"});
-
-}
-
-var FDowloand = function(string)
-{
     
+       //'<a id="adw" href="URL.createObjectURL('+blob+')" download="XAll.txt">a</a>';
+
 }
 
 //Графики выходного слоя 
