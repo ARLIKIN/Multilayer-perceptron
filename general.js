@@ -163,6 +163,7 @@ function Neuron(X,m)
     Lf = false;
     WItALL = {};
     YItAll={};
+    Noinput = false;
 
     Byid('Graf_btn_XYZ').innerHTML = '';
     Byid('3DGraf_conteiner_select').innerHTML = '';
