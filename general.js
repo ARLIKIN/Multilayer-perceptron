@@ -788,6 +788,10 @@ InputSloi = function() // Выходной слой
             {
                 b= 1000/tic;
             }
+            if(b%2 == 0)
+            {
+                b-=1;
+            }
            // b = parseInt(tic*0.01)
            GrafLastSloi(b);
             
@@ -878,6 +882,10 @@ InputSloi = function() // Выходной слой
 
 var GrafALL= function(b)
 {
+    if(b%2 == 0)
+    {
+        b-=1;
+    }
 
     var CanvaSTR=''
     
@@ -1545,6 +1553,8 @@ var GrafikNeuron = function(i,canvas,b)
         canvas.width = 1000;
         canvas.height = 1000;
         ctx.lineWidth = 0,5;
+        var mn = 2;
+        if(tic)
         ctx.strokeStyle = 'blue';
         if(!Lf)
         {
