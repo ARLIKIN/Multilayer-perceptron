@@ -47,6 +47,7 @@
     var RasTCount =0;
     var RasFCount =0;
     var FailX = 'Образец - Ожидание на образец : фактические результаты' + '\n'+'\n';
+    var w;
 
     
 function showFile(input) 
@@ -174,6 +175,7 @@ function Neuron(X,m)
     WItALL = {};
     YItAll={};
     Noinput = false;
+    w;
 
     Byid('Graf_btn_XYZ').innerHTML = '';
     Byid('3DGraf_conteiner_select').innerHTML = '';
@@ -848,13 +850,21 @@ InputSloi = function() // Выходной слой
         }
         document.getElementById('oldY').innerHTML = y;
 
-    var w = 'Первые веса:  </br>'
+         w = 'Первые веса:  </br>'
     for(var i =0; i< Object.keys(W).length; i++)
         {
                 
             w += W[i] + '</br>';
         }
         document.getElementById('oldW').innerHTML = w;    
+
+        w = 'Первые веса:' + '\n';
+    for(var i =0; i< Object.keys(W).length; i++)
+        {
+                
+            w += W[i] + '\n';
+        }
+
 
         // обучение
         AllYLastsloi = {};
@@ -1242,7 +1252,7 @@ var RestS = function()
     RasTCount =0;
     RasFCount =0;
     var reset = false;
-    FailX = ''
+    FailX = 'Образец - Ожидание на образец : фактические результаты' + '\n'+'\n';
     Graf_Procent(ProcentMas,reset);
     
 }
@@ -1255,7 +1265,8 @@ var FDowloand = function()
     var blob = new Blob([FailX],{type:"text/plain"});
     var url = window.URL.createObjectURL(blob);
     a.href= url;
-    a.download = 'Результаты обучения.txt';
+    var name = prompt('Введите имя файла','Результаты обучения');
+    a.download = name+'.txt';
     a.id = "adw";
     a.click();
     window.URL.revokeObjectURL(url);
@@ -1444,9 +1455,14 @@ var Rezult_X = function()
         }
     }
     ProcentMas[counter] = allproc;
-    var str = 'a:' + a + ' скорость обучения' + learningRate;
-    FailX += counter+1+' '+flag+ ' ' + allproc.toFixed(3)+'% ' +it + ' иттераций ' +'Структура сети('+KolYInput+','+KolYHidensloi+','+KolYOutput+') '+str+' ' + FXP + '\n' + '\n';
+    //var STRM1 = '<div id="Dohp_ch"><p style="margin: 0;">Запись весов </p><input type="checkbox" id="checkDohp"></div>';
+    var STRM2 = '<p style="margin: 0; padding: 0;">Множественный Запуск</p><div id="inputDohp_box"><input type="text" id="inputDohp_input"><button onclick="CLMN()" id="DohpStart">Старт</button>';
 
+    Byid('inputDohp').innerHTML = STRM2;
+    var str = 'a:' + a + ' скорость обучения' + learningRate;
+    var razdelitel = '-------------------------------------------------------------';
+    FailX += counter+1+' '+flag+ ' ' + allproc.toFixed(3)+'% ' +it + ' иттераций ' +'Структура сети('+KolYInput+','+KolYHidensloi+','+KolYOutput+') '+str+' ' + FXP +'\n'+ w  + razdelitel+'\n' + '\n';
+   
 
     
     
@@ -1462,9 +1478,7 @@ var Rezult_X = function()
     }
     Graf_Procent(ProcentMas,true);
 
-    var STRMn = '<p style="margin: 0; padding: 0;">Множественный Запуск</p><div id="inputDohp_box"><input type="text" id="inputDohp_input"><button onclick="CLMN()" id="DohpStart">Старт</button>';
-
-    Byid('inputDohp').innerHTML = STRMn;
+    
 }
 
 

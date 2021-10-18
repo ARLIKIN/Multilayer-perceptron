@@ -238,6 +238,13 @@ body
     height: 23px;
 }
 
+#Dohp_ch
+{
+    display: flex;
+    justify-content: right;
+    margin-bottom: 10px;
+}
+
 #PerX:hover
 {
     background-color: rgba(231, 57, 57, 0.699);
