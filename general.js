@@ -139,7 +139,7 @@ function Neuron(X,m)
            u += X[i] * W[m][i+1];
        }
    //функция активации(Сигмоидальная унополярная)
-    y =1/(1+Math.exp(-a*u));
+    y =1/(1+Math.exp(-u));
     return y;     
 }
 
