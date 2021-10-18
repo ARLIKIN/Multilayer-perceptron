@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>NEURONER</title>
+</head>
+<body>
+    <div class="Poverhnost">
+        <a class="APoverhnost" href="surface.html">3D Поверхность</a>
+    </div>
+    <div id="3DGraf_conteiner">
+        <div id="Graf_PG"></div>
+        <div id="Graf_settings">
+            <div id="Graf_btn_XYZ" class="btn_3DGraf_XYZ"></div>
+            <div id="3DGraf_conteiner_select"></div>  
+        </div>
+    </div>
+    <h1 class="GeneralTEXT">Параметры сети</h1>
+    <div class="header">
+        
+        <div id="Param">
+            <h4 id="Param_H">Обучение</h4>
+            <p>Коэфицент a: 
+                <input id="aInput" type="text" size="10" value="0.8">
+            </p>
+
+            <p>Количество итераций:
+                <input id="iterInput" type="text" size="10" value="50">
+            </p>
+
+            <p>Скорость обучения:
+                <input id="learningRateInput" type="text" size="10" value="0.5">
+            </p>
+            <p>Входные данные:
+                <input type="file" onchange="showFile(this)">
+            </p>
+            <p>Ручной ввод:</p>
+            <textarea id="XInput" style="width: 100px; height: 15px;"></textarea>
+            <p>Входной слой:
+                <input type="text" id="OneSloi" size="30" value="2">
+            </p>
+            <p>Скрытые слои:
+                <input type="text" id="HidenSloi" size="30" value="1">
+            </p>
+            <p hidden>Ожидаемые значения:
+                <input type="text" id="dInput" size="30" value="0,0">
+            </p>
+            <p>Графики ошибок:
+                <input type='checkbox' id='checkGrafik'>
+            </p>
+            <p>Графики выходногослоя:
+                <input type='checkbox' id='checkGrafikNeuron'>
+            </p>
+            <p>3D графики нейронов:
+                <input type='checkbox' id='check3DGrafik'>
+            </p>
+            <div id="btn">
+                <button id="button">Обучить</button>
+            </div>
+        </div>
+        <div id="Raspoznovanie">
+            <div id="Raspoznovanie_div" >
+                <H4 id="Raspoznovanie_div_H">Распознование</H4>
+                <p>Входные данные:
+                    <input type="text" id="XRaspoznovanie" size="30" value="0,1,1,1,0">
+                </p>
+                    <button id="button2">Результат</button>
+                    <p id="Raspoznovanie_Rezultat"></p>
+                    <div id="Raspoznovanie_All_obrazec"></div>
+                    <div id="AllProcent"></div>
+                    <div id="SVG_Procent_Start"></div>
+                    <div id="alink"></div>
+                    <div id="inputDohp">
+                        <div id="Dohp_ch">
+                            <p style="margin: 0;">Запись весов </p>
+                            <input type="checkbox" id="checkDohp">
+                            </div>
+                        <p style="margin: 0; padding: 0;">Множественный Запуск</p><div id="inputDohp_box"><input type="text" id="inputDohp_input"><button onclick="CLMN()" id="DohpStart">Старт</button>
+                            
+                        </div>
+                    </div>
+        </div>
+        </div>
+    </div>
+    <div class="rez">
+        <H1 class="GeneralTEXT" id="RezultatH1" hidden>Результаты обучения</H1>
+        <p id="dowland" class="r1"style="text-align: center;" ></p>
+        <p id="struktura_p" class="r1" style="text-align: center;" hidden>Графическая структура нейросети</p>
+        <div id="Div_srtuktura" class="rezultat">
+            <div id="DIV_StrukturaSVG"></div>
+        </div>
+        <p id="struktura"class="rezultat"></p>
+        <p id="d"class="r1"class="rezultat"></p>
+        <p id="a"class="r1"class="rezultat"></p>
+        <p id ="learningRate" class="r1"class="rezultat"></p>
+        <p id="iter" class="r1"class="rezultat"></p>
+        <p id="X"class="rezultat"></p>
+        <a id="Podrob" href="#" hidden>Подробная информация ▼</a>
+        <div id="Podrob_general" hidden>
+        <p id="Y"class="rezultat"></p>
+        <p id = "oldY"class="rezultat"></p>
+        <p id="W"class="rezultat"></p>
+        <p id="oldW"class="rezultat"></p>
+        <div>
+            <p id="error"></p>
+        </div>
+        </div>
+    </div>
+    
+    <p id="mashtab" class="mashtabc"></p>
+    <div id="canvasALL">
+        
+    </div>
+   
+    <p class="mashtabc" id="GrafikNeuron"></p>
+    <div id="canvasNeuron">
+
+    </div>    
+    
+<script src="general.js"></script>
+</body>
+</html>

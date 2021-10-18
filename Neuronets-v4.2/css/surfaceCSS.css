@@ -1,0 +1,206 @@
+body
+{
+    padding: 0;
+    margin: 0;
+    size: 16px;
+    background-color:wheat;
+    color: black;
+}
+
+a
+{
+    text-decoration: none;
+    color: black;
+}
+
+.header
+{
+    display: flex;
+}
+.r1
+{
+    text-align: center;
+}
+
+.back
+{
+    margin: 0;
+    padding: 15px 0;
+}
+
+.aback
+{
+    text-decoration: none;
+    color: black;
+}
+
+.aback:hover
+{
+    color: green
+}
+
+/*Результат*/
+.GeneralTEXT
+{
+    text-align: center;
+}
+
+#result
+{
+    margin-top: 20px;
+}
+
+.r1
+{
+    text-align: center;
+}
+
+.InfoItog
+{
+    display: flex;
+    justify-content: center;
+}
+.InfoItogP
+{
+    margin-right: 15px;
+    text-align: center;
+}
+
+#DivKoordinat
+{
+    text-align: center;
+}
+#AKoordinat
+{
+    border: 1px solid rgb(0, 0, 0);
+    padding: 2px;
+    border-radius: 5px;
+    background-color: rgb(196, 191, 191);
+}
+
+#AKoordinat:hover 
+{
+    background-color: grey;
+}
+/*Структура*/
+#Struktura
+{
+    display: flex;
+    justify-content: center;
+}
+
+#SrtukturaSVG
+{
+    background-color:  wheat;
+}
+
+/*Распознование*/
+.Ras_flex
+{
+    display: flex;
+}
+
+#Raspoznovanie_Rezultat
+{
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+}
+
+/*Графики*/
+
+#Grafiks
+{
+    display: grid;
+    justify-content: center;
+}
+
+
+/*Вес*/
+.GrafALL
+{
+    background-color: wheat;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+
+.Graf3D
+{
+    background-color: wheat;
+    border: 1px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+#DPov
+{
+    display: grid;
+    justify-content: center;
+}
+
+.btn_3DGraf
+{
+    text-align: center;
+}
+
+.btn_3DGraf_POVER
+{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.DGraf_btn
+{
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 0.3em;
+
+}
+
+.btn_3DGraf_XYZ
+{
+    display: flex;
+    justify-content: center;
+}
+
+#step
+{
+    width: 22px;
+}
+
+#PerX:hover
+{
+    background-color: rgba(231, 57, 57, 0.699);
+}
+
+#PerY:hover
+{
+    background-color: rgba(68, 68, 230, 0.664);
+}
+
+#PerZ:hover
+{
+    background-color: rgba(48, 168, 48, 0.61);
+}
+
+#PerRESET:hover
+{
+    background-color: rgba(0, 0, 0, 0.404);
+}
+
+#PerSUMP
+{
+    background-color: rgba(70, 143, 70, 0.61);
+}
+
+.C3D:hover
+{
+    fill: rgba(99, 88, 88, 0.878);
+}
+.CE3D:hover
+{
+    fill: darkred;
+}
+

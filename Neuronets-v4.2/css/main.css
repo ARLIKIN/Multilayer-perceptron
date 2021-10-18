@@ -1,0 +1,266 @@
+body
+{
+    padding: 0;
+    margin: 0;
+    size: 16px;
+    background-color:wheat;
+    color: black;
+}
+/*Начальные данные*/
+.header
+{
+    display: flex;
+}
+.Poverhnost
+{
+    margin: 0;
+    padding: 15px 0;
+}
+
+.APoverhnost
+{
+    text-decoration: none;
+    color: black;
+}
+
+.APoverhnost:hover
+{
+    color: green;
+}
+
+#Raspoznovanie
+{
+    display: grid;
+    justify-content: right;
+    width: 100%;
+}
+
+#AllProcent
+{
+    text-align: center;
+}
+
+#ALLProcent_p
+{
+    font-size: 20px;
+}
+
+#SVG_Procent_Start
+{
+    display: flex;
+    justify-content: right;
+}
+
+.rectS
+{
+    border-right: 1px solid black;
+}
+
+#SVG_Proc
+{
+    border: 1px solid black;
+    background-color: rgb(179, 169, 150);
+}
+
+#button2
+{
+    width: 100%;
+}
+
+
+.GeneralTEXT
+{
+    text-align: center;
+}
+
+#XInput
+{
+    width: 125px;
+    height: 17px;
+}
+
+#inputDohp
+{
+    display: grid;
+    justify-content: right;
+    text-align: center;
+}
+
+/*Результат*/
+
+#result
+{
+    margin-top: 20px;
+}
+
+.r1
+{
+    text-align: left;
+    margin: 0;
+}
+
+#Podrob
+{
+    text-decoration: underline;
+    color: black;
+    padding-bottom: 20px;
+}
+
+.mashtabc
+{
+    display: grid;
+    justify-content: center;
+}
+
+#dowland
+{
+    color: green;
+}
+
+/*График*/
+/*#checkGrafik
+{
+    
+}*/
+
+#canvasALL
+{
+    display: grid;
+    justify-content: center;
+}
+#canvasNeuron
+{
+    display: grid;
+    justify-content: center;
+}
+
+.canvas
+{
+    border: 1px solid black;
+    background-color: white;
+    margin-bottom: 5px;
+}
+
+
+#Div_srtuktura
+{
+    display: grid;
+    justify-content: center;
+}
+
+#struktura_p
+{
+    margin-top: 50px;
+}
+
+#Struktura_hiden
+{
+    text-decoration: none;
+    color: black;
+}
+
+
+.Struktura_canvas
+{
+    
+    background-color: wheat;
+    margin-bottom: 5px;
+}
+
+.mal
+{
+    font-size: 20px;
+}
+
+.TextNeuron
+{
+    font-size: 16px;
+}
+
+.TextX
+{
+    font-size: 15px;
+    fill: #ffffff
+}
+
+.Circle:hover
+{
+    fill: #e7d212;
+    
+}
+
+.RectText
+{
+    fill: white;
+}
+
+.RectText:hover
+{
+    fill: rgb(255, 81, 0);
+}
+
+#Graf_settings
+{
+    display: flex;
+    justify-content: center;
+}
+
+#Graf_PG
+{
+    display: flex;
+    justify-content: center;
+}
+
+#Grafid
+{
+    background-color: wheat;
+}
+
+.btn_3DGraf_XYZ
+{
+    display: flex;
+}
+
+.DGraf_btn
+{
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 0.3em;
+    margin-left: 40px;
+    padding: 0 19px;
+
+}
+
+.Graf_select
+{
+    height: 23px;
+}
+
+#Dohp_ch
+{
+    display: flex;
+    justify-content: right;
+    margin-bottom: 10px;
+}
+
+#PerX:hover
+{
+    background-color: rgba(231, 57, 57, 0.699);
+}
+
+#PerY:hover
+{
+    background-color: rgba(68, 68, 230, 0.664);
+}
+
+#PerZ:hover
+{
+    background-color: rgba(48, 168, 48, 0.61);
+}
+
+#PerRESET:hover
+{
+    background-color: rgba(0, 0, 0, 0.404);
+}
