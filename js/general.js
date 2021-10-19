@@ -836,6 +836,7 @@ InputSloi = function() // Выходной слой
         Byid('Raspoznovanie_div').hidden = false;
         console.log(WItALL);
         console.log(YItAll);
+        Byid('Raspoznovanie_div').hidden = false;
         counter +=1;
 
 
