@@ -6,11 +6,55 @@ body
     background-color:wheat;
     color: black;
 }
+
+a
+{
+    text-decoration: none;
+    color: black;
+}
 /*Начальные данные*/
 .header
 {
     display: flex;
 }
+
+.menu
+{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.menu_general
+{
+    
+    padding: 0;
+    margin:0;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    
+}    
+
+.menu_element
+{
+    list-style-type: none;
+}
+
+.menu_element_a
+{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 7px;
+    background-color:rgb(160, 137, 94);
+}
+
+.menu_element_a:hover
+{
+    
+    background-color: rgb(204, 150, 33);
+}
+    
 .Poverhnost
 {
     margin: 0;
