@@ -739,7 +739,7 @@ InputSloi = function() // Выходной слой
         if(Byid('checkGrafik').checked)
         { 
             var b = tic;
-            Byid('mashtab').innerHTML = 'Графики ошибок' + '</br>'+ 'маштаб 1ед. = 5px'; 
+            Byid('mashtab').innerHTML = 'Графики ошибок' + '</br>'+ 'машстаб 1ед. = 5px'; 
 
             if(tic > 100000)
             {
@@ -808,7 +808,7 @@ InputSloi = function() // Выходной слой
             {
                 option += '<option value="'+i+'" >Нейрон '+n+'</option>';
             }
-            var btn = '<a href="#" class="DGraf_btn"  id="PerX">Ось X</a> <a href="#" class="DGraf_btn"  id="PerY">Ось Y</a> <a href="#" class="DGraf_btn"  id="PerZ">Ось Z</a> <a href="#" class="DGraf_btn"  id="PerRESET">Сброс</a> <p style="margin: 0; padding-left: 5px;">Шаг:</p> <input id="step" type="text" value="30"> <p style="margin: 0; padding-left: 5px;">Маштаб:</p> <input id="GrafMashtab" type="text" value="5000">';
+            var btn = '<a href="#" class="DGraf_btn"  id="PerX">Ось X</a> <a href="#" class="DGraf_btn"  id="PerY">Ось Y</a> <a href="#" class="DGraf_btn"  id="PerZ">Ось Z</a> <a href="#" class="DGraf_btn"  id="PerRESET">Сброс</a> <p style="margin: 0; padding-left: 5px;">Шаг:</p> <input id="step" type="text" value="30"> <p style="margin: 0; padding-left: 5px;">Машстаб:</p> <input id="GrafMashtab" type="text" value="5000">';
             Byid('3DGraf_conteiner_select').innerHTML = '<select id="3DGraf_select" class="Graf_select" onchange="doSomething();">'+option+'</select>';
             Byid('Graf_PG').innerHTML = '<svg class="3DGrafNeuron" id="Grafid" width = "1000" height = "800"></svg>';
             Byid('Graf_btn_XYZ').innerHTML = btn;

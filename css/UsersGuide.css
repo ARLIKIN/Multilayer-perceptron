@@ -14,6 +14,8 @@ a
 p
 {
     size: 14px;
+    margin: 0;
+    padding: 0;
 }
 
 .menu
@@ -82,8 +84,61 @@ p
     margin-top: 150px;
 }
 
+.Zagolovok
+{
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
 .Glava
 {
     text-align: center;
     margin-bottom: 100px;
+}
+.Obuch
+{
+    padding-top: 50px;
+}
+
+/*Резуьтат*/
+
+.Struktura_Graf
+{
+    margin-bottom: 200px;
+}
+.Rezult_Param
+{
+    margin-bottom: 150px;
+}
+
+.Graf_error
+{
+    margin-bottom: 240px;
+}
+
+.Graf_LastN
+{
+    margin-bottom: 250px;
+}
+
+.Graf_Pov
+{
+    margin-bottom: 200px;
+}
+
+.Rezult_ob
+{
+    margin-bottom: 100px;
+}
+
+.Gistogramma
+{
+    margin-bottom: 150px;
+}
+
+.Struktura_fail
+{
+    margin-bottom: 50px;
 }
