@@ -8,6 +8,8 @@
     var learningRate;
     var XD = [];
     var MD = [];
+    var MDG = [];
+    var MXG = {};
     var MX = [];
     var LMX = [];
     var Xflag = false;
@@ -76,7 +78,7 @@
                         MX.push(XD[i]);
                     }
             }
-
+            MDG = MD;
             d = MD[CSK].split(',');
             LMX = MX[CSK].split(';');
             LMX.pop();
@@ -92,7 +94,6 @@
             {
                 X[i] = +X[i]//вход
             }
-
             KolYOutput = d.length;
             KolX = X.length
             alert('Файл прочитан')
@@ -158,6 +159,8 @@
         RX = [];
         SystemCount = 0;
         SystemCountD = 0;
+        MDG = [];
+        MXG = {};
         if(!Byid('Div_Raspoznovanie').hidden)
         {
             Byid('Div_Raspoznovanie').hidden = true;
@@ -235,7 +238,7 @@
                      MX.push(XD[i]);
                  }
              }
-
+             MDG = MD;
              d = MD[0].split(','); // В данной версии ожидается только 1 значение
              LMX = MX[0].split(';');
              LMX.pop();
@@ -251,7 +254,6 @@
              {
                  X[i] = +X[i];
              }
-
              KolYOutput = d.length;
              KolX = X.length;
          }
@@ -379,6 +381,29 @@
             Koordinat += GlWAll[0][j][i][1] + ',' + GAllError[0][j][i][0] + ',' + GlWAll[0][j][i][2] + '\n';
             }
         }    
+        for(var i = 0; i < MDG.length; i++)
+        {
+            MDG[i] = +MDG[i];
+        }
+
+        for(var i =0; i < MX.length; i++)
+        {
+            MXG[i] = MX[i].split(';');
+            MXG[i].pop();
+        }
+        for(var i =0; i < Object.keys(MXG).length; i++)
+        {
+            MXG[i] = MXG[i][0].split(',');
+        }
+
+
+        for(var i =0; i < MX.length; i++)
+        {
+            for(var j =0; j <MXG[i].length;  j++)
+            {
+                MXG[i][j] = +MXG[i][j]
+            }
+        }
         console.log(Koordinat);
         GrafikW();
         GrafikError();
@@ -787,10 +812,92 @@ var clear = function()
 
         for(var j = 2; j >= -2; j -= 0.2,h +=1)
         {
-            SW1[k][h] = 0-(1/(1 + Math.exp(-a * (i+j))));
-            SW0[k][h] = 1-(1/(1 + Math.exp(-a * (i))));
+
+            if(MDG.length >1)
+            {
+                if(MXG[0].length > 1)
+                {
+
+                        if(MXG[0][0] == 0 && MXG[0][1] == 0)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (0))));
+                        }
+                        if(MXG[0][0] == 0 && MXG[0][1] == 1)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (j))));
+                        }
+                        if(MXG[0][0] == 1 && MXG[0][1] == 0)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (i))));
+                        }
+                        if(MXG[0][0] == 1 && MXG[0][1] == 1)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (i+j))));
+                        }
+
+                        if(MXG[1][0] == 0 && MXG[1][1] == 0)
+                        {
+                            SW0[k][h] = MDG[1]-(1/(1 + Math.exp(-a * (0))));
+                        }
+                        if(MXG[1][0] == 0 && MXG[1][1] == 1)
+                        {
+                            SW0[k][h] = MDG[1]-(1/(1 + Math.exp(-a * (j))));
+                        }
+                        if(MXG[1][0] == 1 && MXG[1][1] == 0)
+                        {
+                            SW0[k][h] = MDG[1]-(1/(1 + Math.exp(-a * (i))));
+                        }
+                        if(MXG[1][0] == 1 && MXG[1][1] == 1)
+                        {
+                            SW0[k][h] = MDG[1]-(1/(1 + Math.exp(-a * (i+j))));
+                        }
+                }else
+                {
+                        if(MXG[0][0] == 0 )
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (0))));
+                        }
+                        if(MXG[0][0] == 1 )
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (i))));
+                        }
+                        if(MXG[1][0] == 0 )
+                        {
+                            SW0[k][h] = MDG[1]-(1/(1 + Math.exp(-a * (0))));
+                        }
+                        if(MXG[1][0] == 1 )
+                        {
+                            SW0[k][h] = MDG[1]-(1/(1 + Math.exp(-a * (i))));
+                        }
+                }
+            }else
+            {
+                if(MXGp[0].length > 1)
+                {
+                         if(MXG[0][0] == 0 && MXG[0][1] == 0)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (0))));
+                        }
+                        if(MXG[0][0] == 0 && MXG[0][1] == 1)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (i))));
+                        }
+                        if(MXG[0][0] == 1 && MXG[0][1] == 0)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (j))));
+                        }
+                        if(MXG[0][0] == 1 && MXG[0][1] == 1)
+                        {
+                            SW1[k][h] = MDG[0]-(1/(1 + Math.exp(-a * (i+j))));
+                        }
+                }else
+                {
+                    SW0[k][h] = 0;
+                }
+            }    
             SWSUM[k][h] = SW1[k][h] + SW0[k][h];
         }
+        
     }
 
     console.log('1-Y');
