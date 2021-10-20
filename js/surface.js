@@ -1091,9 +1091,16 @@ var perspective= function(x,y,z)
     return Mas;
 } 
 
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+function rgb2hex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
 
 var dwPSUM = function(x,y,z,i,j)
-{
+{   
     var Mas = [];
     Mas= perspective(x,y,z,);
     var X = Mas[0],Y=Mas[1];
@@ -1115,13 +1122,7 @@ var dwP0Y = function(x,y,z,i,j)
     Holst.innerHTML += Circle0Y(3,X+500,Y+300,'blue',i,j);
 }
 
-function componentToHex(c) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-}
-function rgb2hex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
+
 
 var dwL = function(x,y,z,i,aC)
 {
