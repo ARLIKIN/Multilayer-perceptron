@@ -117,12 +117,14 @@ Byid('XInput').onclick = function()
 
   var CLMN = function()
   {
+      alert('обучение началось')
       var col = +Byid('inputDohp_input').value;
       
       for(var i =0; i < col; i++)
       {
-      Byid('button').click();
+       Pusk(true);
       }
+      alert('обучение закончено');
   }     
 
 
@@ -144,7 +146,7 @@ function Neuron(X,m)
 }
 
 // >
-  Byid('button').onclick = function()
+  var Pusk = function(General_Bool)
   {
     a;
     it;
@@ -176,6 +178,8 @@ function Neuron(X,m)
     YItAll={};
     Noinput = false;
     w;
+    if(!General_Bool)
+    alert('Началось обучение')
 
     Byid('Graf_btn_XYZ').innerHTML = '';
     Byid('3DGraf_conteiner_select').innerHTML = '';
@@ -838,8 +842,8 @@ InputSloi = function() // Выходной слой
         console.log(YItAll);
         Byid('Raspoznovanie_div').hidden = false;
         counter +=1;
-
-
+        if(!General_Bool)
+        alert('Обучение закончено');
     }
 
 
