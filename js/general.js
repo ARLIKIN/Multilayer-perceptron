@@ -133,7 +133,7 @@ Byid('XInput').onclick = function()
       {
        Pusk(true);
       }
-      alert('обучение закончено');
+      alert('обучение закончено, нажмите ОК');
   }     
 
 
@@ -856,7 +856,7 @@ InputSloi = function() // Выходной слой
         Byid('Raspoznovanie_div').hidden = false;
         counter +=1;
         if(!General_Bool)
-        alert('Обучение закончено');
+        alert('Обучение закончено, нажмите ОК');
     }
 
 
