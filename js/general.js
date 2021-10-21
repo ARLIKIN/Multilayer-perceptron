@@ -3,6 +3,7 @@
     {
         return document.getElementById(id);
     }
+    
     var a;
     var it;
     var OutputSloi;
@@ -49,6 +50,7 @@
     var FailX = 'Образец - Ожидание на образец : фактические результаты' + '\n'+'\n';
     var w;
 
+
     
 function showFile(input) 
 {
@@ -59,6 +61,10 @@ function showFile(input)
     
     reader.onload = function()
         {
+            try
+            {
+
+            
             alert('Началось чтение файла' + '\n'+ 'пожалуйста подождите');
             Byid('dInput').disabled = true;
             Xflag = true;
@@ -99,6 +105,10 @@ function showFile(input)
             KolYOutput = d.length;
             KolX = X.length
             alert('Файл прочитан');
+            }catch
+            {
+                alert('Ошибка!' + '\n' + 'данные в файле не корректы');
+            }
         }
 
     
@@ -147,6 +157,8 @@ function Neuron(X,m)
 // >
   var Pusk = function(General_Bool)
   {
+    /*import {Loding} from 'loading.js';
+    import {LodingFinal} from 'loading.js'; */
     a;
     it;
     OutputSloi;
@@ -180,13 +192,16 @@ function Neuron(X,m)
     Byid('Graf_btn_XYZ').innerHTML = '';
     Byid('3DGraf_conteiner_select').innerHTML = '';
     Byid('Graf_PG').innerHTML = '';
-    
+    if(!General_Bool)
+    {
+
+    }
 
     var XC =0;
 
     SystemClass = function()
     {
-        SystemCount +=1;
+            SystemCount +=1;
             if(SystemCount < LMX.length)
             {
                 X = LMX[SystemCount].split(',');
@@ -218,7 +233,6 @@ function Neuron(X,m)
 
              KolYOutput = d.length;
              KolX = X.length;
-
     }
 
       tic = 0;
@@ -258,52 +272,55 @@ function Neuron(X,m)
 
     //Byid('Podrob')
     
-
-        if(Xflag != true)
-        {
-            if(Byid('XInput').value.length == 0)
+        try{
+            if(Xflag != true)
             {
-                Byid('XInput').value = '1,1'+'\n'+'&'+'\n'+'0,1,0,1,0;'+'\n'+'&';
+                if(Byid('XInput').value.length == 0)
+                {
+                    Byid('XInput').value = '1,1'+'\n'+'&'+'\n'+'0,1,0,1,0;'+'\n'+'&';
+                }
+                MD = [];
+                MX = [];
+
+                XD = Byid('XInput').value.split('&'); // получаем входные данные и
+                XD.pop();
+
+                for(var i = 0; i < XD.length; i++)//отдедяем ожидания от образцов
+                {
+                    if((i + 1) % 2 != 0)
+                        {
+                            MD.push(XD[i]);  
+                        }else
+                        {
+                            MX.push(XD[i]);
+                        }
+                }
+
+                d = MD[CSK].split(',');
+                LMX = MX[CSK].split(';');
+                LMX.pop();
+
+                X = LMX[0].split(',');
+
+                for(var i = 0; i < d.length; i++)
+                {
+                    d[i] = +d[i]//ожидания
+                }
+
+                for(var i = 0; i < X.length; i++)
+                {
+                    X[i] = +X[i]//вход
+                }
+
+                KolYOutput = d.length;
+                KolX = X.length
             }
-            MD = [];
-            MX = [];
-
-            XD = Byid('XInput').value.split('&'); // получаем входные данные из файла и формируем из них массив
-            XD.pop();
-
-            for(var i = 0; i < XD.length; i++)//отдедяем ожидания от образцов
-            {
-                if((i + 1) % 2 != 0)
-                    {
-                        MD.push(XD[i]);  
-                    }else
-                    {
-                        MX.push(XD[i]);
-                    }
-            }
-
-            d = MD[CSK].split(',');
-            LMX = MX[CSK].split(';');
-            LMX.pop();
-
-            X = LMX[0].split(',');
-
-            for(var i = 0; i < d.length; i++)
-            {
-                d[i] = +d[i]//ожидания
-            }
-
-            for(var i = 0; i < X.length; i++)
-            {
-                X[i] = +X[i]//вход
-            }
-
-            KolYOutput = d.length;
-            KolX = X.length
-        }
 
         Xflag = false;
-
+    }catch
+    {
+        alert('Возникла ошибка в поле ввода данных.' + '\n' + 'Возможно вы допустили ошибку')
+    }
 
     
 
@@ -1100,7 +1117,7 @@ var Osi = function(i,canvas,mn,fix)
 
         ctx.strokeText('Ошибка',10,14);
         ctx.strokeText('Итераций',900,480)
-        ctx.strokeText(tic,910,462);
+        ctx.strokeText(tic,910,462);    
 }    
 
 //Распознование
@@ -2302,4 +2319,7 @@ var GrafikNeuron = function(i,canvas,b)
 
 
 
-
+    window.onerror = function() 
+    {
+        alert("Возникла ошибка " + this.src); // Ошибка загрузки 
+    };
