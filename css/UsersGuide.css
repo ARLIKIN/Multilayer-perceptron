@@ -104,6 +104,11 @@ p
 
 /*Резуьтат*/
 
+.Secret_ob
+{
+    margin-bottom: 100px;
+}
+
 .Struktura_Graf
 {
     margin-bottom: 200px;
@@ -141,4 +146,24 @@ p
 .Struktura_fail
 {
     margin-bottom: 50px;
+}
+
+/*Surface*/
+
+.Patam_Surface
+{
+    margin-bottom: 200px;
+}
+.Strkt_Neuron
+{
+    margin-bottom: 200px;
+}
+.Poverh_Surface
+{
+    margin-bottom: 200px;
+}
+
+.Graf_W
+{
+    margin-bottom: 300px;
 }
