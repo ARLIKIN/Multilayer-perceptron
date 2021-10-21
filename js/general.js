@@ -117,7 +117,6 @@ Byid('XInput').onclick = function()
 
   var CLMN = function()
   {
-      alert('обучение началось')
       var col = +Byid('inputDohp_input').value;
       
       for(var i =0; i < col; i++)
@@ -178,9 +177,6 @@ function Neuron(X,m)
     YItAll={};
     Noinput = false;
     w;
-    if(!General_Bool)
-    alert('Началось обучение')
-
     Byid('Graf_btn_XYZ').innerHTML = '';
     Byid('3DGraf_conteiner_select').innerHTML = '';
     Byid('Graf_PG').innerHTML = '';
