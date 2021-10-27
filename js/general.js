@@ -48,6 +48,7 @@
     var RasFCount =0;
     var FailX = 'Образец - Ожидание на образец : фактические результаты' + '\n'+'\n';
     var w;
+    var ShowError = true;
 
 
 var TestInput = function(input,indikator) // true - X   false - d
@@ -151,6 +152,7 @@ Byid('XInput').onclick = function()
       {
        Pusk(true);
       }
+      ShowError = true;
       alert('обучение закончено, нажмите ОК');
   }     
 
@@ -207,16 +209,16 @@ function Neuron(X,m)
     YItAll={};
     Noinput = false;
     w;
+    var XC =0;
     Byid('Graf_btn_XYZ').innerHTML = '';
     Byid('3DGraf_conteiner_select').innerHTML = '';
     Byid('Graf_PG').innerHTML = '';
+
     if(!General_Bool)
     {
-
+        ShowError = true;
     }
-
-    var XC =0;
-
+    if(!ShowError) return;
     SystemClass = function()
     {
             SystemCount +=1;
@@ -281,7 +283,7 @@ function Neuron(X,m)
         {
         return Math.random() * (max - min) + min;
         }
-      
+    
     a = parseFloat(document.getElementById(id="aInput").value);
     it =  parseInt(Byid('iterInput').value);
     if(it < 5){it=5};
@@ -311,8 +313,11 @@ function Neuron(X,m)
                             MX.push(XD[i]);
                         }
                 }
-                if(!TestInput(MX,true)){return};
-                if(!TestInput(MD,false)){return};
+                if(ShowError)
+                {
+                    if(!TestInput(MX,true)){ShowError = false; return};
+                    if(!TestInput(MD,false)){ShowError = false; return};
+                }           
                 d = MD[CSK].split(',');
                 LMX = MX[CSK].split(';');
                 LMX.pop();
@@ -335,6 +340,7 @@ function Neuron(X,m)
     {
         alert('Возникла ошибка в поле ввода данных.' + '\n' + 'Возможно вы допустили ошибку')
     }
+
 
     
 
@@ -925,6 +931,7 @@ InputSloi = function() // Выходной слой
  //>
 
 }
+
 //a = 2
 //График
 
