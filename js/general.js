@@ -29,7 +29,6 @@
     var Bool = true;
     var AllYLastsloi;
     var AllYLastIter;
-    var Xflag = false;
     var SystemClass;
     var CSK = 0;
     var MX = [];
@@ -123,56 +122,11 @@ function showFile(input)
     
     reader.onload = function()
         {
-            try
-            {
-
-            
             alert('Началось чтение файла' + '\n'+ 'пожалуйста подождите');
             Byid('dInput').disabled = true;
-            Xflag = true;
-            MX = [];
-            MD = [];
-
-            XD = reader.result.split('&'); // получаем входные данные из файла и формируем из них массив
-            XD.pop();
             Byid('XInput').value = reader.result;
             Byid('XInput').style.height = '300px';
-            for(var i = 0; i < XD.length; i++)//отдедяем ожидания от образцов
-            {
-                if((i + 1) % 2 != 0)
-                    {
-                        MD.push(XD[i]);  
-                    }else
-                    {
-                        MX.push(XD[i]);
-                    }
-            }
-            if(!TestInput(MX,true)){Xflag=false; return};
-            if(!TestInput(MD,false)){Xflag=false; return};
-
-            d = MD[CSK].split(',');
-            LMX = MX[CSK].split(';');
-            LMX.pop();
-
-            X = LMX[0].split(',');
-
-            for(var i = 0; i < d.length; i++)
-            {
-                d[i] = +d[i]//ожидания
-            }
-
-            for(var i = 0; i < X.length; i++)
-            {
-                X[i] = +X[i]//вход
-            }
-
-            KolYOutput = d.length;
-            KolX = X.length
             alert('Файл прочитан');
-            }catch
-            {
-                alert('Ошибка!' + '\n' + 'данные в файле не корректы');
-            }
         }
 
     
@@ -337,8 +291,6 @@ function Neuron(X,m)
     //Byid('Podrob')
     
         try{
-            if(Xflag != true)
-            {
                 if(Byid('XInput').value.length == 0)
                 {
                     Byid('XInput').value = '1,1'+'\n'+'&'+'\n'+'0,1,0,1,0;'+'\n'+'&';
@@ -379,9 +331,6 @@ function Neuron(X,m)
 
                 KolYOutput = d.length;
                 KolX = X.length
-            }
-
-        Xflag = false;
     }catch
     {
         alert('Возникла ошибка в поле ввода данных.' + '\n' + 'Возможно вы допустили ошибку')
@@ -890,7 +839,7 @@ InputSloi = function() // Выходной слой
             {
                 option += '<option value="'+i+'" >Нейрон '+n+'</option>';
             }
-            var btn = '<a href="#" class="DGraf_btn"  id="PerX">Ось X</a> <a href="#" class="DGraf_btn"  id="PerY">Ось Y</a> <a href="#" class="DGraf_btn"  id="PerZ">Ось Z</a> <a href="#" class="DGraf_btn"  id="PerRESET">Сброс</a> <p style="margin: 0; padding-left: 5px;">Шаг:</p> <input id="step" type="text" value="30"> <p style="margin: 0; padding-left: 5px;">Машстаб:</p> <input id="GrafMashtab" type="text" value="5000">';
+            var btn = '<a href="#" class="DGraf_btn"  id="PerX">Ось X</a> <a href="#" class="DGraf_btn"  id="PerY">Ось Y</a> <a href="#" class="DGraf_btn"  id="PerZ">Ось Z</a> <a href="#" class="DGraf_btn"  id="PerRESET">Сброс</a> <p style="margin: 0; padding-left: 5px;">Угол поворота:</p> <input id="step" type="text" value="30"> <p style="margin: 0; padding-left: 5px;">Машстаб:</p> <input id="GrafMashtab" type="text" value="5000">';
             Byid('3DGraf_conteiner_select').innerHTML = '<select id="3DGraf_select" class="Graf_select" onchange="doSomething();">'+option+'</select>';
             Byid('Graf_PG').innerHTML = '<svg class="3DGrafNeuron" id="Grafid" width = "1000" height = "800"></svg>';
             Byid('Graf_btn_XYZ').innerHTML = btn;

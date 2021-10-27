@@ -126,42 +126,8 @@
             try
             {
             alert('Началось чтение файла' + '\n'+ 'пожалуйста подождите');
-            Xflag = true;
-
-            XD = reader.result.split('&'); // получаем входные данные из файла и формируем из них массив
-            XD.pop();
             Byid('XInput').value = reader.result;
             Byid('XInput').style.height = '300px';
-            for(var i = 0; i < XD.length; i++)//отдедяем ожидания от образцов
-            {
-                if((i + 1) % 2 != 0)
-                    {
-                        MD.push(XD[i]);  
-                    }else
-                    {
-                        MX.push(XD[i]);
-                    }
-            }
-            if(!TestInput(MX,true)){Xflag=false; return};
-            if(!TestInput(MD,false)){Xflag=false; return};
-            MDG = MD;
-            d = MD[CSK].split(',');
-            LMX = MX[CSK].split(';');
-            LMX.pop();
-
-            X = LMX[0].split(',');
-
-            for(var i = 0; i < d.length; i++)
-            {
-                d[i] = +d[i]//ожидания
-            }
-
-            for(var i = 0; i < X.length; i++)
-            {
-                X[i] = +X[i]//вход
-            }
-            KolYOutput = d.length;
-            KolX = X.length
             alert('Файл прочитан')
         }catch
         {
@@ -173,6 +139,7 @@
         reader.onerror = function() 
         {
             console.log(reader.error);
+            alert('Возникла ошибка в чтении файла');
         };
     }
 
@@ -286,8 +253,7 @@
          learningRate = parseFloat(Byid('learningRateInput').value);
          Byid('Grafiks').innerHTML = '';
          
-         if(Xflag != true)
-         {
+
              if(Byid('XInput').value.length == 0)
              {
                 Byid('XInput').value = '0'+'\n'+'&'+'\n'+'1,1;'+'\n'+'&' + '\n'+ '1' + '\n'+ '&' +'\n'+ '1,0;' + '\n' + '&';
@@ -328,9 +294,6 @@
              }
              KolYOutput = d.length;
              KolX = X.length;
-         }
-         Xflag = false;
-
          //
          KolYInput = 1;
          //d.reverse();
