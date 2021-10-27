@@ -45,6 +45,68 @@
 
 
 
+    var TestInput = function(input,indikator) // true - X   false - d
+{
+    var MasL = [];
+    var inX = [];
+    var Mf = [];
+    for(var i = 0; i < input.length; i++)
+    {
+        if(indikator)
+        {
+            if(input[i][input[i].length-2] !=';')
+            {
+                alert('Ошибка! После одного или более образцов не стоит ;'+ '\n' + 'Проверьте входные данные ');
+                return false;
+            }
+            inX = input[i].split(';');
+            inX.pop();
+        }else
+        {
+            inX[0] = input[i];
+        }
+
+        for(var j = 0; j < inX.length; j++ )
+        {
+
+            Mf = inX[j].split(',');
+
+            for(var h =0; h < Mf.length; h++)
+            {
+                if(Mf[h] != '\n' && Mf[h] != '' && Mf[h] !='\n\n')
+                {
+                    Mf[h] = +Mf[h];
+                    if(isNaN(Mf[h])){alert('Ошибка! Проверьте входные данные'); return false}
+                }else
+                {
+                    alert('Ошибка!'+ '\n' + 'Проверьте входные данные ');
+                    return false;
+                }
+                
+            }
+            MasL.push(Mf.length);
+        }
+    }
+    
+    for(var i =1; i < MasL.length; i++)
+    {
+        if(MasL[0] != MasL[i])
+        {
+            if(indikator)
+            {
+                alert('Ошибка! Длинна одного или более образца не совпадает с остальными' + '\n' + 'Проверьте входные данные ');
+            }else
+            {
+                alert('Ошибка! Длинна одного или несколькольких ожиданий не совпадает с остальными' + '\n' + 'Проверьте входные данные ');
+            }
+            
+            return false;
+        }
+    }
+
+    return true
+}
+
 
 
     function getRandomArbitrary(min, max)
@@ -61,6 +123,8 @@
     
     reader.onload = function()
         {
+            try
+            {
             alert('Началось чтение файла' + '\n'+ 'пожалуйста подождите');
             Xflag = true;
 
@@ -78,6 +142,8 @@
                         MX.push(XD[i]);
                     }
             }
+            if(!TestInput(MX,true)){Xflag=false; return};
+            if(!TestInput(MD,false)){Xflag=false; return};
             MDG = MD;
             d = MD[CSK].split(',');
             LMX = MX[CSK].split(';');
@@ -97,7 +163,11 @@
             KolYOutput = d.length;
             KolX = X.length
             alert('Файл прочитан')
+        }catch
+        {
+            alert('Ошибка!' + '\n' + 'Проверьте входный данные');
         }
+    }
 
     
         reader.onerror = function() 
@@ -238,6 +308,8 @@
                      MX.push(XD[i]);
                  }
              }
+            if(!TestInput(MX,true)){Xflag=false; return};
+            if(!TestInput(MD,false)){Xflag=false; return};
              MDG = MD;
              d = MD[0].split(','); // В данной версии ожидается только 1 значение
              LMX = MX[0].split(';');
@@ -410,6 +482,7 @@
         GrafikY();
         Poverhnost();
         Byid('Div_Raspoznovanie').hidden = false;
+        alert('Обучение завершилось');
     }   
          //Start
          GeneralSloi(X);
