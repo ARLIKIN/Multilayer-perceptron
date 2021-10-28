@@ -13,9 +13,11 @@ a
     color: black;
 }
 /*Начальные данные*/
-.header
+
+.flex
 {
     display: flex;
+    justify-content: space-between;
 }
 
 .menu
@@ -34,7 +36,11 @@ a
     justify-content: space-around;
     margin-top: 15px;
     
-}    
+}   
+#btn
+{
+    display: flex;
+} 
 
 .menu_element
 {
@@ -76,7 +82,6 @@ a
 {
     display: grid;
     justify-content: right;
-    width: 100%;
 }
 
 #AllProcent
@@ -194,7 +199,7 @@ a
 
 #struktura_p
 {
-    margin-top: 50px;
+    margin-top: 21.280px;
 }
 
 #Struktura_hiden

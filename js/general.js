@@ -147,6 +147,20 @@ Byid('XInput').onclick = function()
   var CLMN = function()
   {
       var col = +Byid('inputDohp_input').value;
+      if(col>=100)
+      {
+          if(col>=1000)
+          {
+              alert('В поле "Количество обучений" указано слишком большое число');
+              return;
+          }else
+          {
+              if(!confirm('Указано большое число в поле "Количество обучений"' + '\n' + 'Вы уверены что хотите продолжить?'))
+              {
+                  return;
+              }
+          }
+      }
       
       for(var i =0; i < col; i++)
       {
@@ -1508,9 +1522,9 @@ var Rezult_X = function()
             w += W[i] + '\n';
         }
     
-    var STRM2 = '<p style="margin: 0; padding: 0;">Множественный Запуск</p><div id="inputDohp_box"><input type="text" id="inputDohp_input"><button onclick="CLMN()" id="DohpStart">Старт</button>';
+    //var STRM2 = '<p style="margin: 0; padding: 0;">Множественный Запуск</p><div id="inputDohp_box"><input type="text" id="inputDohp_input"><button onclick="CLMN()" id="DohpStart">Старт</button>';
 
-    Byid('inputDohp').innerHTML = STRM2;
+    //Byid('inputDohp').innerHTML = STRM2;
     var str = 'a:' + a + ' скорость обучения' + learningRate;
     var razdelitel = '-------------------------------------------------------------';
     FailX += counter+1+' '+flag+ ' ' + allproc.toFixed(3)+'% ' +it + ' иттераций ' +'Структура сети('+KolYInput+','+KolYHidensloi+','+KolYOutput+') '+str+' ' + FXP +'\n'+ w  + razdelitel+'\n' + '\n';
@@ -1707,9 +1721,9 @@ var GrafikNeuron = function(i,canvas,b)
 
 
 
-        var width = 800;
+        var width = screen.width/2.5;
         var height = 500;
-        Byid('DIV_StrukturaSVG').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "'+width+'" height = "'+height+'" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg"></svg>';
+        Byid('DIV_StrukturaSVG').innerHTML = '<svg class="svg" id="StrukturaSVG" width = "'+width+'" height = "'+500+'" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg"></svg>';
         var Holst = Byid('StrukturaSVG');
 
         var VhodnoiSLOI =Vhod;

@@ -25,6 +25,7 @@
     <div class="header">
         <div id="load"></div>
         
+        <div class="flex">
         <div id="Param">
             <h4 id="Param_H">Обучение</h4>
             <p>Коэфицент a: 
@@ -44,10 +45,10 @@
             <p>Ручной ввод:</p>
             <textarea id="XInput" style="width: 100px; height: 15px;"></textarea>
             <p>Входной слой:
-                <input type="text" id="OneSloi" size="30" value="2">
+                <input type="text" id="OneSloi" size="10" value="2">
             </p>
             <p>Скрытые слои:
-                <input type="text" id="HidenSloi" size="30" value="1">
+                <input type="text" id="HidenSloi" size="10" value="1">
             </p>
             <p hidden>Ожидаемые значения:
                 <input type="text" id="dInput" size="30" value="0,0">
@@ -62,11 +63,21 @@
                 <input type='checkbox' id='check3DGrafik'>
             </p>
             <div id="btn">
-                <button id="button" onclick="Pusk(false)">Обучить</button>
+                <p style="padding: 0; margin: 0;">Количество обучений:</p>
+                <div id="inputDohp_box">
+                    <input type="text" id="inputDohp_input" value="1" size="1%">
+                </div>
+            </div>
+            <button onclick="CLMN()" id="DohpStart" style="width: 52%; height: 40px;" >Обучить</button>
+        </div>
+        <div class="Raspoz_Struktura">
+            <div id="Div_srtuktura" class="rezultat">
+                <p id="struktura_p" class="r1" style="text-align: center;" hidden>Графическая структура нейросети</p>
+                <div id="DIV_StrukturaSVG"></div>
             </div>
         </div>
-
-        <div class="Raspoz_Struktura">
+       
+       
         <div id="Raspoznovanie">
             <div id="Raspoznovanie_div" hidden>
                 <H4 id="Raspoznovanie_div_H">Распознавание</H4>
@@ -83,7 +94,7 @@
         </div>
         </div>
     </div>
-    </div>
+</div>
     <div class="rez">
         <H1 class="GeneralTEXT" id="RezultatH1" hidden>Результаты обучения</H1>
         <p id="dowland" class="r1"style="text-align: center;" ></p>
