@@ -49,6 +49,7 @@
     var FailX = 'Образец - Ожидание на образец : фактические результаты' + '\n'+'\n';
     var w;
     var ShowError = true;
+    var lengthX;
 
 
 var TestInput = function(input,indikator) // true - X   false - d
@@ -109,7 +110,10 @@ var TestInput = function(input,indikator) // true - X   false - d
             return false;
         }
     }
-
+    if(indikator)
+    {
+    lengthX = MasL[0];
+    }
     return true
 }
 
@@ -167,6 +171,7 @@ Byid('XInput').onclick = function()
        Pusk(true);
       }
       ShowError = true;
+      Byid('inputDohp_input').value = '1';
       alert('обучение закончено, нажмите ОК');
   }     
 
@@ -1156,22 +1161,59 @@ var Osi = function(i,canvas,mn,fix)
 }    
 
 //Распознование
+var TestRaspoznovanie = function(input_str)
+{
+    if(input_str[input_str.length-1] == ';')
+    {
+        alert('Ошибка! В распознавании, после образца не нужно ставить ;');
+        return false;
+    }
+    if(input_str[input_str.length-1] == ',')
+    {
+        alert('Ошибка! В распознавании стоит лишняя запятая');
+        return false;
+    }
+    var input;
+    input = input_str.split(',');
+    for(var i =0; i < input.length; i++)
+    {
+        input[i] = +input[i];
+    }
+
+
+    if(input.length != lengthX)
+    {
+        alert('Ошибка! Длина образца для распознавания не равна длине образца при обучении');
+        return false;
+    }
+
+    return true;
+}
+
+
+
 
 
 Byid('button2').onclick= function()
 {
-    var Output = [];
-    var str = 'Результат распознования: </br>';
-    var Ylength = Object.keys(Y).length
-    Output = Raspoznovanie_Neuron(Byid('XRaspoznovanie').value);
-
-    for(var i = 0;i < Output.length; i++)
+    if(TestRaspoznovanie(Byid('XRaspoznovanie').value))
     {
-        str += (Y[Ylength-1][i]).toFixed(3) + '</br>';
-    }
+        var Output = [];
+        var str = 'Результат распознования: </br>';
+        var Ylength = Object.keys(Y).length
+        Output = Raspoznovanie_Neuron(Byid('XRaspoznovanie').value);
 
-    Byid('Raspoznovanie_Rezultat').innerHTML = str;
-    console.log(str);
+        for(var i = 0;i < Output.length; i++)
+        {
+            str += (Y[Ylength-1][i]).toFixed(3) + '</br>';
+        }
+
+        Byid('Raspoznovanie_Rezultat').innerHTML = str;
+        console.log(str);
+    }else
+    {
+        return;
+    }
 }
 
 var Raspoznovanie_Neuron = function(X)
