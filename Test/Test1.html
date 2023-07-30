@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Test1Css.css">
+    <title>Test1</title>
+</head>
+<body>
+    <button id="button">Создать новй canvas</button>
+    <button id="button2">Отрисовать</button>
+    <button id="delete">Отчистить</button>
+    <div id="allcanvas">
+
+    </div>
+
+    <button id="button3">Выбранная Функция активации</button>
+    <p>Функция активации:
+        <select name="select" id="select" size="1">
+            <option selected value="s1">Сигмоидальная унополярная</option>
+            <option value="s2">Хевисайда</option>
+            <option value="s3">Сигмоидальная биполярная</option>
+           </select>
+    </p>
+
+
+    <canvas id="StrukturaCanvas" class="canvasALL">Ваш браузер не потдерживает canvas</canvas>
+    <svg class="svg" width = "200" height = "200" >
+        <rect id="1" fill="#22ab63"
+          width="100"
+          height="100"/>
+        <circle fill='red'
+          cx="25" 
+          cy="75" 
+          r="25"/>
+      </svg>
+      <div id="DIV_StrukturaSVG">
+          
+      </div>
+
+
+      <ul>
+          <li id="a" class="li">1</li>
+          <li id="b" class="li">2</li>
+          <li id="c" class="li">3</li>
+
+      </ul>
+    <script src="2.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+.canvasALL
+{
+    border: 1px solid black;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+body
+{
+    background-color: slategray;
+}
+
+.svg
+{
+    background-color: white;
+    border: 1px solid black;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+}

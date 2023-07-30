@@ -1,0 +1,169 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    background-color: wheat;
+}
+
+a
+{
+    text-decoration: none;
+    color: black;
+}
+
+p
+{
+    size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+.menu
+{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.menu_general
+{
+    
+    padding: 0;
+    margin:0;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    
+}    
+
+.menu_element
+{
+    list-style-type: none;
+}
+
+.menu_element_a
+{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 7px;
+    background-color:rgb(160, 137, 94);
+}
+
+.menu_element_a:hover
+{
+    
+    background-color: rgb(204, 150, 33);
+}
+
+.NameLink
+{
+    text-align: center;
+}
+
+.centr
+{
+    width: 1200px;
+}
+
+/*Оглавление*/
+.indexed
+{
+    margin-top: 150px;
+    margin-left: 10px;
+}
+
+.indexed_ul_element
+{
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+/*Основной текс*/
+.general_text
+{
+    margin-top: 150px;
+}
+
+.Zagolovok
+{
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.Glava
+{
+    text-align: center;
+    margin-bottom: 100px;
+}
+.Obuch
+{
+    padding-top: 50px;
+}
+
+/*Резуьтат*/
+
+.Secret_ob
+{
+    margin-bottom: 100px;
+}
+
+.Struktura_Graf
+{
+    margin-bottom: 200px;
+}
+.Rezult_Param
+{
+    margin-bottom: 150px;
+}
+
+.Graf_error
+{
+    margin-bottom: 240px;
+}
+
+.Graf_LastN
+{
+    margin-bottom: 250px;
+}
+
+.Graf_Pov
+{
+    margin-bottom: 200px;
+}
+
+.Rezult_ob
+{
+    margin-bottom: 100px;
+}
+
+.Gistogramma
+{
+    margin-bottom: 150px;
+}
+
+.Struktura_fail
+{
+    margin-bottom: 50px;
+}
+
+/*Surface*/
+
+.Patam_Surface
+{
+    margin-bottom: 200px;
+}
+.Strkt_Neuron
+{
+    margin-bottom: 200px;
+}
+.Poverh_Surface
+{
+    margin-bottom: 200px;
+}
+
+.Graf_W
+{
+    margin-bottom: 300px;
+}
