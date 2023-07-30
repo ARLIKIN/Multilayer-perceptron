@@ -645,30 +645,23 @@ InputSloi = function() // Выходной слой
         //Коррекция весов выходного слоя
         for(var i = 0; i < d.length; i++ )
         {
-            if(tic == 300)
-            {
                 err[(d.length-1)-i] = Minus(Y[Ylength-1],i);
                 err[(d.length-1)-i] = Multiplier(Y[Ylength-1][i],err,(d.length-1)-i);
-            }else
-            {
-                err[(d.length-1)-i] = Minus(Y[Ylength-1],i);
-                err[(d.length-1)-i] = Multiplier(Y[Ylength-1][i],err,(d.length-1)-i);
-            }
-            error[Wlength-1-i] = err[(d.length-1)-i];
+                error[Wlength-1-i] = err[(d.length-1)-i];
             if(!Noinput)
             {
                     if(!NoHiden)
                     {
-                    for(var j =0; j <= KolYHidensloi[KolYHidensloi.length-1]; j++ )
-                    {
-                        if (j == 0)
+                        for(var j =0; j <= KolYHidensloi[KolYHidensloi.length-1]; j++ )
                         {
-                            W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
-                        }else
-                        {
-                            W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
+                            if (j == 0)
+                            {
+                                W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate;
+                            }else
+                            {
+                                W[Wlength-Y[Ylength-1].length+i][j] += err[(d.length-1)-i] * learningRate * Y[Ylength-2][j-1];
+                            }
                         }
-                    }
                     }else
                     {
                         for(var j =0; j <= KolYInput; j++ )
@@ -952,11 +945,6 @@ InputSloi = function() // Выходной слой
 
 var GrafALL= function(b)
 {
-    /*if(b%2 == 0) //если графики работают удалить
-    {
-        b-=1;
-    }*/
-
     var CanvaSTR=''
     
     if(tic<1000)
@@ -982,12 +970,11 @@ var GrafALL= function(b)
                 am = an;
             }
         }
-        ABSNeuron[j] = am//Math.abs(an/Object.keys(AllError).length);
+        ABSNeuron[j] = am;
     }   
 
     for(var i = 0; i < AllError[0].length; i+=1)
     {
-        //ABSNeuron[i] = ABSNeuron[i]*10;
         canvas = Byid('canva'+i);
         if(ABSNeuron[i] >100)
         {

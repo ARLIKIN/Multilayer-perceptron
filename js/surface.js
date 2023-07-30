@@ -449,20 +449,13 @@
     }   
          //Start
          GeneralSloi(X);
-         console.log(Y);
- 
-         //KorrektGeneralSloi();
-         
+         console.log(Y);         
          while(Bool)
         {
-            if(tic >= it)
-                {
-                    break;
-                }
-     
-                    KorrektGeneralSloi();
-                    SystemClass();
-                    tic+=1;
+            if(tic >= it){break;}
+            KorrektGeneralSloi();
+            SystemClass();
+            tic+=1;
         }
         console.log('W =>>');
         console.log(WAll);
@@ -472,13 +465,7 @@
         console.log(YAll);
         console.log('X =>>');
         console.log(X);
-
-        /*
-        console.log('Самое интересное');
-        console.log(GlWAll);
-        console.log(GAllError);
-        console.log(GlYAll);
-        */
+///////////////////////////////////////////////
         Rezultat();
     }
 
@@ -1067,7 +1054,7 @@ var coeff=function(rho,theta,phi)
     cosph = Math.cos(ph);
     sinth= Math.sin(th);
     sinph= Math.sin(ph);
-    //Элементы матрицы V
+    //Элементы матрицы Отображения V
     v11 = -sinth;   v12 = -cosph*costh;     v13=-sinph*costh;
     v21 = costh;    v22 = -cosph*sinth;     v23=-sinph*sinth;
                     v32=sinph;              v33=-cosph;
@@ -1076,15 +1063,7 @@ var coeff=function(rho,theta,phi)
 
 var perspective= function(x,y,z)
 {
-    /*if(tic != 0)
-    {
-        x = PXYZ[ticP][0];
-        y = PXYZ[ticP][1];
-        z = PXYZ[ticP][2];
-    }*/
-
     var M = [];
-
     if(V[0] > 0 && V[1] == 0 && V[2] == 0 )
     {
         M =  PovorotK(V,x,y,z,Px);
@@ -1110,8 +1089,6 @@ var perspective= function(x,y,z)
     y = M[1];
     z = M[2];
     }
-
-    //PXYZ[ticP] =step
 
     var xe,ye,ze;
     var Mas = [];
